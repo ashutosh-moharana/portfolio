@@ -1,0 +1,19 @@
+@import "tailwindcss";
+::-webkit-scrollbar { display: none; }
+@layer base {
+  :root {
+    --p-color: 	#fb0000;
+    
+    --text-p-color:#cccbcb;
+    --text-s-color:#68768f;
+
+    --bg-p-color: #1c1c1c ;
+    --bg-s-color:#161515;
+    --bg-t-color:#333b55;
+    
+  }
+
+ 
+
+
+}
