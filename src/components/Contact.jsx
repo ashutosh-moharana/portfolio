@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import emailjs from "emailjs-com";
+import emailjs from '@emailjs/browser';
 import Footer from "./Footer";
 import SocialLinks from "./SocialLinks";
 import { useDevice } from "../contexts/DeviceContext";
@@ -128,7 +128,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              {isSubmitted ? "Thank you!" : "Let's collaborate"}
+              { isSubmitted ? "Thank you!" : "Let's collaborate"}
             </motion.h3>
 
             {isSubmitted ? (
