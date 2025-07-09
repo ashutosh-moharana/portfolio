@@ -63,7 +63,7 @@ function App() {
   return (
     <LenisContext.Provider value={lenis}>
       <DeviceProvider>
-        <div className="app-container bg-background">  
+        <div className="app-container bg-background select-none">  
             <LandingPage />
             <About />
             <Projects />
