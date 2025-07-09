@@ -133,7 +133,7 @@ const About = () => {
               <a href="./Ashutosh_Resume.pdf" download="Ashutosh's_Resume">
                 <motion.button
                 whileTap={{scale:0.8,backgroundColor:'var(--color-primary)'}}
-                className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold hover:bg-primary hover:text-primary-foreground transition flex gap-1 my-4 hover:scale-95 justify-center">
+                className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold  transition-all flex gap-1 my-4 hover:scale-90 justify-center duration-200 cursor-pointer">
                   <PiReadCvLogoBold size={20}/>
                    Resume 
                 </motion.button>

@@ -134,7 +134,7 @@ const Projects = () => {
                           href={project.demoLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-transparent text-primary border border-primary px-6 py-2 font-semibold hover:bg-primary hover:text-primary-foreground transition hover:scale-95 "
+                          className="bg-transparent text-primary border border-primary px-6 py-2 font-semibold  transition-transform hover:scale-90 duration-200 "
                         >
                           View
                         </motion.a>
@@ -143,7 +143,7 @@ const Projects = () => {
                           href={project.codeLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-transparent text-subtle border  px-6 py-2 font-semibold hover:bg-primary hover:text-primary-foreground transition  hover:scale-95  "
+                          className="bg-transparent text-subtle border  px-6 py-2 font-semibold  transition-all hover:scale-90 duration-200 hover:border-subtle  "
                         >
                           Code
                         </motion.a>
