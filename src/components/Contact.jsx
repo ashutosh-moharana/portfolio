@@ -171,7 +171,7 @@ const Contact = () => {
                 </motion.p>
                 <motion.button
                   onClick={() => setIsSubmitted(false)}
-                  className="px-6 py-2 border border-primary text-primary  hover:bg-primary hover:text-primary-foreground  hover:scale-95 transition-all duration-500 font-semibold"
+                  className="px-6 py-2 border border-primary text-primary   hover:scale-95 transition-all duration-500 font-semibold"
                   
                   whileTap={{ scale: 0.98 }}
                   viewport={{once:true, amount:0.2}}
@@ -250,10 +250,10 @@ const Contact = () => {
                   disabled={!isFormValid()}
                   className={`w-full md:w-auto px-8 py-3 font-medium  ${
                     isFormValid()
-                      ? 'bg-primary text-primary-foreground hover:bg-opacity-90 '
+                      ? 'bg-transparent text-primary border border-primary'
                       : 'bg-muted border-1 text-subtle border-border cursor-not-allowed '
                   } `}
-                  whileHover={isFormValid() ? { scale: 1.02 } : {}}
+                  whileHover={isFormValid() ? { scale: 0.95 } : {}}
                   whileTap={isFormValid() ? { scale: 0.98 } : {}}
                   variants={fadeInLeftVariant}
                   initial="hidden"
