@@ -15,7 +15,7 @@ const Contact = () => {
     message: ''
   });
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const formRef = useRef();
 
   // Form validation logic
