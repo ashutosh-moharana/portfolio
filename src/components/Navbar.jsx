@@ -25,25 +25,25 @@ const Navbar = () => {
   };
 
   return (
-    <div className={`${isMobile ? "absolute bottom-41 text-sm right-6 flex gap-4 rounded-full" : "absolute p-1 z-40 top-1/2 -right-20 rotate-90 flex gap-14"} `}>
+    <div className={`absolute flex ${isMobile ? " bottom-41 text-sm right-6  gap-4 rounded-full font-bold font-mono " : " p-1 z-40 top-1/2 -right-20 rotate-90  gap-14 animate-pulse"}  `}>
       <a 
         href="#about" 
         onClick={(e) => handleLinkClick(e, 'about')}
-        className="hover:text-[var(--p-color)] transition-colors cursor-pointer "
+        className="hover:text-primary transition-colors cursor-pointer"
       >
         ABOUT
       </a>
       <a 
         href="#projects" 
         onClick={(e) => handleLinkClick(e, 'projects')}
-        className="hover:text-[var(--p-color)] transition-colors cursor-pointer "
+        className="hover:text-primary transition-colors cursor-pointer "
       >
         PROJECTS
       </a>
       <a 
         href="#contact" 
         onClick={(e) => handleLinkClick(e, 'contact')}
-        className="hover:text-[var(--p-color)] transition-colors cursor-pointer "
+        className="hover:text-primary transition-colors cursor-pointer "
       >
         CONTACT
       </a>

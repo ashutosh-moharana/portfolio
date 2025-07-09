@@ -5,20 +5,21 @@ import { fadeInLeftVariant } from "../utils/animationVariants";
 
 
 const LandingPage = () => {
-  // Hook to track scroll progress for the progress bar
   const { scrollYProgress } = useScroll();
-  // Hook to check if device is mobile for responsive layout
+
   const isMobile = useDevice();
 
   return (
-    <div className="h-screen scroll-smooth bg-[var(--bg-p-color)] flex relative items-center justify-center text-[var(--text-p-color)] overflow-hidden">
+    <div className="h-screen scroll-smooth  flex relative items-center justify-center  overflow-hidden ">
       {/* Progress bar that shows scroll position */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-[var(--p-color)] origin-left z-20"
+        className="fixed top-0 inset-x-0 h-1 bg-primary  origin-left z-2"
         style={{
           scaleX: scrollYProgress,
         }}
       />
+
+      
 
       {/* Header section with logo and name */}
       <div className="absolute w-screen top-0 left-0 flex items-center justify-between p-4">
@@ -33,7 +34,7 @@ const LandingPage = () => {
             transition={{ duration: 0.5 }}
           />
           <motion.p
-            className="text-[var(--p-color)] font-bold"
+            className="text-heading font-bold"
             variants={fadeInLeftVariant}
             initial="hidden"
             animate="visible"
@@ -54,7 +55,7 @@ const LandingPage = () => {
               damping: 10,
               duration: 0.2,
             }}
-            className="text-[var(--text-p-color)] font-light text-3xl mt-2  md:text-2xl md:text-right"
+            className="font-light text-3xl mt-2  md:text-2xl md:text-right"
           >
             A S H U T O S H
           </motion.p>
@@ -68,7 +69,7 @@ const LandingPage = () => {
               damping: 10,
               duration: 0.2,
             }}
-            className="text-[var(--p-color)] text-right mt-2 text-4xl md:text-3xl "
+            className="text-heading text-right mt-2 text-4xl md:text-3xl "
           >
             M O H A R A N A
           </motion.p>
@@ -81,7 +82,7 @@ const LandingPage = () => {
         <motion.svg
           className={`${
             isMobile ? "relative left-2" : "h-9/10"
-          }  drop-shadow-[0px_0px_15px_var(--p-color)] rounded-full relative`}
+          }  drop-shadow-[0px_0px_10px_var(--color-primary)] rounded-full relative`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 100 100"
           initial={{ scale: 0, opacity: 0 }}
@@ -94,7 +95,7 @@ const LandingPage = () => {
           }}
         >
           <circle
-            className="fill-none stroke-[var(--p-color)] stroke-5"
+            className="fill-none stroke-primary stroke-4"
             cx="50"
             cy="50"
             r="40"
@@ -105,18 +106,18 @@ const LandingPage = () => {
         {/* Profile image with animation */}
         <motion.div
           className={`absolute bottom-0 flex items-center justify-center ${
-            isMobile ? "h-1/2 bottom-24" : "h-3/4 mr-8"
+            isMobile ? "h-1/2 bottom-24" : "h-3/4 mr-8 "
           }`}
-          initial={{ y: 100 }}
+          initial={{ y: 150 }}
           animate={{ y: 0 }}
           transition={{ duration: 1 }}
+          
         >
-          <img
-            className="h-full drop-shadow-[0px_0px_20px_rgb(255,255,255,0.2)] brightness-90"
+          <motion.img
+            className="h-full drop-shadow-[0px_0px_20px_rgb(255,255,255,0.2)]"
             src="/Ashu_3.webp"
             alt="Profile"
             loading="lazy"
-           
           />
         </motion.div>
       </div>
@@ -126,17 +127,17 @@ const LandingPage = () => {
         className={`absolute left-0 bottom-0 ${
           // Conditional styling for mobile/desktop layout
           isMobile
-            ? "box-border h-36 w-full mb-4 px-8 py-4 border-t-1 border-[var(--p-color)] rounded-4xl bg-[var(--bg-p-color)]"
+            ? "box-border h-36 w-full mb-4 px-8 py-4 border-t-1 border-primary rounded-4xl bg-background"
             : "m-4"
         }`}
       >
         <motion.h2
-          className="font-bold text-3xl md:text-4xl "
+          className="font-semibold text-3xl md:text-4xl tracking-wide "
           variants={fadeInLeftVariant}
-            initial="hidden"
-            animate="visible"
+          initial="hidden"
+          animate="visible"
         >
-          Web Developer
+          FullStack Developer
         </motion.h2>
         <motion.div
           className="flex items-center gap-2 text-xl md:text-2xl md:mt-2"
@@ -145,13 +146,15 @@ const LandingPage = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <span>From</span>
-          <motion.span className="text-[var(--p-color)] font-bold">
+          <motion.span className="text-primary font-bold">
             IN
           </motion.span>
         </motion.div>
+        
       </motion.div>
+      
 
-      {/* Navigation component */}
+    
       <Navbar />
     </div>
   );
