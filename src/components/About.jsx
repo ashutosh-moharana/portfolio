@@ -55,12 +55,6 @@ const About = () => {
   );
   const education = useMemo(
     () => [
-       {
-        degree: "Currently Pursuing M.C.A",
-        institution: "Indira Gandhi Institute of Technology, Sarang",
-        year: "2025 - 20--",
-        score: "N.A",
-      },
       {
         degree: "Graduation (B.Sc CSc)",
         institution: "Udayanath Autonomous College, Cuttack",
