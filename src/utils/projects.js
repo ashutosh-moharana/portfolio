@@ -2,7 +2,7 @@ const projects = [
   {
     id: 1,
     title: "Pet-Vivid",
-    date: "Jan 2023 - Apr 2023",
+    date: "Dec 2024 - Feb 2025",
     description:
       "PetVivid is a full-stack app for reuniting lost and found pets.",
     technologies: [
@@ -18,16 +18,6 @@ const projects = [
     imageUrl: "",
     demoLink: "https://petvivid-client.onrender.com",
     codeLink: "https://github.com/ashutosh-moharana/petvivid-client.git",
-  },
-  {
-    id: 2,
-    title: "AI Analytics Dashboard",
-    date: "May 2023 - Aug 2023",
-    description: "Machine learning-powered business intelligence dashboard",
-    technologies: ["JavaScript", "React", "Tailwind", "Flask"],
-    imageUrl: "",
-    demoLink: "#",
-    codeLink: "#",
   },
 ];
 
