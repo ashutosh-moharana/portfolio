@@ -1,4 +1,4 @@
-import  { useMemo } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useDevice } from "../contexts/DeviceContext";
 import { PiReadCvLogoBold } from "react-icons/pi";
@@ -20,23 +20,36 @@ import {
   SiCss3,
 } from "react-icons/si";
 
-
 const About = () => {
   const isMobile = useDevice();
- 
 
   const skills = useMemo(
     () => [
-      { name: "MongoDB", icon: <SiMongodb color="var(--color-primary)" size={22} /> },
-      { name: "Express", icon: <SiExpress color="var(--color-primary)" size={24} /> },
+      {
+        name: "MongoDB",
+        icon: <SiMongodb color="var(--color-primary)" size={22} />,
+      },
+      {
+        name: "Express",
+        icon: <SiExpress color="var(--color-primary)" size={24} />,
+      },
       {
         name: "Node.js",
         icon: <TbBrandNodejs color="var(--color-primary)" size={24} />,
       },
       { name: "Git", icon: <SiGit color="var(--color-primary)" size={24} /> },
-      { name: "React", icon: <SiReact color="var(--color-primary)" size={24} /> },
-      { name: "HTML", icon: <SiHtml5 color="var(--color-primary)" size={24} /> },
-      { name: "GitHub", icon: <SiGithub color="var(--color-primary)" size={24} /> },
+      {
+        name: "React",
+        icon: <SiReact color="var(--color-primary)" size={24} />,
+      },
+      {
+        name: "HTML",
+        icon: <SiHtml5 color="var(--color-primary)" size={24} />,
+      },
+      {
+        name: "GitHub",
+        icon: <SiGithub color="var(--color-primary)" size={24} />,
+      },
       {
         name: "TailwindCSS",
         icon: <TbBrandTailwind color="var(--color-primary)" size={24} />,
@@ -79,19 +92,13 @@ const About = () => {
         year: "2016 - 2020",
         score: "- 84%",
       },
-     
     ],
     []
   );
   return (
-    <div
-      id="about"
-      className="min-h-screen  relative  overflow-hidden "
-    >
-      
+    <div id="about" className="min-h-screen  relative  overflow-hidden ">
       <div className="pt-6 md:pt-8 px-4 md:px-8">
         <div className="relative">
-         
           <motion.h2
             className="text-heading text-3xl mb-2 text-center relative pb-4"
             initial={{ opacity: 0, y: -20 }}
@@ -119,23 +126,30 @@ const About = () => {
             initial={{ opacity: 0, x: isMobile ? -20 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{once:true,amount:0.1}}
+            viewport={{ once: true, amount: 0.1 }}
           >
             <div className=" md:p-2 relative ">
-              <p className=" text-base md:text-lg inline-block text-justify md:-tracking-tighter">
-                Hi, I’m
-                <span className="text-primary"> Ashutosh Moharana </span>
-                — a passionate MERN stack developer focused on building clean
-                and user-friendly web apps. I enjoy turning ideas into real
-                projects and constantly learning new technologies.
+              <p className="text-base md:text-lg inline-block text-justify md:-tracking-tighter">
+                Hi, I’m <span className="text-primary">Ashutosh Moharana</span>{" "}
+                — an aspiring full-stack web developer skilled in the MERN
+                stack. I enjoy building clean, responsive web apps and bringing
+                ideas to life through code. Currently, I’m learning Java and
+                Data Structures to strengthen my foundation.
               </p>
 
-              <a href="https://res.cloudinary.com/dzyi0rnff/image/upload/v1754496580/ashutosh_resume_iqczvg.pdf" download="Ashutosh's_Resume">
+              <a
+                href={import.meta.env.VITE_RESUME_LINK}
+                
+              >
                 <motion.button
-                whileTap={{scale:0.8,backgroundColor:'var(--color-primary)'}}
-                className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold  transition-all flex gap-1 my-4 hover:scale-90 justify-center duration-200 cursor-pointer">
-                  <PiReadCvLogoBold size={20}/>
-                   Resume 
+                  whileTap={{
+                    scale: 0.8,
+                    backgroundColor: "var(--color-primary)",
+                  }}
+                  className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold  transition-all flex gap-1 my-4 hover:scale-90 justify-center duration-200 cursor-pointer"
+                >
+                  <PiReadCvLogoBold size={20} />
+                  Resume
                 </motion.button>
               </a>
             </div>
@@ -143,10 +157,7 @@ const About = () => {
             <h3 className="text-lg md:text-xl  mb-3 md:my-5 tracking-wider font-mono text-heading">
               SKILLS
             </h3>
-            <div
-              className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-12"
-              
-            >
+            <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-12">
               {skills.map((skill, index) => (
                 <motion.span
                   key={index}
@@ -159,8 +170,14 @@ const About = () => {
                     damping: 10,
                     duration: 0.2,
                   }}
-                  whileHover={{ borderColor: "var(--color-primary)", scale: 0.9 }}
-                  whileTap={{ borderColor: "var(--color-primary)", scale: 0.95 }}
+                  whileHover={{
+                    borderColor: "var(--color-primary)",
+                    scale: 0.9,
+                  }}
+                  whileTap={{
+                    borderColor: "var(--color-primary)",
+                    scale: 0.95,
+                  }}
                   className={`flex items-center gap-2 group  ${
                     isMobile ? "text-base  px-4 py-2" : "text-lg px-6 py-3"
                   } border-2 font-medium `}
@@ -188,7 +205,7 @@ const About = () => {
                     stiffness: 200,
                     damping: 10,
                     duration: 0.5,
-                    delay:0.2
+                    delay: 0.2,
                   }}
                   viewport={{ amount: 0.5, once: true }}
                   className="border-l-2  pl-4 md:pl-6 py-2 "
@@ -199,7 +216,7 @@ const About = () => {
                   whileTap={{ borderColor: "var(--color-primary)", x: 10 }}
                 >
                   <h4 className="text-lg md:text-2xl  mb-1 md:mb-2">
-                    {edu.degree}  {edu.score}
+                    {edu.degree} {edu.score}
                   </h4>
                   <p className="text-primary text-sm md:text-base mb-1">
                     {edu.institution}
