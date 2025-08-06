@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { HiOutlineMail } from "react-icons/hi";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 import { BsTwitterX } from "react-icons/bs";
+import { LuPhoneCall } from "react-icons/lu";
 
 const SocialLinks = () => {
   const socialLinks = useMemo(
@@ -17,15 +18,15 @@ const SocialLinks = () => {
         url: "https://linkedin.com/in/ashutosh-moharana",
       },
       {
-        name: "Twitter",
-        icon: <BsTwitterX color="var(--color-primary)" size={24} />,
-        url: "https://twitter.com",
-      },
-      {
         name: "Email",
         icon: <HiOutlineMail color="var(--color-primary)" size={24} />,
         url: "mailto:ashutoshmoharana00@gmail.com",
       },
+      {
+        name: "Phone",
+        icon: <LuPhoneCall color="var(--color-primary)" size={24} />,
+        url: "tel:9937727738",
+      }
     ],
     []
   );

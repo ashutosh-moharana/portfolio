@@ -56,22 +56,28 @@ const About = () => {
   const education = useMemo(
     () => [
       {
+        degree: "Currently Pursuing MCA",
+        institution: "Indira Gandhi Institute of Technology, Sarang",
+        year: "2025 - 2027",
+        score: "",
+      },
+      {
         degree: "Graduation (B.Sc CSc)",
         institution: "Udayanath Autonomous College, Cuttack",
         year: "2022 - 2025",
-        score: "8.6 CGPA",
+        score: "- 8.6 CGPA",
       },
       {
         degree: "Higher Secondary (+2 Science)",
         institution: "Prananath Autonomous College, Khordha",
         year: "2020 - 2022",
-        score: "86%",
+        score: "- 86%",
       },
       {
         degree: "Secondary Education (10th)",
         institution: "Young Phoenix Public School, Bhubaneswar",
         year: "2016 - 2020",
-        score: "84%",
+        score: "- 84%",
       },
      
     ],
@@ -124,7 +130,7 @@ const About = () => {
                 projects and constantly learning new technologies.
               </p>
 
-              <a href="./Ashutosh_Resume.pdf" download="Ashutosh's_Resume">
+              <a href="https://res.cloudinary.com/dzyi0rnff/image/upload/v1754496580/ashutosh_resume_iqczvg.pdf" download="Ashutosh's_Resume">
                 <motion.button
                 whileTap={{scale:0.8,backgroundColor:'var(--color-primary)'}}
                 className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold  transition-all flex gap-1 my-4 hover:scale-90 justify-center duration-200 cursor-pointer">
@@ -193,7 +199,7 @@ const About = () => {
                   whileTap={{ borderColor: "var(--color-primary)", x: 10 }}
                 >
                   <h4 className="text-lg md:text-2xl  mb-1 md:mb-2">
-                    {edu.degree} - {edu.score}
+                    {edu.degree}  {edu.score}
                   </h4>
                   <p className="text-primary text-sm md:text-base mb-1">
                     {edu.institution}

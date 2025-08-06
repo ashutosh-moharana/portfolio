@@ -85,7 +85,7 @@ const Projects = () => {
 
             >
               {/* Timeline marker */}
-              <div className="absolute left-0 w-8 h-8 rounded-full bg-background border-2 border-primary flex items-center justify-center  md:left-1/2 md:transform md:-translate-x-1/2">
+              <div className="absolute left-0 w-8 h-8 rounded-full bg-background border-2 border-primary flex items-center justify-center  md:left-1/2 md:transform md:-translate-x-1/2 z-10">
                 <div className="w-3 h-3 rounded-full bg-primary"></div>
               </div>
 
@@ -97,9 +97,10 @@ const Projects = () => {
                     <div className="w-full md:w-2/5 h-56 md:h-auto">
                       <div className="h-full w-full relative overflow-hidden">
                         <img
-                          src={null}
+                          src={project.imageUrl}
                           alt={project.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover "
+                          loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70" />
                       </div>

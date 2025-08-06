@@ -15,10 +15,28 @@ const projects = [
       "JWT",
       "Multer",
     ],
-    imageUrl: "",
+    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1754486697/petvivid-client.onrender.com__h4jszx.webp",
     demoLink: "https://petvivid-client.onrender.com",
     codeLink: "https://github.com/ashutosh-moharana/petvivid-client.git",
   },
+  {
+    id: 2,
+    title: "Minimal Ecommerce",
+    date: "Aug 2025",
+    description:
+      "A clean and simple one-page checkout app built with React (Vite) and Express, featuring Razorpay integration. (No actual payment will done as I am using test mode)",
+    technologies: [
+      "React",
+      "Tailwind CSS",
+      "Node.js",
+      "Express",
+      "Razorpay",
+    ],
+    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1754483133/minimal_ecommerce_cfjufa.webp",
+    demoLink: "https://minimal-ecommerce.onrender.com",
+    codeLink: "https://github.com/ashutosh-moharana/minimal-ecommerce",
+  },
 ];
+
 
 export default projects;

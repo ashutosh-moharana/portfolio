@@ -39,7 +39,7 @@ const LandingPage = () => {
             initial="hidden"
             animate="visible"
           >
-            A L P H A C O D R
+            A S H U
           </motion.p>
         </div>
 
@@ -115,9 +115,8 @@ const LandingPage = () => {
         >
           <motion.img
             className="h-full drop-shadow-[0px_0px_20px_rgb(255,255,255,0.2)]"
-            src="/Ashu_3.webp"
-            alt="Profile"
-            loading="lazy"
+            src="/ashutosh.webp"
+            alt="Profile Image"
           />
         </motion.div>
       </div>
