@@ -15,7 +15,7 @@ const projects = [
       "JWT",
       "Multer",
     ],
-    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1754486697/petvivid-client.onrender.com__h4jszx.webp",
+    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1754723124/petvivid_n8bycn.webp",
     demoLink: "https://petvivid-client.onrender.com",
     codeLink: "https://github.com/ashutosh-moharana/petvivid-client.git",
   },
