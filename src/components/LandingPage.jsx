@@ -136,7 +136,7 @@ const LandingPage = () => {
           initial="hidden"
           animate="visible"
         >
-          FullStack Developer
+          MERN Stack Dev
         </motion.h2>
         <motion.div
           className="flex items-center gap-2 text-xl md:text-2xl md:mt-2"
