@@ -136,22 +136,6 @@ const About = () => {
                 ideas to life through code. Currently, I’m learning Java and
                 Data Structures to strengthen my foundation.
               </p>
-
-              <a
-                href={import.meta.env.VITE_RESUME_LINK}
-                
-              >
-                <motion.button
-                  whileTap={{
-                    scale: 0.8,
-                    backgroundColor: "var(--color-primary)",
-                  }}
-                  className="bg-transparent text-primary border-2 border-primary p-2 md:px-4 md:py-2 md:font-semibold  transition-all flex gap-1 my-4 hover:scale-90 justify-center duration-200 cursor-pointer"
-                >
-                  <PiReadCvLogoBold size={20} />
-                  Resume
-                </motion.button>
-              </a>
             </div>
 
             <h3 className="text-lg md:text-xl  mb-3 md:my-5 tracking-wider font-mono text-heading">
@@ -178,9 +162,8 @@ const About = () => {
                     borderColor: "var(--color-primary)",
                     scale: 0.95,
                   }}
-                  className={`flex items-center gap-2 group  ${
-                    isMobile ? "text-base  px-4 py-2" : "text-lg px-6 py-3"
-                  } border-2 font-medium `}
+                  className={`flex items-center gap-2 group  ${isMobile ? "text-base  px-4 py-2" : "text-lg px-6 py-3"
+                    } border-2 font-medium `}
                 >
                   {skill.icon}
                   {skill.name}
