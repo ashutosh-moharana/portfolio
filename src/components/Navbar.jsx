@@ -1,16 +1,32 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { LenisContext } from '../App';
-import { ColorContext } from '../contexts/ColorContext';
+
 import { useDevice } from "../contexts/DeviceContext";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 
 const Navbar = () => {
   const isMobile = useDevice();
   const lenis = useContext(LenisContext);
-  const { activeColor, changeColor, COLORS } = useContext(ColorContext);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+  const location = useLocation();
+
+  // True when we're on a sub-route (not the main portfolio page)
+  const isSubRoute = location.pathname !== '/';
+
+  const lastScrollY = useRef(0);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > lastScrollY.current && latest > 150 && !isMenuOpen) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    lastScrollY.current = latest;
+  });
 
   // Close mobile menu on scroll
   useEffect(() => {
@@ -57,45 +73,81 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{
-        y: 0,
-        opacity: 1,
+        y: hidden ? "-150%" : 0,
+        opacity: hidden ? 0 : 1,
         ...(isMobile && {
           height: isMenuOpen ? "auto" : "68px",
-          borderRadius: isMenuOpen ? "24px" : "34px"
         })
       }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className={`fixed top-4 left-4 right-4 md:top-6 md:left-12 md:right-12 z-50 flex flex-col md:justify-center ${!isMobile ? 'md:rounded-full' : ''} backdrop-blur-md bg-background/80 border border-white/10 shadow-lg overflow-hidden`}
+      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:justify-center backdrop-blur-md bg-black/90 border-b-2 border-primary overflow-hidden`}
     >
-      <div className="flex items-center justify-between px-6 py-3 md:px-8 md:py-4 w-full">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={(e) => handleLinkClick(e, 'landing')}>
-          <img src="/logo.webp" alt="Logo" className="h-10 w-10 md:h-12 md:w-12" />
-          <span className="text-heading font-bold text-xl tracking-wider">ASHU</span>
-        </div>
+      <div className="flex items-center justify-between px-6 pt-5 pb-2 md:px-8 md:pt-6 md:pb-3 w-full">
+        {/* Logo / brand — links home on sub-routes, scrolls to top on main */}
+        {isSubRoute ? (
+          <Link to="/" className="flex items-center gap-3 cursor-pointer translate-y-[2px]">
+            <div className="relative flex items-center justify-center w-8 h-8 border border-primary bg-primary/10">
+              <span className="w-1.5 h-1.5 bg-primary animate-ping absolute" />
+              <span className="w-1.5 h-1.5 bg-primary relative shadow-[0_0_5px_var(--color-primary)]" />
+            </div>
+            <span className="text-white font-cinematic text-3xl tracking-widest leading-none">ASH<span className="text-primary">MO</span></span>
+          </Link>
+        ) : (
+          <div className="flex items-center gap-3 cursor-pointer translate-y-[2px]" onClick={(e) => handleLinkClick(e, 'landing')}>
+            <div className="relative flex items-center justify-center w-8 h-8 border border-primary bg-primary/10">
+              <span className="w-1.5 h-1.5 bg-primary animate-ping absolute" />
+              <span className="w-1.5 h-1.5 bg-primary relative shadow-[0_0_5px_var(--color-primary)]" />
+            </div>
+            <span className="text-white font-cinematic text-3xl tracking-widest leading-none">ASH<span className="text-primary">MO</span></span>
+          </div>
+        )}
 
         {!isMobile && (
           <div className="flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={`#${link.id}`}
-                onClick={(e) => handleLinkClick(e, link.id)}
-                className="text-sm font-bold tracking-widest hover:text-primary transition-colors relative group py-1"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
-              </a>
-            ))}
-            {desktopRouteLinks.map((link) => (
+            {/* Main scroll-links: disabled (greyed) on sub-routes */}
+            {navLinks.map((link) =>
+              isSubRoute ? (
+                <span
+                  key={link.name}
+                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 cursor-not-allowed py-1 select-none"
+                  title="Navigate to portfolio to use this"
+                >
+                  {link.name}
+                </span>
+              ) : (
+                <a
+                  key={link.name}
+                  href={`#${link.id}`}
+                  onClick={(e) => handleLinkClick(e, link.id)}
+                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/80 hover:text-primary transition-colors relative group py-1"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 ease-out group-hover:w-full shadow-[0_0_5px_var(--color-primary)]"></span>
+                </a>
+              )
+            )}
+
+            {/* Show Portfolio button on sub-routes instead of route links */}
+            {isSubRoute ? (
               <Link
-                key={link.name}
-                to={link.href}
-                className="interactive group/btn relative flex items-center gap-1.5 px-4 py-2 bg-primary/10 text-primary border border-primary/30 font-bold text-sm tracking-widest rounded-full overflow-hidden transition-all duration-300 hover:border-primary/80 active:scale-95"
+                to="/"
+                className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
-                <span className="relative z-10">{link.name}</span>
-                <div className="absolute inset-0 bg-primary/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out z-0" />
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                <span className="relative z-10">◈ PORTFOLIO</span>
               </Link>
-            ))}
+            ) : (
+              desktopRouteLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                >
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                  <span className="relative z-10">{link.name}</span>
+                </Link>
+              ))
+            )}
           </div>
         )}
 
@@ -109,7 +161,7 @@ const Navbar = () => {
             </Link>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-2xl z-50 relative p-1 text-foreground"
+              className="text-2xl z-50 relative p-1 text-primary"
             >
               {isMenuOpen ? <RxCross2 /> : <RxHamburgerMenu />}
             </button>
@@ -123,33 +175,54 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col items-center gap-2 pb-5 pt-3 w-full"
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="flex flex-col items-center gap-2 pb-5 pt-3 w-full border-t-2 border-primary"
           >
             <div className="flex flex-col items-center gap-1 w-full px-5">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={`#${link.id}`}
-                  onClick={(e) => handleLinkClick(e, link.id)}
-                  className="text-sm font-bold tracking-widest hover:text-primary transition-colors w-full text-center py-2.5 border-b border-border/20 last:border-0"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                isSubRoute ? (
+                  <span
+                    key={link.name}
+                    className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full text-center py-3 border-b border-primary/10 last:border-0 cursor-not-allowed select-none"
+                  >
+                    {link.name}
+                  </span>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={`#${link.id}`}
+                    onClick={(e) => handleLinkClick(e, link.id)}
+                    className="text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-primary transition-colors w-full text-center py-3 border-b border-primary/20 last:border-0"
+                  >
+                    {link.name}
+                  </a>
+                )
+              )}
             </div>
-            <div className="w-full px-5 pt-2">
-              {mobileRouteLinks.map((link) => (
+            <div className="w-full px-5 pt-4">
+              {/* On sub-routes show Portfolio button; otherwise show route links */}
+              {isSubRoute ? (
                 <Link
-                  key={link.name}
-                  to={link.href}
+                  to="/"
                   onClick={() => setIsMenuOpen(false)}
-                  className="interactive group/btn relative flex items-center justify-center px-5 py-2.5 w-full bg-primary/10 text-primary border border-primary/30 font-bold text-sm tracking-widest rounded-full overflow-hidden transition-all duration-300 hover:border-primary/80 active:scale-95"
+                  className="interactive group/btn relative flex items-center justify-center px-6 py-3 w-full bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
                 >
-                  <span className="relative z-10">{link.name}</span>
-                  <div className="absolute inset-0 bg-primary/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out z-0" />
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                  <span className="relative z-10">◈ PORTFOLIO</span>
                 </Link>
-              ))}
+              ) : (
+                mobileRouteLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="interactive group/btn relative flex items-center justify-center px-6 py-3 w-full bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mt-3"
+                  >
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                    <span className="relative z-10">{link.name}</span>
+                  </Link>
+                ))
+              )}
             </div>
           </motion.div>
         )}

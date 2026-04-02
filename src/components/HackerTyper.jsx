@@ -190,7 +190,7 @@ const HackerTyper = () => {
 
       <div 
         ref={containerRef}
-        className="flex-1 overflow-auto p-4 md:p-10 pb-[50vh] md:pb-10 whitespace-pre-wrap break-all text-sm md:text-base leading-relaxed scrollbar-hide z-20"
+        className="flex-1 overflow-auto p-4 md:p-10 pb-[50vh] whitespace-pre-wrap break-all text-sm md:text-base leading-relaxed scrollbar-hide z-20"
       >
         {outputText}
         {phase !== "connecting" && (

@@ -5,8 +5,8 @@ import projectsData from "../utils/projects";
 
 const TerminalMode = () => {
   const [history, setHistory] = useState([
-    { type: "system", content: "ASHU-OS [Version 2.4.1]" },
-    { type: "system", content: "(c) Ashutosh Moharana. All rights reserved." },
+    { type: "system", content: "S.H.I.E.L.D COMMAND TERMINAL [Version 1.0.7]" },
+    { type: "system", content: "(c) Strategic Homeland Intervention, Enforcement and Logistics Division." },
     { type: "system", content: " " },
     { type: "info", content: "Type 'help' to see available commands." }
   ]);
@@ -38,7 +38,7 @@ const TerminalMode = () => {
           { type: "info", content: <><span className="font-bold inline-block w-20">about</span> - About me</> },
           { type: "info", content: <><span className="font-bold inline-block w-20">projects</span> - View my work</> },
           { type: "info", content: <><span className="font-bold inline-block w-20">contact</span> - Get in touch</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">color</span> - Theme color (e.g., 'color blue')</> },
+          { type: "info", content: <><span className="font-bold inline-block w-20">color</span> - Theme (e.g., "color green")</> },
           { type: "info", content: <><span className="font-bold inline-block w-20">hacker</span> - Hacker mode</> },
           { type: "info", content: <><span className="font-bold inline-block w-20">clear</span> - Clear terminal</> },
           { type: "info", content: <><span className="font-bold inline-block w-20">exit</span> - Close terminal</> }
@@ -47,25 +47,38 @@ const TerminalMode = () => {
       case "about":
         setHistory((prev) => [
           ...prev,
-          { type: "info", content: "Ashutosh Moharana | Full-Stack Developer" },
+          { type: "info", content: "Ashutosh Moharana | Backend Developer" },
+          { type: "info", content: "An enthusiastic beginner exploring the backend ecosystem." },
+          { type: "info", content: "Learning Java & Spring Boot — building REST APIs and handling databases." },
           { type: "info", content: " " },
           { type: "info", content: "Education:" },
-          { type: "info", content: "• Master of Computer Application (2025 - 2027)" },
-          { type: "info", content: "• B.Sc. Computer Science (2022 - 2025)" },
+          { type: "info", content: "• MCA — Indira Gandhi Institute of Technology, Sarang (2025-2027)" },
+          { type: "info", content: "• B.Sc. Computer Science — Udayanath Autonomous College (2022-2025) | 8.6 CGPA" },
+          { type: "info", content: "• Higher Secondary (Science) — Prananath Autonomous College (2020-2022) | 86%" },
           { type: "info", content: " " },
-          { type: "info", content: "Skills:" },
-          { type: "info", content: "React, Node.js, Express, MongoDB, Tailwind CSS, JS" }
+          { type: "info", content: "Backend (Primary):" },
+          { type: "info", content: "  Java, Spring Boot, REST API, JPA/Hibernate, PostgreSQL" },
+          { type: "info", content: "Frontend (Secondary):" },
+          { type: "info", content: "  React, JavaScript, HTML, CSS, TailwindCSS" },
+          { type: "info", content: "Familiar With:" },
+          { type: "info", content: "  Node.js, Express, MongoDB" },
+          { type: "info", content: "Tools:" },
+          { type: "info", content: "  Git, GitHub, Postman" },
         ]);
         break;
       case "projects":
         setHistory((prev) => [
           ...prev,
           { type: "info", content: "Recent Projects:" },
-          ...projectsData.map((p) => ({
-            type: "info",
-            content: <><span className="font-bold text-primary">{p.title}</span> - {p.category}</>
-          })),
           { type: "info", content: " " },
+          ...projectsData.flatMap((p) => ([
+            {
+              type: "info",
+              content: <><span className="font-bold text-primary">{p.title}</span> — {p.category} [{p.date}]</>
+            },
+            { type: "info", content: `  Stack: ${p.technologies.join(", ")}` },
+            { type: "info", content: " " },
+          ])),
           { type: "info", content: "Type 'exit' to view full UI." }
         ]);
         break;
@@ -125,7 +138,7 @@ const TerminalMode = () => {
 
   return (
     <div
-      className="fixed inset-0 h-[100dvh] w-full bg-[#09090b] font-mono text-primary z-50 p-6 md:p-10 overflow-y-auto selection:bg-primary/30 antialiased"
+      className="fixed inset-0 h-[100dvh] bg-[#09090b] font-mono text-primary z-50 p-6 md:p-10 overflow-y-auto selection:bg-primary/30 antialiased"
       onClick={() => document.getElementById("cli-input")?.focus()}
     >
       <div className="max-w-4xl mx-auto flex flex-col gap-1 w-full text-sm md:text-base">

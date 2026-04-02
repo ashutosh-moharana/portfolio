@@ -2,7 +2,6 @@ import {
     useState,
     createContext,
     useEffect,
-    useRef,
 } from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -23,9 +22,7 @@ export const LenisContext = createContext();
 
 
 function Portfolio() {
-    const [currentSection, setCurrentSection] = useState("landing");
     const [lenis, setLenis] = useState(null);
-    const lenisRef = useRef();
 
     // Initialize Lenis smooth scrolling
     useEffect(() => {
@@ -40,41 +37,25 @@ function Portfolio() {
             lerp: 0.2,
         });
 
-        lenisRef.current = lenisInstance;
         setLenis(lenisInstance);
 
         function raf(time) {
-            lenisRef.current?.raf(time);
+            lenisInstance.raf(time);
             requestAnimationFrame(raf);
         }
 
-        lenisRef.current.on("scroll", ({ scroll }) => {
-            const windowHeight = window.innerHeight;
-            if (scroll < windowHeight * 0.5) {
-                setCurrentSection("landing");
-            } else if (scroll < windowHeight * 1.5) {
-                setCurrentSection("projects");
-            } else if (scroll < windowHeight * 2.5) {
-                setCurrentSection("about");
-            } else {
-                setCurrentSection("contact");
-            }
-        });
-
         requestAnimationFrame(raf);
-        return () => lenisRef.current?.destroy();
+        return () => lenisInstance.destroy();
     }, []);
 
     return (
         <LenisContext.Provider value={lenis}>
-            <DeviceProvider>
-                <div className="app-container bg-background select-none">
-                    <LandingPage />
-                    <About />
-                    <Projects />
-                    <Contact />
-                </div>
-            </DeviceProvider>
+            <div className="app-container bg-background select-none">
+                <LandingPage />
+                <About />
+                <Projects />
+                <Contact />
+            </div>
         </LenisContext.Provider>
     );
 }

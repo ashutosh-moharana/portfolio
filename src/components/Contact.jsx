@@ -71,17 +71,29 @@ const Contact = () => {
   return (
     <div id="contact" className="relative flex flex-col justify-between overflow-hidden pt-10 md:pt-16 px-6 md:px-12 lg:px-24 bg-background">
 
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="mb-8 md:mb-12 z-10"
+        className="mb-8 md:mb-12 z-10 border-b border-primary/20 pb-4 relative overflow-hidden"
       >
-        <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">Get In Touch</span>
-        <h2 className="text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-heading leading-none">
-          Contact
+        {/* Animated sliding line */}
+        <motion.div
+          className="absolute left-0 bottom-[-1px] h-[2px] bg-primary"
+          initial={{ width: 0 }}
+          whileInView={{ width: "33%" }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+        />
+        <span className="text-primary font-mono text-xs tracking-[0.3em] uppercase mb-4 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-primary block animate-pulse" />
+            SECURE COMMLINK
+        </span>
+        <h2 className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-heading leading-none">
+          TRANSMISSION
         </h2>
       </motion.div>
 
@@ -101,21 +113,26 @@ const Contact = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex flex-col h-full bg-muted/20 p-8 rounded-2xl border border-border/30 justify-center"
+              className="flex flex-col h-full bg-black/60 p-8 border border-primary justify-center relative"
             >
-              <div className="w-16 h-16 mx-auto mb-8 text-primary rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="absolute top-0 left-0 w-4 h-[2px] bg-primary" />
+              <div className="absolute top-0 left-0 w-[2px] h-4 bg-primary" />
+              <div className="absolute bottom-0 right-0 w-4 h-[2px] bg-primary" />
+              <div className="absolute bottom-0 right-0 w-[2px] h-4 bg-primary" />
+              <div className="w-16 h-16 mx-auto mb-8 text-primary border border-primary flex items-center justify-center">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
                   <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h3 className="text-3xl font-semibold text-center text-foreground mb-4 tracking-tight">Message Received</h3>
-              <p className="text-center text-subtle text-lg mb-10 font-light">I'll get back to you as soon as possible.</p>
+              <h3 className="text-3xl font-cinematic tracking-widest text-center text-primary mb-4">PACKET RECEIVED</h3>
+              <p className="text-center text-subtle font-mono text-xs uppercase tracking-widest mb-10">Data encrypted.<br /> Signal acknowledged.</p>
 
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="interactive mx-auto px-8 py-3 bg-primary/10 text-primary border border-primary/30 font-semibold rounded-full hover:bg-primary/20 hover:border-primary/60 transition-colors duration-200 active:scale-95"
+                className="interactive group relative mx-auto px-8 py-3 bg-black text-primary font-mono text-xs uppercase tracking-[0.2em] border border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-200 active:scale-95 overflow-hidden"
               >
-                Send Another
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
+                <span className="relative z-10">INITIATE NEW PING</span>
               </button>
             </motion.div>
           ) : (
@@ -165,22 +182,27 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={!isFormValid() || isSending}
-                className={`interactive mt-4 w-full md:w-auto self-start px-12 py-4 font-semibold rounded-full transition-all duration-300 flex items-center justify-center gap-3 ${isSending
-                  ? 'bg-primary/20 text-primary border border-primary/30 cursor-wait'
+                className={`interactive group relative mt-4 w-full md:w-auto self-start px-12 py-4 font-mono text-xs tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden ${isSending
+                  ? 'bg-black text-primary border border-primary cursor-wait'
                   : isFormValid()
-                    ? 'bg-foreground text-background hover:scale-105 active:scale-95 hover:bg-primary hover:text-primary-foreground'
-                    : 'bg-muted/50 text-subtle cursor-not-allowed border border-border/50'
+                    ? 'bg-black text-primary border border-primary/50 hover:scale-105 active:scale-95 hover:bg-primary/20 hover:border-primary'
+                    : 'bg-black/50 text-subtle/50 cursor-not-allowed border border-border/30'
                   }`}
               >
-                {isSending ? (
-                  <>
-                    <svg className="animate-spin h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                    </svg>
-                    Sending...
-                  </>
-                ) : "Send Message"}
+                {isFormValid() && !isSending && (
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                )}
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  {isSending ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : "Send Message"}
+                </span>
               </button>
               {formErrors.submit && <p className="text-primary text-sm mt-2">{formErrors.submit}</p>}
             </form>
@@ -197,15 +219,23 @@ const Contact = () => {
         >
           <div className="flex flex-col gap-8 md:gap-12 mt-12 lg:mt-0">
             <div className="flex flex-col">
-              <h3 className="text-3xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-foreground leading-none mb-6">
-                Let's <span className="text-primary">Collaborate</span>
+              <h3 className="text-3xl md:text-6xl lg:text-7xl font-cinematic uppercase tracking-widest text-foreground leading-none mb-4">
+                ESTABLISH <span className="text-primary">LINK</span>
               </h3>
-              <p className="text-subtle text-base md:text-xl font-light tracking-wide">
-                Got a project in mind? Reach out on any platform and let's craft something extraordinary together.
+              {/* Scanner underline — faint track + looping primary scanner bar */}
+              <div className="relative h-[2px] mb-6 bg-primary/20 overflow-hidden">
+                <motion.div
+                  className="absolute top-0 h-full w-[30%] bg-primary"
+                  animate={{ left: ["0%", "70%", "0%"] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+              <p className="text-subtle text-xs md:text-sm font-mono tracking-wide border-l-2 border-primary/30 pl-4 py-1">
+                Awaiting connection protocols. Ping directly on any network array below.
               </p>
               <a
                 href="mailto:ashutoshmoharana00@gmail.com"
-                className="interactive group inline-flex items-center gap-2 mt-4 text-subtle hover:text-primary transition-colors font-mono text-sm md:text-base tracking-wide"
+                className="interactive group inline-flex items-center gap-2 mt-8 text-subtle hover:text-primary transition-colors font-mono text-xs md:text-sm tracking-[0.2em]"
               >
                 <span className="border-b border-border/50 group-hover:border-primary pb-0.5 transition-colors">
                   ashutoshmoharana00@gmail.com
@@ -225,26 +255,26 @@ const Contact = () => {
               <a
                 href="https://github.com/ashutosh-moharana"
                 target="_blank"
-                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-primary/5 text-primary border border-primary/30 font-semibold rounded-full overflow-hidden transition-all duration-500 hover:border-primary/80 active:scale-95 backdrop-blur-md"
+                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10 flex items-center gap-3 tracking-wide">
-                  <SiGithub size={20} className="transition-colors duration-300" />
-                  <span className="text-sm md:text-base font-bold tracking-widest text-foreground uppercase">GitHub</span>
-                  <FiArrowUpRight className="ml-1 text-primary opacity-0 -translate-x-3 translate-y-3 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out hidden md:block" size={18} />
+                  <SiGithub size={16} className="transition-colors duration-300" />
+                  <span>GitHub</span>
+                  <FiArrowUpRight className="ml-1 opacity-0 -translate-x-3 translate-y-3 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out hidden md:block" size={16} />
                 </span>
-                <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-0"></div>
               </a>
                <a
                 href="https://linkedin.com/in/ashutosh-moharana"
                 target="_blank"
-                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-primary/5 text-primary border border-primary/30 font-semibold rounded-full overflow-hidden transition-all duration-500 hover:border-primary/80 active:scale-95 backdrop-blur-md"
+                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10 flex items-center gap-3 tracking-wide">
-                  <SiLinkedin size={20} className="transition-colors duration-300" />
-                  <span className="text-sm md:text-base font-bold tracking-widest text-foreground uppercase">LinkedIn</span>
-                  <FiArrowUpRight className="ml-1 text-primary opacity-0 -translate-x-3 translate-y-3 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out hidden md:block" size={18} />
+                  <SiLinkedin size={16} className="transition-colors duration-300" />
+                  <span>LinkedIn</span>
+                  <FiArrowUpRight className="ml-1 opacity-0 -translate-x-3 translate-y-3 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out hidden md:block" size={16} />
                 </span>
-                <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-0"></div>
               </a>
             </div>
           </div>

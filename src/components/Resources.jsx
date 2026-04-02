@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
-import { FiArrowUpRight, FiArrowLeft, FiExternalLink } from "react-icons/fi";
+
+import { FiExternalLink } from "react-icons/fi";
+import Navbar from "./Navbar";
 import {
     LuNotebook, LuFileText, LuGlobe, LuMap, LuCode, LuBook,
     LuEye, LuTerminal, LuGitBranch, LuFolder, LuLayers,
@@ -25,10 +26,10 @@ const FILE_FILTERS = [
 
 
 const typeStyles = {
-    "my-note": { icon: <LuNotebook size={18} />, label: "Personal Note", colorClass: "text-primary bg-primary/10 border-primary/20" },
-    note: { icon: <LuBook size={18} />, label: "Study Note", colorClass: "text-blue-400 bg-blue-400/10 border-blue-400/20" },
-    cheatsheet: { icon: <LuFileText size={18} />, label: "Cheat Sheet", colorClass: "text-amber-400 bg-amber-400/10 border-amber-400/20" },
-    book: { icon: <LuBook size={18} />, label: "Reference Book", colorClass: "text-rose-400 bg-rose-400/10 border-rose-400/20" },
+    "my-note": { icon: <LuNotebook size={18} />, label: "Personal Note", colorClass: "text-primary bg-primary/10 border-primary/30" },
+    note:      { icon: <LuBook size={18} />,     label: "Study Note",    colorClass: "text-primary/80 bg-primary/5 border-primary/20" },
+    cheatsheet:{ icon: <LuFileText size={18} />, label: "Cheat Sheet",   colorClass: "text-primary/70 bg-primary/5 border-primary/20" },
+    book:      { icon: <LuBook size={18} />,     label: "Reference Book",colorClass: "text-primary bg-primary/10 border-primary/30" },
 };
 
 
@@ -63,20 +64,24 @@ const iconMap = {
 };
 
 
-// Minimal list row for notes and cheatsheets with images
 const NoteRow = ({ resource, index }) => {
     const style = typeStyles[resource.type] || typeStyles.note;
     return (
-        <motion.div
+        <motion.a
+            href={resource.fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             layout
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.3, delay: index * 0.02, ease: "easeOut" }}
 
-            className="group relative flex items-center gap-4 p-3 bg-muted/5 border border-border/40 rounded-xl hover:border-primary/40 hover:bg-muted/10 transition-all duration-300"
+            className="interactive group relative flex items-center gap-4 p-3 bg-black border border-border/30 hover:border-primary/60 transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.2)] min-w-[65vw] md:min-w-0 snap-start shrink-0 overflow-hidden"
         >
-            <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-border/40 shrink-0 bg-muted/20">
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0 pointer-events-none" />
+
+            <div className="relative z-10 w-16 h-16 overflow-hidden border border-primary/20 shrink-0 bg-black">
                 {resource.imageUrl ? (
                     <img
                         src={resource.imageUrl}
@@ -90,33 +95,15 @@ const NoteRow = ({ resource, index }) => {
                 )}
             </div>
 
-            <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex flex-col flex-1 min-w-0 z-10">
                 <div className="flex items-center gap-2 mb-1">
                     <span className="text-[10px] font-mono uppercase tracking-widest text-subtle">{resource.subject}</span>
                 </div>
                 <h3 className="text-base font-bold tracking-tight text-foreground truncate group-hover:text-primary transition-colors">
                     {resource.title}
                 </h3>
-                {resource.tags && (
-                    <div className="flex flex-wrap gap-2 mt-1.5">
-                        {resource.tags.slice(0, 3).map((tag, i) => (
-                            <span key={i} className="text-[9px] px-2 py-0.5 bg-muted/50 text-subtle rounded-md border border-border/30">
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
             </div>
-
-            <a
-                href={resource.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="interactive flex items-center justify-center w-10 h-10 bg-primary/10 text-primary border border-primary/20 rounded-full hover:bg-primary hover:text-background transition-all duration-300 shrink-0"
-            >
-                <FiArrowUpRight size={18} />
-            </a>
-        </motion.div>
+        </motion.a>
     );
 };
 
@@ -134,18 +121,20 @@ const WebsitePill = ({ resource, index }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.25, delay: index * 0.02, ease: "easeOut" }}
 
-            className="interactive group flex items-center gap-3 px-5 py-3 bg-muted/50 text-foreground rounded-full border border-border/50 hover:border-emerald-400/60 hover:bg-emerald-400/5 transition-all duration-300 ease-out active:scale-[0.97]"
+            className="interactive group flex items-center gap-3 px-5 py-3 bg-black text-primary/80 border border-primary/20 hover:border-primary transition-all duration-300 ease-out active:border-primary relative overflow-hidden"
         >
-            <span className="text-emerald-400/60 group-hover:text-emerald-400 transition-colors shrink-0">
+            {/* Expanding line — hover on desktop, tap on mobile */}
+            <div className="absolute top-0 left-0 h-[2px] bg-primary w-2 group-hover:w-full group-active:w-full transition-all duration-500 ease-out" />
+            <span className="text-primary/50 group-hover:text-primary transition-colors shrink-0">
                 {Icon}
             </span>
             <div className="flex flex-col leading-tight">
-                <span className="font-semibold text-sm group-hover:text-emerald-400 transition-colors">{resource.title}</span>
+                <span className="font-mono text-sm text-foreground group-hover:text-primary transition-colors">{resource.title}</span>
                 <span className="text-xs text-subtle font-mono">{resource.subject}</span>
             </div>
             <FiExternalLink
                 size={13}
-                className="ml-auto text-subtle opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-emerald-400 transition-all duration-300"
+                className="ml-auto text-subtle opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-primary transition-all duration-300"
             />
         </motion.a>
     );
@@ -166,75 +155,87 @@ const Resources = () => {
     return (
         <div className="min-h-screen bg-background text-foreground">
 
-            {/* Page Header */}
-            <motion.header
-                initial={{ y: -80, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 backdrop-blur-md bg-background/80 border-b border-border/30"
-            >
-                <Link
-                    to="/"
-                    className="interactive group flex items-center gap-2 text-sm font-bold tracking-widest hover:text-primary transition-colors"
-                >
-                    <FiArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />
-                    PORTFOLIO
-                </Link>
-                <div className="flex items-center gap-2">
-                    <img src="/logo.webp" alt="Logo" className="h-8 w-8" />
-                    <span className="text-heading font-bold text-lg tracking-wider">ASHU</span>
-                </div>
-                <span className="text-primary font-mono text-xs tracking-[0.3em] uppercase opacity-70 hidden md:block">Resources</span>
-            </motion.header>
+            <Navbar />
 
             {/* Page Body */}
-            <div className="px-6 md:px-12 lg:px-24 py-16 md:py-20 space-y-20">
+            <div className="px-6 md:px-12 lg:px-24 pt-28 md:pt-32 pb-16 md:pb-20 space-y-20 relative">
 
                 {/* ── HERO ───────────────────────────────────────────────── */}
                 <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">
-                        Curated Collection
+                    <span className="text-primary font-mono text-xs tracking-[0.3em] uppercase mb-4 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-primary block animate-pulse" />
+                        DECRYPTED FILES
                     </span>
-                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-heading leading-none">
-                        Resources
+                    <h1 className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-heading leading-none">
+                        RESOURCES
                     </h1>
-                    <p className="text-subtle text-lg md:text-xl font-light tracking-wide mt-6 max-w-xl">
-                        My handwritten notes, cheat sheets, and cool websites — everything I found useful on my journey.
+                    {/* Animated underline */}
+                    <div className="relative border-b border-primary/20 pb-2 mt-2 overflow-hidden">
+                        <motion.div
+                            className="absolute left-0 bottom-0 h-[2px] bg-primary"
+                            initial={{ width: 0 }}
+                            animate={{ width: "40%" }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                        />
+                    </div>
+                    <p className="text-white/40 text-xs md:text-sm font-mono tracking-wider mt-6 max-w-xl border-l-2 border-primary/30 pl-4 py-1">
+                        Classified notes, syntax logs, and external network nodes — cataloged for immediate access.
                     </p>
                 </motion.div>
 
                 {/* ── NOTES & CHEAT SHEETS ───────────────────────────────── */}
                 <section>
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.5 }}
-                        className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8 pb-4 border-b border-border/30"
+                        className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 pb-4 border-b border-primary/20 relative overflow-hidden"
                     >
+                        <motion.div
+                            className="absolute left-0 bottom-0 h-[2px] bg-primary"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "20%" }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                        />
                         <div>
-                            <span className="text-primary font-mono text-xs tracking-widest uppercase opacity-70 mb-1 block">// Study Material</span>
-                            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-heading">Notes & Cheat Sheets</h2>
+                            <span className="text-primary/60 font-mono text-[10px] tracking-[0.3em] uppercase mb-1 block">// STUDY MATERIAL</span>
+                            <h2 className="text-2xl md:text-4xl font-cinematic tracking-widest text-heading uppercase mt-1">Notes &amp; Cheat Sheets</h2>
                         </div>
                         {/* Filter tabs */}
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-nowrap md:flex-wrap gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 snap-x snap-mandatory pr-6 md:pr-0" style={{ scrollbarWidth: "none" }}>
                             {FILE_FILTERS.map((f) => {
                                 const count = f.value === "all" ? fileResources.length : fileResources.filter(r => r.type === f.value).length;
+                                const isActive = activeFilter === f.value;
                                 return (
                                     <button
                                         key={f.value}
                                         onClick={() => setActiveFilter(f.value)}
-                                        className={`interactive flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-xs tracking-wide border transition-all duration-300 active:scale-95 ${activeFilter === f.value
-                                            ? "bg-primary text-background border-primary"
-                                            : "bg-transparent text-subtle border-border/50 hover:border-primary/50 hover:text-foreground"
-                                            }`}
+                                        className={`interactive group relative flex items-center gap-2 px-5 py-2.5 font-mono text-[10px] sm:text-xs tracking-widest border transition-colors duration-300 active:scale-95 uppercase overflow-hidden shrink-0 snap-start ${
+                                            isActive
+                                                ? "text-primary border-primary shadow-[inset_0_0_15px_rgba(var(--color-primary),0.3)] bg-primary/10"
+                                                : "bg-black border-primary/30 text-primary/70 hover:border-primary hover:text-primary"
+                                        }`}
                                     >
-                                        {f.label}
-                                        <span className={`text-xs px-1.5 py-0.5 rounded-full font-mono ${activeFilter === f.value ? "bg-background/20" : "bg-muted"}`}>{count}</span>
+                                        {!isActive && (
+                                            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
+                                        )}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="activeFilterBg"
+                                                className="absolute inset-0 bg-primary/20 z-0"
+                                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                            />
+                                        )}
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            {f.label}
+                                            <span className={`text-[9px] px-1.5 py-0.5 font-mono transition-colors ${isActive ? "bg-primary text-black font-bold" : "bg-muted text-subtle"}`}>{count}</span>
+                                        </span>
                                     </button>
                                 );
                             })}
@@ -259,17 +260,17 @@ const Resources = () => {
                             ).map(([type, items], typeIdx) => {
                                 const style = typeStyles[type] || typeStyles.note;
                                 return (
-                                    <div key={type} className="space-y-6">
+                                    <div key={type} className="space-y-4">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-8 h-8 rounded-lg border flex items-center justify-center ${style.colorClass}`}>
+                                            <div className={`w-7 h-7 border flex items-center justify-center ${style.colorClass}`}>
                                                 {style.icon}
                                             </div>
-                                            <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-foreground/80">
+                                            <h3 className="text-xs font-mono uppercase tracking-[0.25em] text-primary/60">
                                                 {style.label}s
                                             </h3>
-                                            <div className="h-px flex-1 bg-border/30 ml-4" />
+                                            <div className="h-px flex-1 bg-primary/10 ml-2" />
                                         </div>
-                                        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <motion.div layout className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible pb-4 md:pb-0 snap-x snap-mandatory pr-6" style={{ scrollbarWidth: "none" }}>
                                             <AnimatePresence mode="popLayout">
                                                 {items.map((r, i) => <NoteRow key={r.id} resource={r} index={i + typeIdx * 10} />)}
                                             </AnimatePresence>
@@ -286,19 +287,25 @@ const Resources = () => {
                 {websiteResources.length > 0 && (
                     <section className="space-y-12">
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
                             viewport={{ once: true, amount: 0.2 }}
                             transition={{ duration: 0.5 }}
-                            className="flex items-end justify-between mb-8 pb-4 border-b border-border/30"
+                            className="flex items-end justify-between mb-10 pb-4 border-b border-primary/20 relative overflow-hidden"
                         >
+                            <motion.div
+                                className="absolute left-0 bottom-0 h-[2px] bg-primary"
+                                initial={{ width: 0 }}
+                                whileInView={{ width: "20%" }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                            />
                             <div>
-                                <span className="text-emerald-400 font-mono text-xs tracking-widest uppercase opacity-80 mb-1 block">// Cool Finds</span>
-                                <h2 className="text-2xl md:text-3xl font-black tracking-tight text-heading">
+                                <span className="text-primary/60 font-mono text-[10px] tracking-[0.3em] uppercase mb-1 block">// EXTERNAL NODES</span>
+                                <h2 className="text-2xl md:text-4xl font-cinematic tracking-widest text-heading uppercase mt-1">
                                     Websites Worth Visiting
                                 </h2>
                             </div>
-                            <span className="text-subtle font-mono text-xs tracking-wider">{websiteResources.length} sites</span>
                         </motion.div>
 
                         {/* Grouped by Category */}
@@ -311,12 +318,14 @@ const Resources = () => {
                             }, {})
                         ).map(([category, items], catIndex) => (
                             <div key={category} className="space-y-6">
-                                <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-emerald-400/70 border-l-2 border-emerald-400/30 pl-4">
+                                <h3 className="text-sm font-mono uppercase tracking-[0.2em] text-primary/70 border-l-2 border-primary/30 pl-4">
                                     {category}
                                 </h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 snap-x snap-mandatory pr-6" style={{ scrollbarWidth: "none" }}>
                                     {items.map((r, i) => (
-                                        <WebsitePill key={r.id} resource={r} index={i + catIndex * 10} />
+                                        <div key={r.id} className="min-w-[75vw] sm:min-w-0 snap-start shrink-0">
+                                            <WebsitePill resource={r} index={i + catIndex * 10} />
+                                        </div>
                                     ))}
                                 </div>
                             </div>

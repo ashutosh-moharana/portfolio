@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { LuNotebook } from "react-icons/lu";
+
 
 const NotFound = () => {
     return (
@@ -45,11 +45,11 @@ const NotFound = () => {
             >
                 <Link
                     to="/"
-                    className="interactive group/btn relative flex items-center gap-2 px-7 py-3.5 bg-primary/10 text-primary border border-primary/30 font-bold rounded-full overflow-hidden text-sm tracking-wider transition-all duration-300 hover:border-primary/80 active:scale-95"
+                    className="interactive group/btn relative flex items-center justify-center gap-2 px-6 py-3.5 bg-black text-primary border border-primary/50 font-mono text-sm uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
                 >
-                    <FiArrowLeft size={16} className="group-hover/btn:-translate-x-1 transition-transform duration-300" />
-                    <span className="relative z-10">Back to Portfolio</span>
-                    <div className="absolute inset-0 bg-primary/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out z-0" />
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                    <FiArrowLeft size={16} className="relative z-10 group-hover/btn:-translate-x-1 transition-transform duration-300" />
+                    <span className="relative z-10">RETURN TO BASE</span>
                 </Link>
             </motion.div>
         </div>

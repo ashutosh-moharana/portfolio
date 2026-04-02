@@ -11,15 +11,10 @@ export const COLORS = {
 };
 
 export const ColorProvider = ({ children }) => {
-  const [activeColor, setActiveColor] = useState("red");
-
-  // On mount, load from localStorage
-  useEffect(() => {
+  const [activeColor, setActiveColor] = useState(() => {
     const savedColor = localStorage.getItem("portfolio-theme-color");
-    if (savedColor && COLORS[savedColor]) {
-      setActiveColor(savedColor);
-    }
-  }, []);
+    return (savedColor && COLORS[savedColor]) ? savedColor : "red";
+  });
 
   // When activeColor changes, update CSS variables globally and save to localStorage
   useEffect(() => {
