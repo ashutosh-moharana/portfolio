@@ -70,4 +70,39 @@
     @apply bg-background text-foreground;
   }
 
+  @media (pointer: fine) {
+
+    *,
+    *::before,
+    *::after {
+      cursor: none !important;
+    }
+  }
+}
+
+/* ── Mobile tap / press feedback ───────────────────────────── */
+@media (hover: none) {
+
+  .interactive:active,
+  a:active,
+  button:active {
+    transform: scale(0.94);
+    opacity: 0.75;
+    transition: transform 0.08s ease, opacity 0.08s ease;
+  }
+}
+
+/* ── Performance: GPU layer hints ───────────────────────────── */
+.will-change-transform {
+  will-change: transform;
+}
+
+.interactive {
+  isolation: isolate;
+}
+
+/* Keep backdrop-blur elements off the main thread */
+[class*="backdrop-blur"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }

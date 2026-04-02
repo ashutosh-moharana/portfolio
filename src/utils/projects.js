@@ -1,10 +1,11 @@
 const projects = [
   {
     id: 1,
-    title: "Pet-Vivid",
-    date: "Dec 2024 - Feb 2025",
+    title: "PetVivid",
+    category: "Full Stack",
+    date: "Dec 2024 – Feb 2025",
     description:
-      "PetVivid is a full-stack app for reuniting lost and found pets.",
+      "A full-stack platform to help reunite lost and found pets. Users can post sightings, browse listings, and connect with pet owners — built with a RESTful API backend, JWT authentication, and image uploads via Multer.",
     technologies: [
       "Node.js",
       "Express",
@@ -21,22 +22,25 @@ const projects = [
   },
   {
     id: 2,
-    title: "Minimal Ecommerce",
-    date: "Aug 2025",
+    title: "Pepal Barry",
+    category: "E-commerce",
+    date: "Sep 2025 – Feb 2026",
     description:
-      "A clean and simple one-page checkout app built with React (Vite) and Express, featuring Razorpay integration. (No actual payment will done as I am using test mode)",
+      "A production-ready MERN e-commerce site for a cookie brand. Features Google OAuth login, a full admin dashboard for product and order management, Cloudinary media integration, and Razorpay payments. Designed and developed end-to-end from UI to deployment.",
     technologies: [
       "React",
-      "Tailwind CSS",
       "Node.js",
       "Express",
+      "MongoDB",
       "Razorpay",
+      "Google OAuth",
+      "Cloudinary",
+      "Tailwind CSS",
     ],
-    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1754483133/minimal_ecommerce_cfjufa.webp",
-    demoLink: "https://minimal-ecommerce.onrender.com",
-    codeLink: "https://github.com/ashutosh-moharana/minimal-ecommerce",
-  },
+    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1772427473/pepalbarry_koxl5q.webp",
+    demoLink: "https://www.pepalbarry.shop",
+    codeLink: "https://github.com/pepalbarry",
+  }
 ];
-
 
 export default projects;
