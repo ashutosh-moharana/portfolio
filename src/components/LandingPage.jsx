@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useContext } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
 import { useDevice } from "../contexts/DeviceContext";
 import { LenisContext } from "../App";
 import Navbar from "./Navbar";
@@ -8,16 +8,28 @@ import Navbar from "./Navbar";
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0 },
   animate: { opacity: 1 },
-  transition: { duration: 0.6, delay, ease: "easeOut" },
+  transition: { duration: 0.5, delay, ease: "easeOut" },
 });
 
 const LandingPage = () => {
   const isMobile = useDevice();
   const lenis = useContext(LenisContext);
 
+
+
   return (
     <div id="landing" className="h-screen flex relative items-center justify-center overflow-hidden bg-background">
       <Navbar />
+
+      {/* Global Data Flux / Scanline Overlay - Increased Opacity for Visibility */}
+      <div className="absolute inset-0 pointer-events-none z-30 opacity-[0.08]">
+        <motion.div 
+          animate={{ y: ["-100%", "100%"] }} 
+          transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+          className="w-full h-1 bg-primary shadow-[0_0_25px_var(--color-primary)]" 
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-40" />
+      </div>
 
       {/* Name — top right */}
       <div className="absolute top-28 md:top-32 right-4 md:right-10 z-20 text-right">
@@ -36,24 +48,11 @@ const LandingPage = () => {
           className="absolute flex items-center justify-center pointer-events-none mt-12 md:mt-20"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ willChange: "transform, opacity" }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Ambient Glow */}
-          <div
-            className={`absolute rounded-full pointer-events-none ${isMobile ? "w-[70vw] h-[70vw]" : "w-[60vh] h-[60vh]"}`}
-            style={{
-              background: "var(--color-primary)",
-              opacity: 0.18,
-              filter: "blur(60px)",
-              transform: "translateZ(0)",
-              willChange: "auto",
-            }}
-          />
-
           {/* Base Portal Ring */}
           <motion.div
-            className={`absolute rounded-full ${isMobile ? "w-[85vw] h-[85vw]" : "w-[75vh] h-[75vh]"}`}
+            className={`absolute rounded-full w-[85vw] h-[85vw] md:w-[75vh] md:h-[75vh]`}
             style={{
               background: "repeating-conic-gradient(from 0deg, transparent 0deg, var(--color-primary) 1deg, transparent 5deg)",
               maskImage: "radial-gradient(transparent 62%, black 65%, black 68%, transparent 72%)",
@@ -68,7 +67,7 @@ const LandingPage = () => {
 
           {/* Secondary Fast Sparks */}
           <motion.div
-            className={`absolute rounded-full opacity-80 mix-blend-screen ${isMobile ? "w-[85vw] h-[85vw]" : "w-[75vh] h-[75vh]"}`}
+            className={`absolute rounded-full w-[85vw] h-[85vw] opacity-80 mix-blend-screen md:w-[75vh] md:h-[75vh]`}
             style={{
               background: "repeating-conic-gradient(from 20deg, transparent 0deg, var(--color-primary) 2deg, transparent 8deg)",
               maskImage: "radial-gradient(transparent 60%, black 63%, black 66%, transparent 70%)",
@@ -82,7 +81,7 @@ const LandingPage = () => {
 
           {/* Outer Erratic Embers */}
           <motion.div
-            className={`absolute rounded-full opacity-60 mix-blend-screen ${isMobile ? "w-[95vw] h-[95vw]" : "w-[85vh] h-[85vh]"}`}
+            className={`absolute rounded-full opacity-60 mix-blend-screen w-[95vw] h-[95vw] md:w-[85vh] md:h-[85vh]`}
             style={{
               background: "repeating-conic-gradient(from 0deg, transparent 0deg, var(--color-primary) 0.5deg, transparent 3deg)",
               maskImage: "radial-gradient(transparent 65%, black 66%, transparent 68%)",
@@ -95,21 +94,24 @@ const LandingPage = () => {
           />
 
           {/* Inner void — hides image bleed */}
-          <div className={`absolute rounded-full bg-black z-0 ${isMobile ? "w-[72vw] h-[72vw]" : "w-[62vh] h-[62vh]"}`} />
+          <div className={`absolute rounded-full bg-black z-0 w-[72vw] h-[72vw] md:w-[62vh] md:h-[62vh]`} />
         </motion.div>
 
         {/* Profile image — translate Y only (GPU composited) */}
         <motion.div
-          className={`absolute bottom-0 flex items-center justify-center z-10 ${isMobile ? "h-[45vh] bottom-32" : "h-3/4 mr-8"}`}
+          className={`absolute h-[45vh] md:h-3/4 bottom-32 md:mx-20 md:bottom-0 flex items-center justify-center z-10  translate-x-6`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{ willChange: "transform, opacity" }}
+          transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          style={{ 
+            willChange: "transform, opacity",
+            transformStyle: "preserve-3d"
+          }}
         >
           <img
             className="h-full"
-            style={{ filter: "brightness(1.05) contrast(1.1)" }}
-            src="/ashutosh.webp"
+            style={{ filter: "drop-shadow(0 0 15px rgb(255,255,255,0.2)) brightness(0.8)" }}
+            src="/ashu.webp"
             alt="Ashutosh Moharana"
             fetchPriority="high"
           />
@@ -118,19 +120,48 @@ const LandingPage = () => {
 
       {/* Bottom left — role dossier */}
       <motion.div
-        {...fadeIn(0.5)}
+        {...fadeIn(0.2)}
         className={`absolute left-0 bottom-10 z-20 ${isMobile
           ? "box-border h-auto w-full mb-6 px-8 py-4 border-t border-primary/50 bg-black/80 overflow-hidden"
-          : "m-4 left-4 bottom-8 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent"
+          : "m-4 left-4 bottom-8 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
         }`}
       >
         {/* Grid only on mobile */}
         {isMobile && (
           <div className="absolute inset-0 bg-[linear-gradient(var(--color-primary)_1px,transparent_1px),linear-gradient(90deg,var(--color-primary)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none opacity-5" />
         )}
-        <h2 className="font-cinematic text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight tracking-widest uppercase relative z-10">
-          <span className="text-primary">Backend</span> Developer
-        </h2>
+        
+        {/* Desktop HUD Corners */}
+        {!isMobile && (
+          <>
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/50" />
+            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/50" />
+            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/50" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/50" />
+          </>
+        )}
+
+        <div className="relative overflow-hidden w-fit">
+          <h2 className="font-cinematic text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight tracking-widest uppercase relative z-10 flex gap-2 md:gap-4">
+            <span className="text-primary">BACKEND</span>
+            <span>DEVELOPER</span>
+          </h2>
+          
+          {/* High-Precision Glitch Overlay matching ASHMO */}
+          <motion.h2 
+            animate={{ 
+              x: [0, -6, 6, -3, 0], 
+              skewX: [0, 10, -10, 5, 0],
+              opacity: [0, 0.4, 0, 0.4, 0],
+            }}
+            transition={{ repeat: Infinity, duration: 0.3, repeatDelay: 4 }}
+            className="absolute inset-0 font-cinematic text-4xl md:text-5xl lg:text-6xl text-primary leading-tight tracking-widest uppercase select-none pointer-events-none opacity-0 flex gap-2 md:gap-4"
+            aria-hidden="true"
+          >
+            <span>BACKEND</span>
+            <span>DEVELOPER</span>
+          </motion.h2>
+        </div>
         <div className="flex items-center gap-3 text-xs md:text-sm mt-2 font-mono uppercase tracking-widest max-w-[280px] md:max-w-md lg:max-w-lg text-subtle relative z-10">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           <span>Classified: Secure APIs &amp; Data Infrastructures</span>
@@ -157,11 +188,6 @@ const LandingPage = () => {
         </motion.div>
       )}
 
-      {/* Radial ambient overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0"
-        style={{ background: "radial-gradient(ellipse at center, rgba(237,29,36,0.04) 0%, rgba(0,0,0,0.7) 65%)" }}
-      />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none z-10" />
     </div>
   );

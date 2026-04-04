@@ -92,9 +92,27 @@ const Contact = () => {
             <span className="w-1.5 h-1.5 bg-primary block animate-pulse" />
             SECURE COMMLINK
         </span>
-        <h2 className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-heading leading-none">
-          TRANSMISSION
-        </h2>
+        <div className="relative w-fit">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-heading leading-none"
+          >
+            TRANSMISSION
+          </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: [0, 0.7, 0, 0.5, 0], x: [0, -10, 8, -4, 0], skewX: [0, 14, -10, 6, 0] }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.15, ease: "linear" }}
+            className="absolute inset-0 text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-primary leading-none select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            TRANSMISSION
+          </motion.h2>
+        </div>
       </motion.div>
 
       {/* Main content section */}

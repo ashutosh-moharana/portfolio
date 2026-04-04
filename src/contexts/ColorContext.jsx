@@ -3,11 +3,12 @@ import { createContext, useState, useEffect } from "react";
 export const ColorContext = createContext();
 
 export const COLORS = {
-  red: { name: "Red", hex: "#ff003c" },
-  green: { name: "Matrix Green", hex: "#00ff41" },
-  blue: { name: "Cyber Blue", hex: "#00e5ff" },
-  purple: { name: "Neon Purple", hex: "#b026ff" },
-  orange: { name: "Volcanic Orange", hex: "#ff5100" }
+  red: { name: "Crimson Red", hex: "#ed1d24" },
+  green: { name: "Neon Emerald", hex: "#00ff9d" },
+  blue: { name: "Electric Cyan", hex: "#00f0ff" },
+  purple: { name: "Deep Amethyst", hex: "#b14aed" },
+  yellow: { name: "Cyber Amber", hex: "#ffb000" },
+  white: { name: "Ghost White", hex: "#ffffff" }
 };
 
 export const ColorProvider = ({ children }) => {

@@ -31,46 +31,44 @@ const About = () => {
     {
       label: "Backend (Primary)",
       skills: [
-        { name: "Java", icon: <FaJava size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "Spring Boot", icon: <SiSpringboot size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "REST API", icon: <FaServer size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "JPA / Hibernate", icon: <SiHibernate size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "PostgreSQL", icon: <SiPostgresql size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Java", tag: "[STRICT_TYPING]", icon: <FaJava size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Spring Boot", tag: "[FRAMEWORK]", icon: <SiSpringboot size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "REST API", tag: "[ACTIVE]", icon: <FaServer size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "JPA / Hibernate", tag: "[ORM]", icon: <SiHibernate size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "PostgreSQL", tag: "[DB:RELATIONAL]", icon: <SiPostgresql size={20} className="md:group-hover:text-primary transition-colors" /> },
       ]
     },
     {
       label: "Frontend (Secondary)",
       skills: [
-        { name: "React", icon: <SiReact size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "JavaScript", icon: <SiJavascript size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "HTML", icon: <SiHtml5 size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "CSS", icon: <SiCss3 size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "TailwindCSS", icon: <TbBrandTailwind size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "React", tag: "[UI_FW]", icon: <SiReact size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "JavaScript", tag: "[DYNAMIC]", icon: <SiJavascript size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "HTML", tag: "[MARKUP]", icon: <SiHtml5 size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "CSS", tag: "[STYLE]", icon: <SiCss3 size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "TailwindCSS", tag: "[CSS_FW]", icon: <TbBrandTailwind size={20} className="md:group-hover:text-primary transition-colors" /> },
       ]
     },
     {
       label: "Familiar With",
       skills: [
-        { name: "Node.js", icon: <TbBrandNodejs size={22} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "Express", icon: <SiExpress size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "MongoDB", icon: <SiMongodb size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Node.js", tag: "[RUNTIME]", icon: <TbBrandNodejs size={22} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Express", tag: "[FRAMEWORK]", icon: <SiExpress size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "MongoDB", tag: "[DB:NOSQL]", icon: <SiMongodb size={20} className="md:group-hover:text-primary transition-colors" /> },
       ]
     },
     {
       label: "Tools",
       skills: [
-        { name: "Git", icon: <SiGit size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "GitHub", icon: <SiGithub size={20} className="md:group-hover:text-primary transition-colors" /> },
-        { name: "Postman", icon: <SiPostman size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Git", tag: "[VCS]", icon: <SiGit size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "GitHub", tag: "[FORGE]", icon: <SiGithub size={20} className="md:group-hover:text-primary transition-colors" /> },
+        { name: "Postman", tag: "[API_TEST]", icon: <SiPostman size={20} className="md:group-hover:text-primary transition-colors" /> },
       ]
     }
   ], []);
 
   const profiles = useMemo(() => [
     { name: "LeetCode", icon: <SiLeetcode size={20} />, url: "https://leetcode.com/ash_mo" },
-    { name: "HackerRank", icon: <SiHackerrank size={20} />, url: "https://www.hackerrank.com/profile/ashutoshmoharan3" },
-    { name: "GitHub", icon: <SiGithub size={20} />, url: "https://github.com/ashutosh-moharana" },
-    { name: "LinkedIn", icon: <SiLinkedin size={20} />, url: "https://linkedin.com/in/ashutosh-moharana" },
+    { name: "HackerRank", icon: <SiHackerrank size={20} />, url: "https://www.hackerrank.com/profile/ashutoshmoharan3" }
   ], []);
 
   const education = useMemo(() => [
@@ -124,15 +122,38 @@ const About = () => {
             </span>
             {/* Hover group: hovering SUBJECT animates the bio border line */}
             <div className="group">
-              <h2 className="font-cinematic text-7xl md:text-8xl xl:text-9xl uppercase tracking-wider text-heading leading-none -ml-1 md:-ml-2 cursor-default">
-                SUBJECT
-              </h2>
+              <div className="relative w-fit">
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="font-cinematic text-7xl md:text-8xl xl:text-9xl uppercase tracking-wider text-heading leading-none -ml-1 md:-ml-2 cursor-default"
+                >
+                  SUBJECT
+                </motion.h2>
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: [0, 0.7, 0, 0.5, 0], x: [0, -8, 7, -3, 0], skewX: [0, 12, -8, 5, 0] }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: 0.15, ease: "linear" }}
+                  className="absolute inset-0 font-cinematic text-7xl md:text-8xl xl:text-9xl uppercase tracking-wider text-primary leading-none -ml-1 md:-ml-2 select-none pointer-events-none"
+                  aria-hidden="true"
+                >
+                  SUBJECT
+                </motion.h2>
+              </div>
               <div className="mt-6 md:mt-8 text-subtle text-base md:text-lg font-mono leading-relaxed whitespace-pre-line pl-4 relative">
                 {/* Static track */}
                 <div className="absolute left-0 top-0 w-[1px] h-full bg-primary/20" />
-                {/* CSS group-hover animated fill */}
-                <div className="bio-border-line absolute left-0 top-0 w-[2px] bg-primary" />
-                <style>{`.bio-border-line { height: 16px; transition: height 0.8s cubic-bezier(0.16,1,0.3,1); } .group:hover .bio-border-line { height: 100%; transition-delay: 0.1s; }`}</style>
+                {/* Animated fill (triggers on scroll) */}
+                <motion.div 
+                  className="absolute left-0 top-0 w-[2px] bg-primary" 
+                  initial={{ height: "16px" }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true, amount: 0.8 }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                />
                 An enthusiastic beginner exploring the backend ecosystem.{" "}
                 Currently learning Java and Spring Boot, discovering how to build robust REST APIs and handle databases cleanly and effectively.
               </div>
@@ -292,7 +313,10 @@ const About = () => {
                               className="group interactive flex items-center gap-1.5 text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 bg-secondary text-foreground border border-border hover:border-primary hover:bg-primary/10 transition-colors duration-200 ease-out active:scale-[0.97] font-mono tracking-wide"
                             >
                               <span className="text-primary/60 md:text-primary/80 transition-colors group-hover:text-primary">{skill.icon}</span>
-                              <span className="group-hover:text-primary transition-colors">{skill.name}</span>
+                              <span className="flex flex-col items-start">
+                                <span className="group-hover:text-primary transition-colors leading-tight">{skill.name}</span>
+                                {skill.tag && <span className="text-[8px] text-primary/30 leading-none mt-0.5 tracking-wider">{skill.tag}</span>}
+                              </span>
                             </span>
                           ))}
                         </div>

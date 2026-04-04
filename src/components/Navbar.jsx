@@ -61,7 +61,6 @@ const Navbar = () => {
   ];
 
   const desktopRouteLinks = [
-    { name: '>_', href: '/terminal' },
     { name: 'RESOURCES', href: '/resources' },
   ];
 
@@ -75,32 +74,64 @@ const Navbar = () => {
       animate={{
         y: hidden ? "-150%" : 0,
         opacity: hidden ? 0 : 1,
-        ...(isMobile && {
-          height: isMenuOpen ? "auto" : "68px",
-        })
       }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:justify-center backdrop-blur-md bg-black/90 border-b-2 border-primary overflow-hidden`}
+      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:justify-center bg-black/98 md:bg-black/90 md:backdrop-blur-md border-b-2 border-primary`}
     >
-      <div className="flex items-center justify-between px-6 pt-5 pb-2 md:px-8 md:pt-6 md:pb-3 w-full">
+      <div className="flex items-center justify-between px-6 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5 w-full">
         {/* Logo / brand — links home on sub-routes, scrolls to top on main */}
-        {isSubRoute ? (
-          <Link to="/" className="flex items-center gap-3 cursor-pointer translate-y-[2px]">
-            <div className="relative flex items-center justify-center w-8 h-8 border border-primary bg-primary/10">
-              <span className="w-1.5 h-1.5 bg-primary animate-ping absolute" />
-              <span className="w-1.5 h-1.5 bg-primary relative shadow-[0_0_5px_var(--color-primary)]" />
+        <Link 
+          to={isSubRoute ? "/" : "#"} 
+          onClick={isSubRoute ? undefined : (e) => handleLinkClick(e, 'landing')}
+          className="group relative flex items-center gap-4 cursor-pointer"
+        >
+          {/* [HEX_BREACH] Logo Icon */}
+          <div className="relative w-10 h-10 flex items-center justify-center">
+            {/* Outer Hexagon Brackets */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+              className="absolute inset-0 border-2 border-primary/30 rounded-[30%] rotate-45"
+            />
+            <motion.div 
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
+              className="absolute inset-2 border border-primary/50"
+              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            />
+            {/* Core Power Cell */}
+            <div className="relative w-2 h-2 bg-primary shadow-[0_0_15px_var(--color-primary)]">
+              <motion.div 
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="absolute inset-0 bg-primary animate-ping"
+              />
             </div>
-            <span className="text-white font-cinematic text-3xl tracking-widest leading-none">ASH<span className="text-primary">MO</span></span>
-          </Link>
-        ) : (
-          <div className="flex items-center gap-3 cursor-pointer translate-y-[2px]" onClick={(e) => handleLinkClick(e, 'landing')}>
-            <div className="relative flex items-center justify-center w-8 h-8 border border-primary bg-primary/10">
-              <span className="w-1.5 h-1.5 bg-primary animate-ping absolute" />
-              <span className="w-1.5 h-1.5 bg-primary relative shadow-[0_0_5px_var(--color-primary)]" />
-            </div>
-            <span className="text-white font-cinematic text-3xl tracking-widest leading-none">ASH<span className="text-primary">MO</span></span>
+            {/* Tactical Decals */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-2 bg-primary/40" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1px] h-2 bg-primary/40" />
           </div>
-        )}
+          
+          <div className="relative overflow-hidden pt-1 flex flex-col justify-center">
+            <div className="flex items-baseline gap-1">
+              <span className="text-white font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">ASH</span>
+              <span className="text-primary font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">MO</span>
+            </div>
+            
+            {/* High-Precision Glitch Overlays */}
+            <motion.div 
+              animate={{ 
+                x: [0, -4, 4, -2, 0], 
+                skewX: [0, 10, -10, 5, 0],
+                opacity: [0, 0.4, 0, 0.4, 0],
+              }}
+              transition={{ repeat: Infinity, duration: 0.3, repeatDelay: 4 }}
+              className="absolute inset-0 text-primary font-cinematic text-3xl tracking-[0.2em] leading-none select-none pointer-events-none opacity-0"
+            >
+              ASHMO
+            </motion.div>
+          </div>
+        </Link>
 
         {!isMobile && (
           <div className="flex items-center gap-8">
@@ -119,10 +150,17 @@ const Navbar = () => {
                   key={link.name}
                   href={`#${link.id}`}
                   onClick={(e) => handleLinkClick(e, link.id)}
-                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/80 hover:text-primary transition-colors relative group py-1"
+                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/80 hover:text-primary transition-colors relative group py-2 px-5"
                 >
                   {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 ease-out group-hover:w-full shadow-[0_0_5px_var(--color-primary)]"></span>
+                  
+                  {/* HUD Brackets on Hover - Larger and Thicker */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
+                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
+                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
+                  </div>
                 </a>
               )
             )}
@@ -131,39 +169,75 @@ const Navbar = () => {
             {isSubRoute ? (
               <Link
                 to="/"
-                className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10">◈ PORTFOLIO</span>
+                
+                {/* HUD Brackets */}
+                <div className="absolute inset-0">
+                  <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                  <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                  <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                </div>
               </Link>
             ) : (
               desktopRouteLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                  className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
                 >
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
                   <span className="relative z-10">{link.name}</span>
+                  
+                  {/* HUD Brackets */}
+                  <div className="absolute inset-0">
+                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
+                  </div>
                 </Link>
               ))
             )}
-          </div>
-        )}
 
-        {isMobile && (
-          <div className="flex items-center gap-5">
+            {/* Minimal Terminal Button (Desktop) */}
             <Link
               to="/terminal"
               className="text-primary font-mono font-bold text-lg tracking-widest z-50 transition-transform active:scale-95"
             >
               &gt;_
             </Link>
+          </div>
+        )}
+
+        {isMobile && (
+          <div className="flex items-center gap-5">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-2xl z-50 relative p-1 text-primary"
+              className="group relative flex flex-col items-center justify-center w-10 h-10 z-50 overflow-hidden"
+              aria-label="Toggle Menu"
             >
-              {isMenuOpen ? <RxCross2 /> : <RxHamburgerMenu />}
+              {/* Custom Hamburger Lines */}
+              <div className="flex flex-col gap-1.5 items-end">
+                <motion.span
+                  animate={isMenuOpen ? { rotate: 45, y: 8, width: "24px" } : { rotate: 0, y: 0, width: "20px" }}
+                  transition={{ duration: 0.3, ease: "anticipate" }}
+                  className="h-[2px] bg-primary block"
+                />
+                <motion.span
+                  animate={isMenuOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0, width: "24px" }}
+                  transition={{ duration: 0.2 }}
+                  className="h-[2px] bg-primary block"
+                />
+                <motion.span
+                  animate={isMenuOpen ? { rotate: -45, y: -8, width: "24px" } : { rotate: 0, y: 0, width: "16px" }}
+                  transition={{ duration: 0.3, ease: "anticipate" }}
+                  className="h-[2px] bg-primary block"
+                />
+              </div>
             </button>
           </div>
         )}
@@ -174,55 +248,101 @@ const Navbar = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="flex flex-col items-center gap-2 pb-5 pt-3 w-full border-t-2 border-primary"
+            exit={{ 
+              opacity: 0, 
+              height: 0,
+              transition: { 
+                opacity: { duration: 0.15, ease: "linear" },
+                height: { duration: 0.3, ease: [0.4, 0, 1, 1] }
+              }
+            }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full border-t border-primary/30 bg-black md:bg-black/95 md:backdrop-blur-xl overflow-hidden"
           >
-            <div className="flex flex-col items-center gap-1 w-full px-5">
-              {navLinks.map((link) =>
-                isSubRoute ? (
-                  <span
-                    key={link.name}
-                    className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full text-center py-3 border-b border-primary/10 last:border-0 cursor-not-allowed select-none"
-                  >
-                    {link.name}
-                  </span>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={`#${link.id}`}
-                    onClick={(e) => handleLinkClick(e, link.id)}
-                    className="text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-primary transition-colors w-full text-center py-3 border-b border-primary/20 last:border-0"
-                  >
-                    {link.name}
-                  </a>
-                )
-              )}
+            <div className="relative flex flex-col items-center gap-2 pb-8 pt-4 w-full">
+            {/* Tactical Scanline Effect */}
+            <motion.div
+              initial={{ y: "-100%" }}
+              animate={{ y: "200%" }}
+              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+              className="absolute inset-0 w-full h-[50%] bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none z-0"
+            />
+            
+            {/* Subtle Grid Pattern */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
+
+            <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
+              {navLinks.map((link, idx) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
+                  className="w-full"
+                >
+                  {isSubRoute ? (
+                    <span className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full py-4 border-b border-primary/10 last:border-0 cursor-not-allowed select-none">
+                      <span className="text-[10px] opacity-50">[{String(idx+1).padStart(2, '0')}]</span>
+                      <span>{link.name}</span>
+                      <span className="w-1.5 h-1.5 rounded-full border border-white/10" />
+                    </span>
+                  ) : (
+                    <a
+                      href={`#${link.id}`}
+                      onClick={(e) => handleLinkClick(e, link.id)}
+                      className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-white transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
+                    >
+                      <span className="text-[10px] opacity-70">[{String(idx+1).padStart(2, '0')}]</span>
+                      <span className="font-bold">{link.name}</span>
+                      <motion.span 
+                        animate={{ scale: [1, 1.5, 1] }} 
+                        transition={{ repeat: Infinity, duration: 2 }}
+                        className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" 
+                      />
+                    </a>
+                  )}
+                </motion.div>
+              ))}
             </div>
-            <div className="w-full px-5 pt-4">
+
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+              className="w-full px-8 pt-6 relative z-10"
+            >
               {/* On sub-routes show Portfolio button; otherwise show route links */}
               {isSubRoute ? (
                 <Link
                   to="/"
                   onClick={() => setIsMenuOpen(false)}
-                  className="interactive group/btn relative flex items-center justify-center px-6 py-3 w-full bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                  className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/10 hover:border-primary active:scale-90 overflow-hidden"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                  <span className="relative z-10">◈ PORTFOLIO</span>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                  <span className="text-lg">◈</span>
+                  <span className="relative z-10 font-bold">RETURN TO BASE</span>
                 </Link>
               ) : (
-                mobileRouteLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="interactive group/btn relative flex items-center justify-center px-6 py-3 w-full bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mt-3"
-                  >
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                    <span className="relative z-10">{link.name}</span>
-                  </Link>
-                ))
+                <div className="flex flex-col gap-3">
+                  {mobileRouteLinks.map((link, idx) => (
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-black text-primary border border-primary/40 font-mono text-xs uppercase tracking-[0.3em] transition-all duration-300 hover:bg-primary/10 hover:border-primary active:scale-90 active:shadow-[0_0_20px_rgba(237,29,36,0.3)] overflow-hidden"
+                    >
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                      <span className="relative z-10 font-bold">{link.name}</span>
+                      <span className="text-lg opacity-50">→</span>
+                    </Link>
+                  ))}
+                </div>
               )}
+            </motion.div>
+            
+            
+            {/* Bottom Accent */}
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
             </div>
           </motion.div>
         )}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import projects from "../utils/projects";
 
@@ -9,6 +9,38 @@ const fadeUp = (delay = 0) => ({
     viewport: { once: true, amount: 0.1 },
     transition: { duration: 0.45, delay, ease: "easeOut" },
 });
+
+// HUD Coordinate Overlay — cycles fake coords on the project image preview
+const HudCoords = () => {
+    const [data, setData] = useState({
+        hex1: "0x4F2A", hex2: "0xB91C", lat: "28.61", lon: "77.20",
+    });
+    useEffect(() => {
+        const chars = "0123456789ABCDEF";
+        const rand4 = () => "0x" + Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+        const randC = (max) => (Math.random() * max).toFixed(2);
+        const interval = setInterval(() => {
+            setData({ hex1: rand4(), hex2: rand4(), lat: randC(90), lon: randC(180) });
+        }, 380);
+        return () => clearInterval(interval);
+    }, []);
+    return (
+        <>
+            <div className="absolute top-0 left-0 right-0 p-1.5 flex justify-between z-20 pointer-events-none bg-gradient-to-b from-black/70 to-transparent">
+                <span className="text-[8px] font-mono text-primary/60 tracking-wider">MEM:{data.hex1}</span>
+                <span className="text-[8px] font-mono text-primary/60 tracking-wider">SIG:{data.hex2}</span>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-1.5 flex justify-between z-20 pointer-events-none bg-gradient-to-t from-black/70 to-transparent">
+                <span className="text-[8px] font-mono text-primary/60 tracking-wider">LAT:{data.lat}</span>
+                <span className="text-[8px] font-mono text-primary/60 tracking-wider">LON:{data.lon}</span>
+            </div>
+            <div className="absolute top-1.5 left-1.5 w-3 h-3 border-t border-l border-primary/70 z-20 pointer-events-none" />
+            <div className="absolute top-1.5 right-1.5 w-3 h-3 border-t border-r border-primary/70 z-20 pointer-events-none" />
+            <div className="absolute bottom-1.5 left-1.5 w-3 h-3 border-b border-l border-primary/70 z-20 pointer-events-none" />
+            <div className="absolute bottom-1.5 right-1.5 w-3 h-3 border-b border-r border-primary/70 z-20 pointer-events-none" />
+        </>
+    );
+};
 
 const Projects = () => {
     const [hoveredProject, setHoveredProject] = useState(null);
@@ -30,9 +62,27 @@ const Projects = () => {
                     <span className="w-1.5 h-1.5 bg-primary block animate-pulse" />
                     DECRYPTED ARCHIVES
                 </span>
-                <h2 className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-primary leading-none">
-                    MISSIONS
-                </h2>
+                <div className="relative w-fit">
+                    <motion.h2
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 0.1 }}
+                        className="text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-primary leading-none"
+                    >
+                        MISSIONS
+                    </motion.h2>
+                    <motion.h2
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: [0, 0.7, 0, 0.5, 0], x: [0, -10, 8, -4, 0], skewX: [0, 14, -10, 6, 0] }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.35, delay: 0.15, ease: "linear" }}
+                        className="absolute inset-0 text-5xl md:text-8xl lg:text-9xl font-cinematic uppercase tracking-widest text-primary leading-none select-none pointer-events-none"
+                        aria-hidden="true"
+                    >
+                        MISSIONS
+                    </motion.h2>
+                </div>
             </motion.div>
 
             {/* Projects List */}
@@ -145,11 +195,9 @@ const Projects = () => {
                                     >
                                         {/* Holographic scanner effect overlays */}
                                         <div className="absolute inset-0 bg-primary/5 mix-blend-color z-10 pointer-events-none" />
-                                        <motion.div 
-                                          className="absolute top-0 left-0 w-full h-[2px] bg-primary z-20 pointer-events-none"
-                                          animate={{ top: ["0%", "100%", "0%"] }}
-                                          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                        />
+                                        {/* HUD Coordinate Overlay */}
+                                        <HudCoords />
+
                                         {project.embedUrl ? (
                                             <div className="w-full h-full bg-background relative overflow-hidden">
                                                 <iframe 
