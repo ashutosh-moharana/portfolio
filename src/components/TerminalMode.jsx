@@ -142,15 +142,17 @@ const TerminalMode = () => {
           } else {
             setHistory((prev) => [
               ...prev, 
-              { type: "info", content: `Invalid. Available: red, green, blue, purple, yellow, white` }
+              { type: "info", content: `Invalid. Available: red, green, blue, deepblue, purple, amber` }
             ]);
           }
         } else {
           setHistory((prev) => [
             ...prev,
-            { type: "info", content: "Usage: color [name]. Available: red, green, blue, purple, yellow, white" }
+            { type: "info", content: "Usage: color [name]. Available: red, green, blue, deepblue, purple, amber" }
           ]);
         }
+
+
         break;
       case "hacker":
         setHistory((prev) => [...prev, { type: "system", content: "Initiating hacker mode..." }]);

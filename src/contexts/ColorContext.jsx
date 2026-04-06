@@ -3,13 +3,17 @@ import { createContext, useState, useEffect } from "react";
 export const ColorContext = createContext();
 
 export const COLORS = {
-  red: { name: "Crimson Red", hex: "#ed1d24" },
-  green: { name: "Neon Emerald", hex: "#00ff9d" },
-  blue: { name: "Electric Cyan", hex: "#00f0ff" },
-  purple: { name: "Deep Amethyst", hex: "#b14aed" },
-  yellow: { name: "Cyber Amber", hex: "#ffb000" },
-  white: { name: "Ghost White", hex: "#ffffff" }
+  red: { name: "Combat Red", hex: "#ff1744" },
+  green: { name: "Neural Green", hex: "#00e676" },
+  blue: { name: "Electric Cyan", hex: "#00e5ff" },
+  deepblue: { name: "Deep Navy", hex: "#0050ff" },
+  purple: { name: "Deep Aura", hex: "#7c4dff" },
+  amber: { name: "Tactical Amber", hex: "#ffc400" }
 };
+
+
+
+
 
 export const ColorProvider = ({ children }) => {
   const [activeColor, setActiveColor] = useState(() => {

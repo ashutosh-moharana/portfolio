@@ -206,16 +206,26 @@ const Navbar = () => {
             {/* Minimal Terminal Button (Desktop) */}
             <Link
               to="/terminal"
-              className="text-primary font-mono font-bold text-lg tracking-widest z-50 transition-transform active:scale-95"
+              className="text-white hover:text-primary transition-colors font-mono font-bold text-lg tracking-widest z-50 transition-transform active:scale-95 px-2"
             >
               &gt;_
             </Link>
+
           </div>
         )}
 
         {isMobile && (
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6">
+            {/* Minimal Terminal Button (Mobile) */}
+            <Link
+              to="/terminal"
+              className="text-white active:text-primary transition-colors font-mono font-bold text-xl tracking-widest z-50 transition-transform active:scale-90"
+            >
+              &gt;_
+            </Link>
+
             <button
+
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="group relative flex flex-col items-center justify-center w-10 h-10 z-50 overflow-hidden"
               aria-label="Toggle Menu"

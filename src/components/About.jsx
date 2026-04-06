@@ -73,8 +73,8 @@ const About = () => {
 
   const education = useMemo(() => [
     {
-      degree: "Master of Computer Application (MCA)",
-      institution: "Indira Gandhi Institute of Technology, Sarang",
+      degree: "M.C.A",
+      institution: "IGIT, Sarang",
       year: "2025 - 2027",
       score: "",
     },
@@ -92,7 +92,7 @@ const About = () => {
     },
     {
       degree: "Secondary Education (10th)",
-      institution: "Young Phoenix Public School, Bhubaneswar",
+      institution: "Young Phoenix Public School, BBSR",
       year: "2016 - 2020",
       score: "84%",
     },

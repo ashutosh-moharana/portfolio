@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { useDevice } from "../contexts/DeviceContext";
 import { LenisContext } from "../App";
 import Navbar from "./Navbar";
+import BackendBackground from "./BackendBackground";
+
 
 // Lightweight fade — opacity only, no layout-triggering transforms
 const fadeIn = (delay = 0) => ({
@@ -41,61 +43,15 @@ const LandingPage = () => {
         </motion.h1>
       </div>
 
-      {/* Center — Sling Ring Portal + Profile */}
+      <BackendBackground />
+
+
+
+
+
+      {/* Center — Profile */}
       <div className="flex h-screen w-screen justify-center items-center">
-        {/* Portal Container */}
-        <motion.div
-          className="absolute flex items-center justify-center pointer-events-none mt-12 md:mt-20"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Base Portal Ring */}
-          <motion.div
-            className={`absolute rounded-full w-[85vw] h-[85vw] md:w-[75vh] md:h-[75vh]`}
-            style={{
-              background: "repeating-conic-gradient(from 0deg, transparent 0deg, var(--color-primary) 1deg, transparent 5deg)",
-              maskImage: "radial-gradient(transparent 62%, black 65%, black 68%, transparent 72%)",
-              WebkitMaskImage: "radial-gradient(transparent 62%, black 65%, black 68%, transparent 72%)",
-              opacity: 0.9,
-              willChange: "transform",
-              transform: "translateZ(0)",
-            }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
 
-          {/* Secondary Fast Sparks */}
-          <motion.div
-            className={`absolute rounded-full w-[85vw] h-[85vw] opacity-80 mix-blend-screen md:w-[75vh] md:h-[75vh]`}
-            style={{
-              background: "repeating-conic-gradient(from 20deg, transparent 0deg, var(--color-primary) 2deg, transparent 8deg)",
-              maskImage: "radial-gradient(transparent 60%, black 63%, black 66%, transparent 70%)",
-              WebkitMaskImage: "radial-gradient(transparent 60%, black 63%, black 66%, transparent 70%)",
-              willChange: "transform",
-              transform: "translateZ(0)",
-            }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          />
-
-          {/* Outer Erratic Embers */}
-          <motion.div
-            className={`absolute rounded-full opacity-60 mix-blend-screen w-[95vw] h-[95vw] md:w-[85vh] md:h-[85vh]`}
-            style={{
-              background: "repeating-conic-gradient(from 0deg, transparent 0deg, var(--color-primary) 0.5deg, transparent 3deg)",
-              maskImage: "radial-gradient(transparent 65%, black 66%, transparent 68%)",
-              WebkitMaskImage: "radial-gradient(transparent 65%, black 66%, transparent 68%)",
-              willChange: "transform",
-              transform: "translateZ(0)",
-            }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          />
-
-          {/* Inner void — hides image bleed */}
-          <div className={`absolute rounded-full bg-black z-0 w-[72vw] h-[72vw] md:w-[62vh] md:h-[62vh]`} />
-        </motion.div>
 
         {/* Profile image — translate Y only (GPU composited) */}
         <motion.div
