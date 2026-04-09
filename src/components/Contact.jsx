@@ -69,9 +69,9 @@ const Contact = () => {
     `w-full bg-transparent border-b ${errorName ? 'border-primary' : 'border-border/50'} text-foreground text-xl md:text-2xl py-4 focus:outline-none focus:border-primary transition-colors caret-primary placeholder:text-subtle/50 font-light`;
 
   return (
-    <div id="contact" className="relative flex flex-col justify-between overflow-hidden pt-10 md:pt-16 px-6 md:px-12 lg:px-24 bg-background">
+    <div id="contact" className="relative flex flex-col justify-between overflow-hidden pt-10 md:pt-16 bg-background">
 
-
+      <div className="px-6 md:px-12 lg:px-24 flex flex-col flex-1">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -164,7 +164,7 @@ const Contact = () => {
                   value={formData.user_name}
                   onChange={handleInputChange}
                   className={inputClasses(formErrors.user_name)}
-                  placeholder="What's your name?"
+                  placeholder="OPERATIVE NAME..."
                 />
                 {formErrors.user_name && <p className="text-primary text-xs mt-2 absolute">{formErrors.user_name}</p>}
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-500 ease-out"></div>
@@ -178,7 +178,7 @@ const Contact = () => {
                   value={formData.user_email}
                   onChange={handleInputChange}
                   className={inputClasses(formErrors.user_email)}
-                  placeholder="What's your email?"
+                  placeholder="SECURE EMAIL..."
                 />
                 {formErrors.user_email && <p className="text-primary text-xs mt-2 absolute">{formErrors.user_email}</p>}
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-500 ease-out"></div>
@@ -191,7 +191,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   className={`${inputClasses(formErrors.message)} h-40 resize-none`}
-                  placeholder="Tell me about your project..."
+                  placeholder="TRANSMISSION MESSAGE..."
                 />
                 {formErrors.message && <p className="text-primary text-xs mt-2 absolute">{formErrors.message}</p>}
                 <div className="absolute bottom-2 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-500 ease-out"></div>
@@ -297,6 +297,7 @@ const Contact = () => {
             </div>
           </div>
         </motion.div>
+      </div>
       </div>
 
       <Footer />

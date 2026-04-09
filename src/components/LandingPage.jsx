@@ -67,7 +67,7 @@ const LandingPage = () => {
           <img
             className="h-full"
             style={{ filter: "drop-shadow(0 0 15px rgb(255,255,255,0.2)) brightness(0.8)" }}
-            src="/ashu.webp"
+            src="/ashutosh.webp"
             alt="Ashutosh Moharana"
             fetchPriority="high"
           />
