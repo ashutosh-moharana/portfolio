@@ -32,7 +32,7 @@ const BackendBackground = () => {
             pulses = [];
             
             const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
+            const centerY = canvas.height / 2 + (isMobile ? 64 : 0);
             
             // Central Core Nodes (The Ring Evolution)
             for (let i = 0; i < 4; i++) {
@@ -113,7 +113,7 @@ const BackendBackground = () => {
             
             const { x: mx, y: my } = mouseRef.current;
             const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
+            const centerY = canvas.height / 2 + (isMobile ? 64 : 0);
 
             // DRAW DATA NETWORK (The Background)
             ctx.beginPath();

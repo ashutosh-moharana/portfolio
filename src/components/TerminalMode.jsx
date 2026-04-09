@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ColorContext } from "../contexts/ColorContext";
 import { useDevice } from "../contexts/DeviceContext";
-import projectsData from "../utils/projects";
+import { useTerminalCommands } from "../hooks/useTerminalCommands";
 
 const TerminalMode = () => {
   const [history, setHistory] = useState([]);
@@ -15,14 +14,11 @@ const TerminalMode = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const isMobile = useDevice();
-  const { changeColor, COLORS } = useContext(ColorContext);
+  const processCommand = useTerminalCommands(setHistory, () => {}, false);
 
   const BOOT_SEQUENCE = [
     "INITIALIZING CORE SYSTEM...",
     "SECURE_LINK: ENCRYPTED",
-    "LOADING SECTOR 0xFF91A...",
-    "MEM_CHECK: OK",
-    "I/O_CHECK: OK",
     "GUEST_ACCESS: GRANTED",
     "SYSTEM_V.2.4: ONLINE"
   ];
@@ -41,7 +37,7 @@ const TerminalMode = () => {
           setIsBooting(false);
           setHistory(prev => [...prev, 
             { type: "system", content: " " },
-            { type: "info", content: "Type 'help' to see available commands." }
+            { type: "info", content: <>Type <span className="font-bold whitespace-pre">'help'</span> and press enter to see commands.</> }
           ]);
         }, 500);
       }
@@ -69,7 +65,6 @@ const TerminalMode = () => {
 
   const handleCommand = (cmdStr) => {
     const cmd = cmdStr.trim().toLowerCase();
-    const args = cmd.split(" ");
     const prompt = isMobile ? ">" : "C:\\Users\\Guest>";
 
     if (!isBooting) {
@@ -77,102 +72,8 @@ const TerminalMode = () => {
     }
 
     if (cmd === "") return;
-
-    switch (args[0]) {
-      case "help":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Commands:" },
-          { type: "info", content: <><span className="font-bold inline-block w-20">about</span> - About me</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">projects</span> - View my work</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">contact</span> - Get in touch</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">color</span> - color [name] </> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">hacker</span> - Hacker mode</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">clear</span> - Clear terminal</> },
-          { type: "info", content: <><span className="font-bold inline-block w-20">exit</span> - Close terminal</> }
-        ]);
-        break;
-      case "about":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Ashutosh Moharana | Backend Developer" },
-          { type: "info", content: "An enthusiastic beginner exploring the backend ecosystem." },
-          { type: "info", content: "Learning Java & Spring Boot — building REST APIs and handling databases." },
-          { type: "info", content: " " },
-          { type: "info", content: "Backend (Primary):" },
-          { type: "info", content: "  Java, Spring Boot, REST API, JPA/Hibernate, PostgreSQL" },
-          { type: "info", content: "Frontend (Secondary):" },
-          { type: "info", content: "  React, JavaScript, HTML, CSS, TailwindCSS" },
-          { type: "info", content: "Familiar With:" },
-          { type: "info", content: "  Node.js, Express, MongoDB" },
-          { type: "info", content: "Tools:" },
-          { type: "info", content: "  Git, GitHub, Postman" },
-        ]);
-        break;
-      case "projects":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Recent Projects:" },
-          { type: "info", content: " " },
-          ...projectsData.flatMap((p) => ([
-            {
-              type: "info",
-              content: <><span className="font-bold text-primary">{p.title}</span> — {p.category}</>
-            },
-            { type: "info", content: `  Stack: ${p.technologies.slice(0, 3).join(", ")}...` },
-            { type: "info", content: " " },
-          ])),
-          { type: "info", content: "Type 'exit' to view full UI." }
-        ]);
-        break;
-      case "contact":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Email: ashutoshmoharana00@gmail.com" },
-          { type: "info", content: "LinkedIn: linkedin.com/in/ashutosh-moharana" },
-          { type: "info", content: "GitHub: github.com/ashutosh-moharana" }
-        ]);
-        break;
-      case "color":
-        if (args.length > 1) {
-          const colorName = args[1];
-          if (COLORS[colorName]) {
-            changeColor(colorName);
-            setHistory((prev) => [...prev, { type: "success", content: `Theme changed to ${colorName}.` }]);
-          } else {
-            setHistory((prev) => [
-              ...prev, 
-              { type: "info", content: `Invalid. Available: red, green, blue, deepblue, purple, amber` }
-            ]);
-          }
-        } else {
-          setHistory((prev) => [
-            ...prev,
-            { type: "info", content: "Usage: color [name]. Available: red, green, blue, deepblue, purple, amber" }
-          ]);
-        }
-
-
-        break;
-      case "hacker":
-        setHistory((prev) => [...prev, { type: "system", content: "Initiating hacker mode..." }]);
-        setTimeout(() => navigate("/hacker"), 800);
-        break;
-      case "clear":
-        setHistory([]);
-        break;
-      case "exit":
-        setHistory((prev) => [...prev, { type: "system", content: "Exiting..." }]);
-        setTimeout(() => navigate("/"), 500);
-        break;
-      default:
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: `'${cmd}' not found.` },
-          { type: "info", content: "Available: help, about, projects, contact, color, hacker, clear, exit" }
-        ]);
-        break;
-    }
+    
+    processCommand(cmdStr);
   };
 
   const handleKeyDown = (e) => {
@@ -189,7 +90,6 @@ const TerminalMode = () => {
     >
       
       {/* Visual Overlays: CRT Scanline & Vignette */}
-      <div className="absolute inset-0 pointer-events-none z-[60] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[size:100%_3px,3px_100%]" />
       <div className="absolute inset-0 pointer-events-none z-[60] shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
 
       {/* Persistent Tactical Header */}
@@ -227,7 +127,7 @@ const TerminalMode = () => {
         className="flex-1 p-6 md:p-10 pt-4 overflow-y-auto relative z-10"
         onClick={() => document.getElementById("cli-input")?.focus()}
       >
-        <div className="max-w-4xl mx-auto flex flex-col gap-1 w-full text-xs md:text-sm leading-relaxed">
+        <div className="max-w-4xl mx-auto flex flex-col gap-1 w-full text-[10px] md:text-xs leading-relaxed">
           <AnimatePresence initial={false}>
             {history.map((line, idx) => (
               <motion.div

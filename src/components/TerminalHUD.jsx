@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ColorContext } from "../contexts/ColorContext";
 import { useDevice } from "../contexts/DeviceContext";
-import projectsData from "../utils/projects";
+import { useTerminalCommands } from "../hooks/useTerminalCommands";
 
 const TerminalHUD = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +14,7 @@ const TerminalHUD = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const isMobile = useDevice();
-  const { changeColor, COLORS } = useContext(ColorContext);
+  const processCommand = useTerminalCommands(setHistory, setIsOpen, true);
 
   // Backtick toggles HUD on desktop (only when no input is focused)
   useEffect(() => {
@@ -50,154 +49,14 @@ const TerminalHUD = () => {
   }, [history]);
 
   const handleCommand = (cmdStr) => {
-    const cmd = cmdStr.trim().toLowerCase();
-    const args = cmd.split(" ");
-
     setHistory((prev) => [
       ...prev,
       { type: "input", content: `> ${cmdStr}` },
     ]);
     setInput("");
 
-    if (cmd === "") return;
-
-    switch (args[0]) {
-      case "help":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Commands:" },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">about</span> —
-                About me
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">projects</span> —
-                My work
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">contact</span> —
-                Get in touch
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">color</span> —
-                color [name]
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">clear</span> —
-                Clear output
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">terminal</span> —
-                Full terminal
-              </>
-            ),
-          },
-          {
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold inline-block w-20">exit</span> —
-                Close HUD
-              </>
-            ),
-          },
-        ]);
-        break;
-      case "about":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Ashutosh Moharana | Backend Developer" },
-          {
-            type: "info",
-            content: "Java & Spring Boot | REST APIs | PostgreSQL",
-          },
-        ]);
-        break;
-      case "projects":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "Recent Projects:" },
-          ...projectsData.map((p) => ({
-            type: "info",
-            content: (
-              <>
-                <span className="font-bold text-primary">{p.title}</span> —{" "}
-                {p.category}
-              </>
-            ),
-          })),
-        ]);
-        break;
-      case "contact":
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: "ashutoshmoharana00@gmail.com" },
-          { type: "info", content: "github.com/ashutosh-moharana" },
-        ]);
-        break;
-      case "color":
-        if (args[1] && COLORS[args[1]]) {
-          changeColor(args[1]);
-          setHistory((prev) => [
-            ...prev,
-            { type: "success", content: `Theme → ${args[1]}` },
-          ]);
-        } else {
-          setHistory((prev) => [
-            ...prev,
-            {
-              type: "info",
-              content: "Available: red, green, blue, deepblue, purple, amber",
-            },
-          ]);
-        }
-
-
-        break;
-      case "clear":
-        setHistory([{ type: "info", content: "Terminal cleared." }]);
-        break;
-      case "terminal":
-        navigate("/terminal");
-        setIsOpen(false);
-        break;
-      case "exit":
-        setIsOpen(false);
-        break;
-      default:
-        setHistory((prev) => [
-          ...prev,
-          { type: "info", content: `'${cmd}' not found. Type 'help'.` },
-        ]);
-    }
+    if (cmdStr.trim() === "") return;
+    processCommand(cmdStr);
   };
 
   const handleKeyDown = (e) => {

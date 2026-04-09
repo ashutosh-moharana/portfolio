@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDevice } from "../contexts/DeviceContext";
 import { FaRegFilePdf, FaJava, FaServer } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
 import {

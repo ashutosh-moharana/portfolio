@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useContext } from "react";
 import { useDevice } from "../contexts/DeviceContext";
 import { LenisContext } from "../App";
 import Navbar from "./Navbar";
@@ -53,9 +53,8 @@ const LandingPage = () => {
       <div className="flex h-full w-full justify-center items-center">
 
 
-        {/* Profile image — translate Y only (GPU composited) */}
         <motion.div
-          className={`absolute h-[45vh] md:h-3/4 bottom-32 md:mx-20 md:bottom-0 flex items-center justify-center z-10  translate-x-6`}
+          className={`absolute h-[45vh] md:h-3/4 bottom-16 md:mx-20 md:bottom-0 flex items-center justify-center z-10  translate-x-6`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -74,11 +73,10 @@ const LandingPage = () => {
         </motion.div>
       </div>
 
-      {/* Bottom left — role dossier */}
       <motion.div
         {...fadeIn(0.2)}
         className={`absolute left-0 z-20 ${isMobile
-          ? "bottom-0 box-border h-auto w-full px-8 pt-4 pb-[80px] border-t border-primary/50 bg-black/80 overflow-hidden"
+          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-black/80 overflow-hidden"
           : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
         }`}
       >

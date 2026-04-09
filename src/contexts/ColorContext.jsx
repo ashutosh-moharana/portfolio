@@ -6,7 +6,6 @@ export const COLORS = {
   red: { name: "Combat Red", hex: "#ff1744" },
   green: { name: "Neural Green", hex: "#00e676" },
   blue: { name: "Electric Cyan", hex: "#00e5ff" },
-  deepblue: { name: "Deep Navy", hex: "#0050ff" },
   purple: { name: "Deep Aura", hex: "#7c4dff" },
   amber: { name: "Tactical Amber", hex: "#ffc400" }
 };
