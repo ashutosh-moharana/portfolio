@@ -140,12 +140,12 @@ const Projects = () => {
                                             </div>
                                             <div className="flex flex-row gap-3 mt-6 mb-3">
                                                 <a href={project.demoLink} target="_blank" rel="noreferrer"
-                                                    className="interactive group relative flex-1 flex items-center justify-center px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden">
+                                                    className="interactive group relative flex-1 flex items-center justify-center px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden">
                                                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                                                     <span className="relative z-10">Execute</span>
                                                 </a>
                                                 <a href={project.codeLink} target="_blank" rel="noreferrer"
-                                                    className="interactive group relative flex-1 flex items-center justify-center px-6 py-2.5 bg-black border border-primary/30 text-primary font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/10 hover:border-primary active:scale-95 overflow-hidden">
+                                                    className="interactive group relative flex-1 flex items-center justify-center px-6 py-2.5 bg-background border border-primary/30 text-primary font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/10 hover:border-primary active:scale-95 overflow-hidden">
                                                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                                                     <span className="relative z-10">Source Code</span>
                                                 </a>
@@ -169,12 +169,12 @@ const Projects = () => {
                                         </div>
                                         <div className="flex flex-row gap-3 mt-7 mb-2 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 delay-100">
                                             <a href={project.demoLink} target="_blank" rel="noreferrer"
-                                                className="interactive flex-none group relative flex items-center justify-center px-6 py-2.5 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden">
+                                                className="interactive flex-none group relative flex items-center justify-center px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden">
                                                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                                 Execute
                                             </a>
                                             <a href={project.codeLink} target="_blank" rel="noreferrer"
-                                                className="interactive flex-none group relative flex items-center justify-center px-6 py-2.5 bg-black border border-primary/30 text-primary font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/10 hover:border-primary active:scale-95 overflow-hidden">
+                                                className="interactive flex-none group relative flex items-center justify-center px-6 py-2.5 bg-background border border-primary/30 text-primary font-mono text-xs uppercase tracking-widest transition-colors duration-200 hover:bg-primary/10 hover:border-primary active:scale-95 overflow-hidden">
                                                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                                 Source Code
                                             </a>

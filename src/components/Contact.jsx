@@ -131,7 +131,7 @@ const Contact = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex flex-col h-full bg-black/60 p-8 border border-primary justify-center relative"
+              className="flex flex-col h-full bg-background/60 p-8 border border-primary justify-center relative"
             >
               <div className="absolute top-0 left-0 w-4 h-[2px] bg-primary" />
               <div className="absolute top-0 left-0 w-[2px] h-4 bg-primary" />
@@ -147,7 +147,7 @@ const Contact = () => {
 
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="interactive group relative mx-auto px-8 py-3 bg-black text-primary font-mono text-xs uppercase tracking-[0.2em] border border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-200 active:scale-95 overflow-hidden"
+                className="interactive group relative mx-auto px-8 py-3 bg-background text-primary font-mono text-xs uppercase tracking-[0.2em] border border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-200 active:scale-95 overflow-hidden"
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10">INITIATE NEW PING</span>
@@ -201,10 +201,10 @@ const Contact = () => {
                 type="submit"
                 disabled={!isFormValid() || isSending}
                 className={`interactive group relative mt-4 w-full md:w-auto self-start px-12 py-4 font-mono text-xs tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden ${isSending
-                  ? 'bg-black text-primary border border-primary cursor-wait'
+                  ? 'bg-background text-primary border border-primary cursor-wait'
                   : isFormValid()
-                    ? 'bg-black text-primary border border-primary/50 hover:scale-105 active:scale-95 hover:bg-primary/20 hover:border-primary'
-                    : 'bg-black/50 text-subtle/50 cursor-not-allowed border border-border/30'
+                    ? 'bg-background text-primary border border-primary/50 hover:scale-105 active:scale-95 hover:bg-primary/20 hover:border-primary'
+                    : 'bg-background/50 text-subtle/50 cursor-not-allowed border border-border/30'
                   }`}
               >
                 {isFormValid() && !isSending && (
@@ -273,7 +273,7 @@ const Contact = () => {
               <a
                 href="https://github.com/ashutosh-moharana"
                 target="_blank"
-                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10 flex items-center gap-3 tracking-wide">
@@ -285,7 +285,7 @@ const Contact = () => {
                <a
                 href="https://linkedin.com/in/ashutosh-moharana"
                 target="_blank"
-                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-black text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                className="interactive group relative flex-1 md:flex-none justify-center flex items-center px-4 md:px-6 py-3 min-w-[140px] md:min-w-0 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10 flex items-center gap-3 tracking-wide">

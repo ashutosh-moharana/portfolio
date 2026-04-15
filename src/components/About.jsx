@@ -170,7 +170,7 @@ const About = () => {
               href={import.meta.env.VITE_RESUME_LINK}
               target="_blank"
               rel="noreferrer"
-              className="interactive inline-flex w-fit items-center justify-center gap-2 px-6 py-3.5 text-sm bg-black text-primary font-mono border border-primary/50 hover:bg-primary/20 hover:border-primary transition-colors duration-200 active:scale-95 uppercase tracking-[0.2em] relative overflow-hidden group"
+              className="interactive inline-flex w-fit items-center justify-center gap-2 px-6 py-3.5 text-sm bg-background text-primary font-mono border border-primary/50 hover:bg-primary/20 hover:border-primary transition-colors duration-200 active:scale-95 uppercase tracking-[0.2em] relative overflow-hidden group"
             >
               <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <FaRegFilePdf size={16} />
@@ -203,7 +203,7 @@ const About = () => {
           
           {/* Education Row: S.H.I.E.L.D header */}
           <motion.div
-            className="w-full relative bg-black/40 border border-primary/20 overflow-hidden"
+            className="w-full relative bg-background/40 border border-primary/20 overflow-hidden"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}

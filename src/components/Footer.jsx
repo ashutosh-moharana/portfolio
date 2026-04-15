@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Footer = () => {
   return (
     <motion.footer
-      className="w-full relative mt-4 py-8 border-t border-primary/20 bg-black overflow-hidden"
+      className="w-full relative mt-4 py-8 border-t border-primary/20 bg-background overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}

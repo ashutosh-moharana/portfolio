@@ -5,25 +5,39 @@
 }
 
 :root {
-  /* Marvel Void Black & S.H.I.E.L.D Tactical Grays */
-  --background: #050505;
+  /* Aesthetic Modern Dark Theme */
+  --background: #0f0f11;
   --foreground: #f4f4f5;
 
-  /* Classic Marvel Red (#ed1d24) */
-  --primary: #ed1d24;
+  /* Accent Colors mapped to current */
+  --primary: #e11d48;
   --primary-foreground: #ffffff;
 
   /* Deep tactical panels */
-  --secondary: #111111;
+  --secondary: #1a1a1e;
   --secondary-foreground: #f1f1f1;
 
-  --heading-color: #ed1d24;
+  --heading-color: #f4f4f5;
   --subtle-text: #888888;
 
-  --border: #222222;
-  --muted: #0d0d0d;
-  --muted-foreground: #d4d4d4;
+  --border: #27272a;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+}
 
+:root.light {
+  /* Modern Soothing Cool Off-White Theme */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  --subtle-text: #64748b;
+
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #94a3b8;
 }
 
 

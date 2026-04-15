@@ -76,7 +76,7 @@ const LandingPage = () => {
       <motion.div
         {...fadeIn(0.2)}
         className={`absolute left-0 z-20 ${isMobile
-          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-black/80 overflow-hidden"
+          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-background/80 overflow-hidden"
           : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
           }`}
       >

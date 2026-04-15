@@ -6,7 +6,7 @@ import projectsData from "../utils/projects";
 // The hook returns a function that processes a single command line string
 export const useTerminalCommands = (setHistory, setIsOpen, isHUD = false) => {
     const navigate = useNavigate();
-    const { changeColor, COLORS } = useContext(ColorContext);
+    const { changeColor, COLORS, theme, changeTheme } = useContext(ColorContext);
 
     const processCommand = (cmdStr) => {
         const cmd = cmdStr.trim().toLowerCase();
@@ -23,6 +23,7 @@ export const useTerminalCommands = (setHistory, setIsOpen, isHUD = false) => {
                     { type: "info", content: <><span className="font-bold inline-block w-20">projects</span> - View my work</> },
                     { type: "info", content: <><span className="font-bold inline-block w-20">contact</span> - Get in touch</> },
                     { type: "info", content: <><span className="font-bold inline-block w-20">color</span> - color [name] </> },
+                    { type: "info", content: <><span className="font-bold inline-block w-20">theme</span> - theme [light/dark] </> },
                     ...(!isHUD ? [{ type: "info", content: <><span className="font-bold inline-block w-20">hacker</span> - Hacker mode</> }] : []),
                     ...(isHUD ? [{ type: "info", content: <><span className="font-bold inline-block w-20">terminal</span> - Full terminal</> }] : []),
                     { type: "info", content: <><span className="font-bold inline-block w-20">clear</span> - Clear output</> },
@@ -92,14 +93,27 @@ export const useTerminalCommands = (setHistory, setIsOpen, isHUD = false) => {
                     } else {
                         setHistory((prev) => [
                             ...prev,
-                            { type: "info", content: `Invalid. Available: red, green, blue, purple, amber, deepblue` }
+                            { type: "info", content: `Invalid. Available: ${Object.keys(COLORS).join(", ")}` }
                         ]);
                     }
                 } else {
                     setHistory((prev) => [
                         ...prev,
-                        { type: "info", content: "Usage: color [name]. Available: red, green, blue, purple, amber, deepblue" }
+                        { type: "info", content: `Usage: color [name]. Available: ${Object.keys(COLORS).join(", ")}` }
                     ]);
+                }
+                break;
+            case "theme":
+                if (args.length > 1) {
+                    const mode = args[1];
+                    if (mode === "light" || mode === "dark") {
+                        changeTheme(mode);
+                        setHistory((prev) => [...prev, { type: "success", content: `Theme changed to ${mode} mode.` }]);
+                    } else {
+                        setHistory((prev) => [...prev, { type: "info", content: `Invalid theme. Available: light, dark` }]);
+                    }
+                } else {
+                    setHistory((prev) => [...prev, { type: "info", content: `Usage: theme [light/dark]. Current: ${theme}` }]);
                 }
                 break;
             case "clear":
@@ -121,7 +135,7 @@ export const useTerminalCommands = (setHistory, setIsOpen, isHUD = false) => {
                     setHistory((prev) => [
                         ...prev,
                         { type: "info", content: `'${cmd}' not found.` },
-                        { type: "info", content: "Available: help, about, projects, contact, color, hacker, clear, exit" }
+                        { type: "info", content: "Available: help, about, projects, contact, color, theme, hacker, clear, exit" }
                     ]);
                 }
                 break;
@@ -137,7 +151,7 @@ export const useTerminalCommands = (setHistory, setIsOpen, isHUD = false) => {
                 setHistory((prev) => [
                     ...prev,
                     { type: "info", content: `'${cmd}' not found.${isHUD ? " Type 'help'." : ""}` },
-                    ...(!isHUD ? [{ type: "info", content: "Available: help, about, projects, contact, color, hacker, clear, exit" }] : [])
+                    ...(!isHUD ? [{ type: "info", content: "Available: help, about, projects, contact, color, theme, hacker, clear, exit" }] : [])
                 ]);
                 break;
         }

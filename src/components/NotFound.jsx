@@ -45,7 +45,7 @@ const NotFound = () => {
             >
                 <Link
                     to="/"
-                    className="interactive group/btn relative flex items-center justify-center gap-2 px-6 py-3.5 bg-black text-primary border border-primary/50 font-mono text-sm uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
+                    className="interactive group/btn relative flex items-center justify-center gap-2 px-6 py-3.5 bg-background text-primary border border-primary/50 font-mono text-sm uppercase tracking-[0.2em] transition-colors duration-200 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
                 >
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
                     <FiArrowLeft size={16} className="relative z-10 group-hover/btn:-translate-x-1 transition-transform duration-300" />

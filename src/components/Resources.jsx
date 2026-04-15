@@ -77,11 +77,11 @@ const NoteRow = ({ resource, index }) => {
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.3, delay: index * 0.02, ease: "easeOut" }}
 
-            className="interactive group relative flex items-center gap-4 p-3 bg-black border border-border/30 hover:border-primary/60 transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.2)] min-w-[65vw] md:min-w-0 snap-start shrink-0 overflow-hidden"
+            className="interactive group relative flex items-center gap-4 p-3 bg-secondary border border-border/30 hover:border-primary/60 transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.2)] min-w-[65vw] md:min-w-0 snap-start shrink-0 overflow-hidden"
         >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-0 pointer-events-none" />
 
-            <div className="relative z-10 w-16 h-16 overflow-hidden border border-primary/20 shrink-0 bg-black">
+            <div className="relative z-10 w-16 h-16 overflow-hidden border border-primary/20 shrink-0 bg-background">
                 {resource.imageUrl ? (
                     <img
                         src={resource.imageUrl}
@@ -121,7 +121,7 @@ const WebsitePill = ({ resource, index }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.25, delay: index * 0.02, ease: "easeOut" }}
 
-            className="interactive group flex items-center gap-3 px-5 py-3 bg-black text-primary/80 border border-primary/20 hover:border-primary transition-all duration-300 ease-out active:border-primary relative overflow-hidden"
+            className="interactive group flex items-center gap-3 px-5 py-3 bg-secondary text-primary/80 border border-border hover:border-primary transition-all duration-300 ease-out active:border-primary relative overflow-hidden"
         >
             {/* Expanding line — hover on desktop, tap on mobile */}
             <div className="absolute top-0 left-0 h-[2px] bg-primary w-2 group-hover:w-full group-active:w-full transition-all duration-500 ease-out" />
@@ -182,7 +182,7 @@ const Resources = () => {
                             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                         />
                     </div>
-                    <p className="text-white/40 text-xs md:text-sm font-mono tracking-wider mt-6 max-w-xl border-l-2 border-primary/30 pl-4 py-1">
+                    <p className="text-foreground/40 text-xs md:text-sm font-mono tracking-wider mt-6 max-w-xl border-l-2 border-primary/30 pl-4 py-1">
                         Classified notes, syntax logs, and external network nodes — cataloged for immediate access.
                     </p>
                 </motion.div>
@@ -219,7 +219,7 @@ const Resources = () => {
                                         className={`interactive group relative flex items-center gap-2 px-5 py-2.5 font-mono text-[10px] sm:text-xs tracking-widest border transition-colors duration-300 active:scale-95 uppercase overflow-hidden shrink-0 snap-start ${
                                             isActive
                                                 ? "text-primary border-primary shadow-[inset_0_0_15px_rgba(var(--color-primary),0.3)] bg-primary/10"
-                                                : "bg-black border-primary/30 text-primary/70 hover:border-primary hover:text-primary"
+                                                : "bg-secondary border-border text-primary/70 hover:border-primary hover:text-primary"
                                         }`}
                                     >
                                         {!isActive && (

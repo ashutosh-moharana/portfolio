@@ -3,40 +3,41 @@ import { createContext, useState, useEffect } from "react";
 export const ColorContext = createContext();
 
 export const COLORS = {
-  red: { name: "Combat Red", hex: "#ff1744" },
-  green: { name: "Neural Green", hex: "#00e676" },
-  blue: { name: "Electric Cyan", hex: "#00e5ff" },
-  purple: { name: "Deep Aura", hex: "#7c4dff" },
-  amber: { name: "Tactical Amber", hex: "#ffc400" }
+  crimson: { name: "Crimson", hex: "#e11d48" },
+  indigo: { name: "Indigo", hex: "#4f46e5" },
+  emerald: { name: "Emerald", hex: "#059669" }
 };
 
-
-
-
-
 export const ColorProvider = ({ children }) => {
-  const [activeColor, setActiveColor] = useState(() => {
-    const savedColor = localStorage.getItem("portfolio-theme-color");
-    return (savedColor && COLORS[savedColor]) ? savedColor : "red";
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("portfolio-theme-mode");
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
-  // When activeColor changes, update CSS variables globally and save to localStorage
+  const [activeColor, setActiveColor] = useState(() => {
+    const savedColor = localStorage.getItem("portfolio-theme-color");
+    return (savedColor && COLORS[savedColor]) ? savedColor : "crimson";
+  });
+
+  // When activeColor or theme changes, update CSS variables and mode classes globally
   useEffect(() => {
     const colorData = COLORS[activeColor];
-    if (!colorData) return;
 
-    if (activeColor === "red") {
-      // Reset to stylesheet defaults
-      document.documentElement.style.removeProperty('--primary');
-      document.documentElement.style.removeProperty('--heading-color');
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
     } else {
-      // Overriding the variables on the root html element
+      document.documentElement.classList.remove('light');
+    }
+
+    if (colorData) {
       document.documentElement.style.setProperty("--primary", colorData.hex);
       document.documentElement.style.setProperty("--heading-color", colorData.hex);
     }
 
+    localStorage.setItem("portfolio-theme-mode", theme);
     localStorage.setItem("portfolio-theme-color", activeColor);
-  }, [activeColor]);
+  }, [activeColor, theme]);
 
   const changeColor = (colorKey) => {
     if (COLORS[colorKey]) {
@@ -44,8 +45,18 @@ export const ColorProvider = ({ children }) => {
     }
   };
 
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const changeTheme = (mode) => {
+    if (mode === 'dark' || mode === 'light') {
+      setTheme(mode);
+    }
+  }
+
   return (
-    <ColorContext.Provider value={{ activeColor, changeColor, COLORS }}>
+    <ColorContext.Provider value={{ activeColor, changeColor, theme, toggleTheme, changeTheme, COLORS }}>
       {children}
     </ColorContext.Provider>
   );
