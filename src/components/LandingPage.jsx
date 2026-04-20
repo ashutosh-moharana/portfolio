@@ -25,10 +25,10 @@ const LandingPage = () => {
 
       {/* Global Data Flux / Scanline Overlay - Increased Opacity for Visibility */}
       <div className="absolute inset-0 pointer-events-none z-30 opacity-[0.08]">
-        <motion.div 
-          animate={{ y: ["-100%", "100%"] }} 
+        <motion.div
+          animate={{ y: ["-100%", "100%"] }}
           transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-          className="w-full h-1 bg-primary shadow-[0_0_25px_var(--color-primary)]" 
+          className="w-full h-1 bg-primary shadow-[0_0_25px_var(--color-primary)]"
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-40" />
       </div>
@@ -54,11 +54,11 @@ const LandingPage = () => {
 
 
         <motion.div
-          className={`absolute h-[45vh] md:h-3/4 bottom-16 md:mx-20 md:bottom-0 flex items-center justify-center z-10  translate-x-6`}
+          className={`absolute h-[75vh] md:h-full bottom-16 md:mx-20 md:bottom-0 flex items-center justify-center z-10 translate-x-6`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{ 
+          style={{
             willChange: "transform, opacity",
             transformStyle: "preserve-3d"
           }}
@@ -66,7 +66,7 @@ const LandingPage = () => {
           <img
             className="h-full"
             style={{ filter: "drop-shadow(0 0 15px rgb(255,255,255,0.2)) brightness(0.8)" }}
-            src="/ashu.webp"
+            src="/ashmo.webp"
             alt="Ashutosh Moharana"
             fetchPriority="high"
           />
@@ -78,13 +78,13 @@ const LandingPage = () => {
         className={`absolute left-0 z-20 ${isMobile
           ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-black/80 overflow-hidden"
           : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
-        }`}
+          }`}
       >
         {/* Grid only on mobile */}
         {isMobile && (
           <div className="absolute inset-0 bg-[linear-gradient(var(--color-primary)_1px,transparent_1px),linear-gradient(90deg,var(--color-primary)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none opacity-5" />
         )}
-        
+
         {/* Desktop HUD Corners */}
         {!isMobile && (
           <>
@@ -100,11 +100,11 @@ const LandingPage = () => {
             <span className="text-primary">BACKEND</span>
             <span>DEVELOPER</span>
           </h2>
-          
+
           {/* High-Precision Glitch Overlay matching ASHMO */}
-          <motion.h2 
-            animate={{ 
-              x: [0, -6, 6, -3, 0], 
+          <motion.h2
+            animate={{
+              x: [0, -6, 6, -3, 0],
               skewX: [0, 10, -10, 5, 0],
               opacity: [0, 0.4, 0, 0.4, 0],
             }}
