@@ -56,19 +56,7 @@ const Navbar = () => {
     }
   };
 
-  const navLinks = [
-    { name: 'ABOUT', id: 'about' },
-    { name: 'PROJECTS', id: 'projects' },
-    { name: 'CONTACT', id: 'contact' },
-  ];
 
-  const desktopRouteLinks = [
-    { name: 'RESOURCES', href: '/resources' },
-  ];
-
-  const mobileRouteLinks = [
-    { name: 'RESOURCES', href: '/resources' },
-  ];
 
   return (
     <motion.nav
@@ -111,38 +99,45 @@ const Navbar = () => {
 
         {!isMobile && (
           <div className="flex items-center gap-8">
-            {/* Main scroll-links: disabled (greyed) on sub-routes */}
-            {navLinks.map((link) =>
-              isSubRoute ? (
-                <span
+            {/* Unified Links */}
+            {[
+              { name: 'ABOUT', id: 'about', type: 'scroll' },
+              { name: 'PROJECTS', id: 'projects', type: 'scroll' },
+              { name: 'RESOURCES', href: '/resources', type: 'route' },
+              { name: 'CONTACT', id: 'contact', type: 'scroll' },
+            ].map((link) => {
+              if (link.type === 'scroll' && isSubRoute) {
+                return (
+                  <span
+                    key={link.name}
+                    className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 cursor-not-allowed py-1 select-none"
+                    title="Navigate to portfolio to use this"
+                  >
+                    {link.name}
+                  </span>
+                )
+              }
+              const LinkElement = link.type === 'route' ? Link : 'a';
+              const props = link.type === 'route' ? { to: link.href } : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
+              
+              return (
+                <LinkElement
                   key={link.name}
-                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 cursor-not-allowed py-1 select-none"
-                  title="Navigate to portfolio to use this"
-                >
-                  {link.name}
-                </span>
-              ) : (
-                <a
-                  key={link.name}
-                  href={`#${link.id}`}
-                  onClick={(e) => handleLinkClick(e, link.id)}
+                  {...props}
                   className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/80 hover:text-primary transition-colors relative group py-2 px-5"
                 >
                   {link.name}
-                  
-                  {/* HUD Brackets on Hover - Larger and Thicker */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
                     <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
                     <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
                     <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
                     <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
                   </div>
-                </a>
+                </LinkElement>
               )
-            )}
+            })}
 
-            {/* Show Portfolio button on sub-routes instead of route links */}
-            {isSubRoute ? (
+            {isSubRoute && (
               <Link
                 to="/"
                 className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
@@ -158,25 +153,6 @@ const Navbar = () => {
                   <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
                 </div>
               </Link>
-            ) : (
-              desktopRouteLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
-                >
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                  <span className="relative z-10">{link.name}</span>
-                  
-                  {/* HUD Brackets */}
-                  <div className="absolute inset-0">
-                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                  </div>
-                </Link>
-              ))
             )}
 
             <button
@@ -266,7 +242,15 @@ const Navbar = () => {
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
 
             <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
-              {navLinks.map((link, idx) => (
+              {[
+                { name: 'ABOUT', id: 'about', type: 'scroll' },
+                { name: 'PROJECTS', id: 'projects', type: 'scroll' },
+                { name: 'RESOURCES', href: '/resources', type: 'route' },
+                { name: 'CONTACT', id: 'contact', type: 'scroll' },
+              ].map((link, idx) => {
+                const isScrollDisabled = isSubRoute && link.type === 'scroll';
+                
+                return (
                 <motion.div
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
@@ -274,13 +258,13 @@ const Navbar = () => {
                   transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
                   className="w-full"
                 >
-                  {isSubRoute ? (
+                  {isScrollDisabled ? (
                     <span className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full py-4 border-b border-primary/10 last:border-0 cursor-not-allowed select-none">
                       <span className="text-[10px] opacity-50">[{String(idx+1).padStart(2, '0')}]</span>
                       <span>{link.name}</span>
                       <span className="w-1.5 h-1.5 rounded-full border border-white/10" />
                     </span>
-                  ) : (
+                  ) : link.type === 'scroll' ? (
                     <a
                       href={`#${link.id}`}
                       onClick={(e) => handleLinkClick(e, link.id)}
@@ -294,9 +278,23 @@ const Navbar = () => {
                         className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" 
                       />
                     </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
+                    >
+                      <span className="text-[10px] opacity-70">[{String(idx+1).padStart(2, '0')}]</span>
+                      <span className="font-bold">{link.name}</span>
+                      <motion.span 
+                        animate={{ scale: [1, 1.5, 1] }} 
+                        transition={{ repeat: Infinity, duration: 2 }}
+                        className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" 
+                      />
+                    </Link>
                   )}
                 </motion.div>
-              ))}
+              )})}
             </div>
 
             <motion.div 
@@ -313,8 +311,7 @@ const Navbar = () => {
                 <span className="relative z-10 font-bold">MODE: {theme === 'dark' ? 'DARK' : 'LIGHT'}</span>
               </button>
 
-              {/* On sub-routes show Portfolio button; otherwise show route links */}
-              {isSubRoute ? (
+              {isSubRoute && (
                 <Link
                   to="/"
                   onClick={() => setIsMenuOpen(false)}
@@ -324,21 +321,6 @@ const Navbar = () => {
                   <span className="text-lg">◈</span>
                   <span className="relative z-10 font-bold">RETURN TO BASE</span>
                 </Link>
-              ) : (
-                <div className="flex flex-col gap-3">
-                  {mobileRouteLinks.map((link, idx) => (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/40 font-mono text-xs uppercase tracking-[0.3em] transition-all duration-300 hover:bg-primary/10 hover:border-primary active:scale-90 overflow-hidden"
-                    >
-                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                      <span className="relative z-10 font-bold">{link.name}</span>
-                      <span className="text-lg opacity-50">→</span>
-                    </Link>
-                  ))}
-                </div>
               )}
             </motion.div>
             

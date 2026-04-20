@@ -14,7 +14,7 @@ const TerminalMode = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const isMobile = useDevice();
-  const processCommand = useTerminalCommands(setHistory, () => {}, false);
+  const processCommand = useTerminalCommands(setHistory, () => { }, false);
 
   const BOOT_SEQUENCE = [
     "INITIALIZING CORE SYSTEM...",
@@ -35,9 +35,9 @@ const TerminalMode = () => {
         clearInterval(interval);
         setTimeout(() => {
           setIsBooting(false);
-          setHistory(prev => [...prev, 
-            { type: "system", content: " " },
-            { type: "info", content: <>Type <span className="font-bold whitespace-pre">'help'</span> and press enter to see commands.</> }
+          setHistory(prev => [...prev,
+          { type: "system", content: " " },
+          { type: "info", content: <>Type <span className="font-bold whitespace-pre">'help'</span> and press enter to see commands.</> }
           ]);
         }, 500);
       }
@@ -72,7 +72,7 @@ const TerminalMode = () => {
     }
 
     if (cmd === "") return;
-    
+
     processCommand(cmdStr);
   };
 
@@ -88,7 +88,7 @@ const TerminalMode = () => {
       className="fixed inset-0 bg-[#020202] font-mono text-primary z-50 overflow-hidden flex flex-col antialiased selection:bg-primary/30"
       style={{ height: `calc(100dvh - ${keyboardOffset}px)` }}
     >
-      
+
       {/* Visual Overlays: CRT Scanline & Vignette */}
       <div className="absolute inset-0 pointer-events-none z-[60] shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
 
@@ -96,7 +96,7 @@ const TerminalMode = () => {
       <div className="w-full bg-black/80 border-b border-primary/20 py-2 px-4 md:px-8 flex items-center justify-between z-[70] backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <motion.div 
+            <motion.div
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
               className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"
@@ -123,7 +123,7 @@ const TerminalMode = () => {
       </div>
 
       {/* Main Terminal Area */}
-      <div 
+      <div
         className="flex-1 p-6 md:p-10 pt-4 overflow-y-auto relative z-10"
         onClick={() => document.getElementById("cli-input")?.focus()}
       >

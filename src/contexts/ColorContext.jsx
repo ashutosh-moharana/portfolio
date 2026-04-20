@@ -3,9 +3,9 @@ import { createContext, useState, useEffect } from "react";
 export const ColorContext = createContext();
 
 export const COLORS = {
-  crimson: { name: "Crimson", hex: "#e11d48" },
-  indigo: { name: "Indigo", hex: "#4f46e5" },
-  emerald: { name: "Emerald", hex: "#059669" }
+  red: { name: "Red", hex: "#ef4444" },
+  blue: { name: "Blue", hex: "#3b82f6" },
+  green: { name: "Green", hex: "#22c55e" }
 };
 
 export const ColorProvider = ({ children }) => {
@@ -17,7 +17,7 @@ export const ColorProvider = ({ children }) => {
 
   const [activeColor, setActiveColor] = useState(() => {
     const savedColor = localStorage.getItem("portfolio-theme-color");
-    return (savedColor && COLORS[savedColor]) ? savedColor : "crimson";
+    return (savedColor && COLORS[savedColor]) ? savedColor : "red";
   });
 
   // When activeColor or theme changes, update CSS variables and mode classes globally

@@ -57,7 +57,7 @@ const projects = [
     ],
     imageUrl: "https://via.placeholder.com/800x600.png?text=Fylex+Backend",
     demoLink: "#",
-    codeLink: "#",
+    codeLink: "https://github.com/ashutosh-moharana/fylex",
   }
 ];
 

@@ -6,38 +6,38 @@
 
 :root {
   /* Aesthetic Modern Dark Theme */
-  --background: #0f0f11;
+  --background: #050505;
   --foreground: #f4f4f5;
 
   /* Accent Colors mapped to current */
-  --primary: #e11d48;
+  --primary: #ef4444;
   --primary-foreground: #ffffff;
 
   /* Deep tactical panels */
-  --secondary: #1a1a1e;
+  --secondary: #121212;
   --secondary-foreground: #f1f1f1;
 
   --heading-color: #f4f4f5;
   --subtle-text: #888888;
 
   --border: #27272a;
-  --muted: #18181b;
+  --muted: #1a1a1a;
   --muted-foreground: #a1a1aa;
 }
 
 :root.light {
-  /* Modern Soothing Cool Off-White Theme */
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* Elegant Off-White Theme */
+  --background: #ffffff;
+  --foreground: #111111;
 
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #111111;
 
-  --subtle-text: #64748b;
+  --subtle-text: #71717a;
 
-  --border: #e2e8f0;
-  --muted: #f1f5f9;
-  --muted-foreground: #94a3b8;
+  --border: #e4e4e7;
+  --muted: #ededed;
+  --muted-foreground: #a1a1aa;
 }
 
 

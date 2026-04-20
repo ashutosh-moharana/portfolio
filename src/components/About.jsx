@@ -312,10 +312,7 @@ const About = () => {
                               className="group interactive flex items-center gap-1.5 text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 bg-secondary text-foreground border border-border hover:border-primary hover:bg-primary/10 transition-colors duration-200 ease-out active:scale-[0.97] font-mono tracking-wide"
                             >
                               <span className="text-primary/60 md:text-primary/80 transition-colors group-hover:text-primary">{skill.icon}</span>
-                              <span className="flex flex-col items-start">
-                                <span className="group-hover:text-primary transition-colors leading-tight">{skill.name}</span>
-                                {skill.tag && <span className="text-[8px] text-primary/30 leading-none mt-0.5 tracking-wider">{skill.tag}</span>}
-                              </span>
+                              <span className="group-hover:text-primary transition-colors leading-tight">{skill.name}</span>
                             </span>
                           ))}
                         </div>
