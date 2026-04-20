@@ -29,6 +29,7 @@ const LandingPage = () => {
           animate={{ y: ["-100%", "100%"] }}
           transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
           className="w-full h-1 bg-primary shadow-[0_0_25px_var(--color-primary)]"
+          style={{ willChange: "transform" }}
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-40" />
       </div>
@@ -50,11 +51,9 @@ const LandingPage = () => {
 
 
       {/* Center — Profile */}
-      <div className="flex h-full w-full justify-center items-center">
-
-
+      <div className="absolute inset-0 flex justify-center items-end pointer-events-none z-10">
         <motion.div
-          className={`absolute ${isMobile ? 'h-[50vh] bottom-[88px]' : 'h-full bottom-0 mx-20 translate-x-6'} flex items-center justify-center z-10`}
+          className={`relative flex justify-center items-end w-full ${isMobile ? 'bottom-[88px] h-[45vh]' : 'bottom-0 h-[75vh]'}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -64,8 +63,8 @@ const LandingPage = () => {
           }}
         >
           <img
-            className={`${isMobile ? 'h-full w-full object-contain' : 'h-full w-auto object-contain max-w-[90vw]'}`}
-            style={{ filter: "drop-shadow(0 0 15px rgb(255,255,255,0.2)) brightness(0.8)" }}
+            className={`object-contain object-bottom pointer-events-auto ${isMobile ? 'h-full w-full' : 'h-full w-auto max-w-[90vw]'}`}
+            style={{ filter: "brightness(0.8)", transform: "translateZ(0)" }}
             src="/ashmo.webp"
             alt="Ashutosh Moharana"
             fetchPriority="high"
@@ -76,7 +75,7 @@ const LandingPage = () => {
       <motion.div
         {...fadeIn(0.2)}
         className={`absolute left-0 z-20 ${isMobile
-          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-background/80 overflow-hidden"
+          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-background overflow-hidden"
           : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
           }`}
       >

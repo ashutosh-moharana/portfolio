@@ -216,7 +216,6 @@ const BackendBackground = () => {
             ref={canvasRef}
             className="absolute inset-0 pointer-events-none z-0"
             style={{ 
-                filter: "blur(0.2px)",
                 maskImage: "radial-gradient(circle at center, black 0%, black 70%, transparent 100%)",
                 WebkitMaskImage: "radial-gradient(circle at center, black 0%, black 70%, transparent 100%)"
             }}
