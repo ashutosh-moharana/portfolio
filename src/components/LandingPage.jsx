@@ -54,7 +54,7 @@ const LandingPage = () => {
 
 
         <motion.div
-          className={`absolute h-[75vh] md:h-full bottom-16 md:mx-20 md:bottom-0 flex items-center justify-center z-10 translate-x-6`}
+          className={`absolute h-[calc(100svh-240px)] md:h-full bottom-[120px] md:bottom-0 md:mx-20 flex items-center justify-center z-10 md:translate-x-6`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -64,7 +64,7 @@ const LandingPage = () => {
           }}
         >
           <img
-            className="h-full"
+            className="h-full w-auto max-w-[90vw] object-contain"
             style={{ filter: "drop-shadow(0 0 15px rgb(255,255,255,0.2)) brightness(0.8)" }}
             src="/ashmo.webp"
             alt="Ashutosh Moharana"
