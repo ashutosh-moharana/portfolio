@@ -55,7 +55,7 @@ const projects = [
       "JPA",
       "PostgreSQL"
     ],
-    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1776779952/fylex_swagger_no21ot.png",
+    imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1776781318/Screenshot_2026-04-21_195130_xj5vwz.png",
     demoLink: "#",
     codeLink: "https://github.com/ashutosh-moharana/fylex",
   }
