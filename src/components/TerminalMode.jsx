@@ -89,8 +89,7 @@ const TerminalMode = () => {
       style={{ height: `calc(100dvh - ${keyboardOffset}px)` }}
     >
 
-      {/* Visual Overlays: CRT Scanline & Vignette */}
-      <div className="absolute inset-0 pointer-events-none z-[60] shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
+
 
       {/* Persistent Tactical Header */}
       <div className="w-full bg-background/80 border-b border-primary/20 py-2 px-4 md:px-8 flex items-center justify-between z-[70] backdrop-blur-sm">

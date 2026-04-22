@@ -216,13 +216,13 @@ const HackerTyper = () => {
       {/* Exit Button - clear and consistently placed to avoid keyboard overlaps */}
       <button 
         onClick={() => navigate("/")}
-        className="fixed top-4 right-4 md:top-8 md:right-8 bg-background/90 text-primary border border-primary/50 hover:bg-primary/20 hover:scale-105 active:scale-95 px-4 py-2 text-xs uppercase tracking-widest transition-all z-[70] backdrop-blur-md cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+        className="fixed top-4 right-4 md:top-8 md:right-8 bg-background/90 text-primary border border-primary/50 hover:bg-primary/20 hover:scale-105 active:scale-95 px-4 py-2 text-xs uppercase tracking-widest transition-all z-[70] backdrop-blur-md cursor-pointer"
       >
         [ EXIT SYSTEM ]
       </button>
       
       {phase === "connecting" && (
-        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center bg-background/60 backdrop-blur-sm z-50">
            <p className="text-xl md:text-3xl text-center px-4 mb-4 font-bold tracking-widest border border-primary/50 p-4 bg-primary/10">
             CONNECTION ESTABLISHED
           </p>

@@ -16,9 +16,10 @@ import Contact from "./components/Contact";
 import CustomCursor from "./components/CustomCursor";
 import BootSequence from "./components/BootSequence";
 
+import TerminalMode from "./components/TerminalMode";
+
 // Lazy-loaded routes — only downloaded when the user navigates to them
 const Resources   = lazy(() => import("./components/Resources"));
-const TerminalMode = lazy(() => import("./components/TerminalMode"));
 const HackerTyper  = lazy(() => import("./components/HackerTyper"));
 const NotFound     = lazy(() => import("./components/NotFound"));
 

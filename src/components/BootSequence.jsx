@@ -44,10 +44,6 @@ const BootSequence = ({ onComplete }) => {
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.65, ease: "easeInOut" }}
     >
-      {/* CRT scanline overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[size:100%_4px]" />
-      {/* Vignette */}
-      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.9)]" />
 
       <div className="flex flex-col gap-2.5 max-w-xl z-10">
         {lines.map((line, i) => (
