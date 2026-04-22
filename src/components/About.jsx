@@ -67,7 +67,7 @@ const About = () => {
 
   const profiles = useMemo(() => [
     { name: "LeetCode", icon: <SiLeetcode size={20} />, url: "https://leetcode.com/ash_mo" },
-    { name: "HackerRank", icon: <SiHackerrank size={20} />, url: "https://www.hackerrank.com/profile/ashutoshmoharan3" }
+    { name: "HackerRank", icon: <SiHackerrank size={20} />, url: "https://www.hackerrank.com/profile/ash_mo" }
   ], []);
 
   const education = useMemo(() => [
