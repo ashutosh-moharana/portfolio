@@ -184,7 +184,7 @@ const HackerTyper = () => {
 
   return (
     <div 
-      className="fixed inset-0 bg-[#09090b] z-50 overflow-hidden flex flex-col font-mono text-primary antialiased"
+      className="fixed inset-0 bg-background z-50 overflow-hidden flex flex-col font-mono text-primary antialiased"
       onClick={() => phase === "ready" && inputRef.current?.focus()}
     >
 

@@ -2,6 +2,8 @@ import {
     useState,
     createContext,
     useEffect,
+    lazy,
+    Suspense,
 } from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -10,13 +12,15 @@ import Lenis from "lenis";
 import LandingPage from "./components/LandingPage";
 import About from "./components/About";
 import Projects from "./components/Projects";
-import Resources from "./components/Resources";
 import Contact from "./components/Contact";
 import CustomCursor from "./components/CustomCursor";
-import NotFound from "./components/NotFound";
-import HackerTyper from "./components/HackerTyper";
-import TerminalMode from "./components/TerminalMode";
 import BootSequence from "./components/BootSequence";
+
+// Lazy-loaded routes — only downloaded when the user navigates to them
+const Resources   = lazy(() => import("./components/Resources"));
+const TerminalMode = lazy(() => import("./components/TerminalMode"));
+const HackerTyper  = lazy(() => import("./components/HackerTyper"));
+const NotFound     = lazy(() => import("./components/NotFound"));
 
 // Create Lenis Context for smooth scrolling
 export const LenisContext = createContext();
@@ -28,8 +32,10 @@ function Portfolio() {
         () => !!sessionStorage.getItem("ash_boot_done")
     );
 
-    // Initialize Lenis smooth scrolling
+    // Initialize Lenis smooth scrolling — only after boot to avoid startup CPU contention
     useEffect(() => {
+        if (!booted) return; // wait until boot sequence is done
+
         const lenisInstance = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -43,14 +49,18 @@ function Portfolio() {
 
         setLenis(lenisInstance);
 
+        let rafId;
         function raf(time) {
             lenisInstance.raf(time);
-            requestAnimationFrame(raf);
+            rafId = requestAnimationFrame(raf);
         }
 
-        requestAnimationFrame(raf);
-        return () => lenisInstance.destroy();
-    }, []);
+        rafId = requestAnimationFrame(raf);
+        return () => {
+            cancelAnimationFrame(rafId);
+            lenisInstance.destroy();
+        };
+    }, [booted]);
 
     return (
         <LenisContext.Provider value={lenis}>
@@ -71,13 +81,15 @@ function App() {
     return (
         <DeviceProvider>
             <CustomCursor />
-            <Routes>
-                <Route path="/" element={<Portfolio />} />
-                <Route path="/resources" element={<Resources />} />
-                <Route path="/terminal" element={<TerminalMode />} />
-                <Route path="/hacker" element={<HackerTyper />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+                <Routes>
+                    <Route path="/" element={<Portfolio />} />
+                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/terminal" element={<TerminalMode />} />
+                    <Route path="/hacker" element={<HackerTyper />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Suspense>
         </DeviceProvider>
     );
 }

@@ -40,7 +40,7 @@ const BootSequence = ({ onComplete }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[300] bg-[#020202] flex flex-col items-start justify-center px-8 md:px-24 font-mono select-none"
+      className="fixed inset-0 z-[300] bg-background flex flex-col items-start justify-center px-8 md:px-24 font-mono select-none"
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.65, ease: "easeInOut" }}
     >

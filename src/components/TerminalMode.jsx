@@ -85,7 +85,7 @@ const TerminalMode = () => {
 
   return (
     <div
-      className="fixed inset-0 bg-[#020202] font-mono text-primary z-50 overflow-hidden flex flex-col antialiased selection:bg-primary/30"
+      className="fixed inset-0 bg-background font-mono text-primary z-50 overflow-hidden flex flex-col antialiased selection:bg-primary/30"
       style={{ height: `calc(100dvh - ${keyboardOffset}px)` }}
     >
 
@@ -93,7 +93,7 @@ const TerminalMode = () => {
       <div className="absolute inset-0 pointer-events-none z-[60] shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
 
       {/* Persistent Tactical Header */}
-      <div className="w-full bg-black/80 border-b border-primary/20 py-2 px-4 md:px-8 flex items-center justify-between z-[70] backdrop-blur-sm">
+      <div className="w-full bg-background/80 border-b border-primary/20 py-2 px-4 md:px-8 flex items-center justify-between z-[70] backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <motion.div

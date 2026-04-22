@@ -87,6 +87,7 @@ const NoteRow = ({ resource, index }) => {
                         src={resource.imageUrl}
                         alt={resource.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
                     />
                 ) : (
                     <div className={`w-full h-full flex items-center justify-center ${style.colorClass}`}>

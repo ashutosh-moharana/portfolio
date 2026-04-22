@@ -9,18 +9,25 @@ export const COLORS = {
 };
 
 export const ColorProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem("portfolio-theme-mode");
-    if (savedTheme) return savedTheme;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  // Always initialize from system preference — no localStorage
+  const [theme, setTheme] = useState(() =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  );
 
   const [activeColor, setActiveColor] = useState(() => {
     const savedColor = localStorage.getItem("portfolio-theme-color");
     return (savedColor && COLORS[savedColor]) ? savedColor : "red";
   });
 
-  // When activeColor or theme changes, update CSS variables and mode classes globally
+  // Listen for OS-level theme changes and update automatically
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => setTheme(e.matches ? 'dark' : 'light');
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  // Apply theme class and color CSS variables to document
   useEffect(() => {
     const colorData = COLORS[activeColor];
 
@@ -35,14 +42,12 @@ export const ColorProvider = ({ children }) => {
       document.documentElement.style.setProperty("--heading-color", colorData.hex);
     }
 
-    localStorage.setItem("portfolio-theme-mode", theme);
+    // Only persist color preference, NOT theme (theme follows system)
     localStorage.setItem("portfolio-theme-color", activeColor);
   }, [activeColor, theme]);
 
   const changeColor = (colorKey) => {
-    if (COLORS[colorKey]) {
-      setActiveColor(colorKey);
-    }
+    if (COLORS[colorKey]) setActiveColor(colorKey);
   };
 
   const toggleTheme = () => {
@@ -50,10 +55,8 @@ export const ColorProvider = ({ children }) => {
   };
 
   const changeTheme = (mode) => {
-    if (mode === 'dark' || mode === 'light') {
-      setTheme(mode);
-    }
-  }
+    if (mode === 'dark' || mode === 'light') setTheme(mode);
+  };
 
   return (
     <ColorContext.Provider value={{ activeColor, changeColor, theme, toggleTheme, changeTheme, COLORS }}>

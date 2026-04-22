@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useSpring } from "framer-motion";
+import { useDevice } from "../contexts/DeviceContext";
 
 const CustomCursor = () => {
+    const isMobile = useDevice();
+
     const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
@@ -11,7 +14,11 @@ const CustomCursor = () => {
     const ringX = useSpring(-100, { stiffness: 150, damping: 20, mass: 0.1 });
     const ringY = useSpring(-100, { stiffness: 150, damping: 20, mass: 0.1 });
 
+    // Skip all logic and rendering on touch devices
+    const isMobileValue = isMobile;
+
     useEffect(() => {
+        if (isMobileValue) return; // no-op on mobile
         const updateMousePosition = (e) => {
             const x = e.clientX;
             const y = e.clientY;
@@ -56,6 +63,9 @@ const CustomCursor = () => {
             document.removeEventListener("mouseenter", handleMouseEnter);
         };
     }, [isVisible, ringX, ringY]);
+
+    // Don't render anything on touch devices — no cursor needed
+    if (isMobile) return null;
 
     return (
         <AnimatePresence>

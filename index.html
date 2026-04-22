@@ -1,16 +1,25 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Apply theme BEFORE React loads to prevent flash -->
+  <script>
+    (function() {
+      if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
 
   <!-- Google Fonts: Bebas Neue for Marvel Cinematic feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"></noscript>
 
   <!-- Primary SEO -->
   <title>Ashutosh Moharana</title>
