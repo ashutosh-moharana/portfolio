@@ -67,7 +67,6 @@ const LandingPage = () => {
             style={{ filter: "brightness(0.8)", transform: "translateZ(0)" }}
             src="/ashmo.webp"
             alt="Ashutosh Moharana"
-            fetchPriority="high"
           />
         </motion.div>
       </div>
@@ -76,7 +75,7 @@ const LandingPage = () => {
         {...fadeIn(0.2)}
         className={`absolute left-0 z-20 ${isMobile
           ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-background overflow-hidden"
-          : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent shadow-[10px_0_30px_rgba(237,29,36,0.05)]"
+          : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent"
           }`}
       >
         {/* Grid only on mobile */}

@@ -69,7 +69,7 @@ const BackendBackground = () => {
             }
 
             // Create connections (Network Topology)
-            nodes.forEach((node, i) => {
+            nodes.forEach((node) => {
                if (node.type === 'core') return;
                
                // Connect to a few nearby nodes or core
@@ -121,7 +121,7 @@ const BackendBackground = () => {
             ctx.lineWidth = 0.5;
             ctx.globalAlpha = 0.1;
 
-            nodes.forEach((node, idx) => {
+            nodes.forEach((node) => {
                 const px = node.targetX + mx * node.depth;
                 const py = node.targetY + my * node.depth;
                 node.x = px;

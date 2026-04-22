@@ -17,7 +17,6 @@ import NotFound from "./components/NotFound";
 import HackerTyper from "./components/HackerTyper";
 import TerminalMode from "./components/TerminalMode";
 import BootSequence from "./components/BootSequence";
-import TerminalHUD from "./components/TerminalHUD";
 
 // Create Lenis Context for smooth scrolling
 export const LenisContext = createContext();
@@ -56,7 +55,7 @@ function Portfolio() {
     return (
         <LenisContext.Provider value={lenis}>
             {!booted && <BootSequence onComplete={() => setBooted(true)} />}
-            <TerminalHUD />
+
             <div className="app-container bg-background select-none">
                 <LandingPage />
                 <About />
@@ -68,14 +67,6 @@ function Portfolio() {
 }
 
 function App() {
-    // Preload critical assets into browser cache
-    useEffect(() => {
-        const criticalAssets = ["/ashu.webp"];
-        criticalAssets.forEach((src) => {
-            const img = new Image();
-            img.src = src;
-        });
-    }, []);
 
     return (
         <DeviceProvider>

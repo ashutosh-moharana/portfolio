@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 // A massive string of real-looking code for that authentic hacker feel.
@@ -145,7 +145,7 @@ const HackerTyper = () => {
     }
   }, [phase]);
 
-  const handleUserTyping = (e) => {
+  const handleUserTyping = useCallback(() => {
     setDummyInput(""); // keep it empty
     if (phase !== "ready") return;
     
@@ -155,7 +155,7 @@ const HackerTyper = () => {
       if (nextCount >= FAKE_CODE.length) return 0;
       return nextCount;
     });
-  };
+  }, [phase]);
 
   useEffect(() => {
     const handleGlobalKey = (e) => {
@@ -171,7 +171,7 @@ const HackerTyper = () => {
 
     window.addEventListener("keydown", handleGlobalKey);
     return () => window.removeEventListener("keydown", handleGlobalKey);
-  }, [phase]);
+  }, [phase, handleUserTyping]);
 
   // Auto-scroll to bottom seamlessly
   useEffect(() => {

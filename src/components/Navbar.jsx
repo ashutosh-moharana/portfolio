@@ -4,8 +4,9 @@ import { ColorContext } from '../contexts/ColorContext';
 
 import { useDevice } from "../contexts/DeviceContext";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { VscTerminalUbuntu } from "react-icons/vsc";
 
 const Navbar = () => {
   const isMobile = useDevice();
@@ -16,6 +17,15 @@ const Navbar = () => {
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavigateWithDelay = (e, path) => {
+    e.preventDefault();
+    setTimeout(() => {
+      navigate(path);
+      if (isMenuOpen) setIsMenuOpen(false);
+    }, 280); 
+  };
 
   // True when we're on a sub-route (not the main portfolio page)
   const isSubRoute = location.pathname !== '/';
@@ -70,22 +80,22 @@ const Navbar = () => {
     >
       <div className="flex items-center justify-between px-6 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5 w-full">
         {/* Logo / brand — links home on sub-routes, scrolls to top on main */}
-        <Link 
-          to={isSubRoute ? "/" : "#"} 
+        <Link
+          to={isSubRoute ? "/" : "#"}
           onClick={isSubRoute ? undefined : (e) => handleLinkClick(e, 'landing')}
           className="group relative flex items-center gap-4 cursor-pointer"
         >
-          
+
           <div className="relative overflow-hidden pt-1 flex flex-col justify-center">
             <div className="flex items-baseline gap-1">
               <span className="text-foreground font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">ASH</span>
               <span className="text-primary font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">MO</span>
             </div>
-            
+
             {/* High-Precision Glitch Overlays */}
-            <motion.div 
-              animate={{ 
-                x: [0, -4, 4, -2, 0], 
+            <motion.div
+              animate={{
+                x: [0, -4, 4, -2, 0],
                 skewX: [0, 10, -10, 5, 0],
                 opacity: [0, 0.4, 0, 0.4, 0],
               }}
@@ -119,7 +129,7 @@ const Navbar = () => {
               }
               const LinkElement = link.type === 'route' ? Link : 'a';
               const props = link.type === 'route' ? { to: link.href } : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
-              
+
               return (
                 <LinkElement
                   key={link.name}
@@ -138,13 +148,14 @@ const Navbar = () => {
             })}
 
             {isSubRoute && (
-              <Link
-                to="/"
+              <a
+                href="/"
+                onClick={(e) => handleNavigateWithDelay(e, "/")}
                 className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
                 <span className="relative z-10">◈ PORTFOLIO</span>
-                
+
                 {/* HUD Brackets */}
                 <div className="absolute inset-0">
                   <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
@@ -152,37 +163,86 @@ const Navbar = () => {
                   <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
                   <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
                 </div>
-              </Link>
+              </a>
             )}
 
             <button
-               onClick={toggleTheme}
-               className="text-foreground/80 hover:text-primary transition-colors font-mono font-bold text-sm tracking-widest z-50 transition-transform active:scale-95 px-2 uppercase"
-               aria-label="Toggle Theme"
+              onClick={toggleTheme}
+              className="text-primary hover:text-primary/80 transition-colors z-50 transition-transform active:scale-95 px-2"
+              aria-label="Toggle Theme"
             >
-               [{theme === 'dark' ? 'LIGHT' : 'DARK'}]
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={theme}
+                  initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
+                </motion.div>
+              </AnimatePresence>
             </button>
 
             {/* Minimal Terminal Button (Desktop) */}
-            <Link
-              to="/terminal"
-              className="text-foreground hover:text-primary transition-colors font-mono font-bold text-lg tracking-widest z-50 transition-transform active:scale-95 px-2"
+            <a
+              href="/terminal"
+              onClick={(e) => handleNavigateWithDelay(e, "/terminal")}
+              className="text-primary hover:text-primary/80 transition-all duration-300 z-50 active:scale-95 active:rotate-180 px-2 cursor-pointer"
             >
-              &gt;_
-            </Link>
+              <motion.div
+                style={{ willChange: "transform", transform: "translateZ(0)" }}
+                whileTap={{ rotate: 180, scale: 0.8 }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              >
+                <VscTerminalUbuntu size={24} />
+              </motion.div>
+            </a>
 
           </div>
         )}
 
         {isMobile && (
-          <div className="flex items-center gap-6">
-            {/* Minimal Terminal Button (Mobile) */}
-            <Link
-              to="/terminal"
-              className="text-foreground active:text-primary transition-colors font-mono font-bold text-xl tracking-widest z-50 transition-transform active:scale-90"
+          <div className="flex items-center gap-5">
+            {/* Terminal Button (Mobile) */}
+            <a
+              href="/terminal"
+              onClick={(e) => handleNavigateWithDelay(e, "/terminal")}
+              className="text-primary active:text-primary/80 transition-all duration-300 z-50 active:scale-90 active:rotate-180 px-1 pt-[2px] cursor-pointer"
+              aria-label="Open Terminal"
             >
-              &gt;_
-            </Link>
+              <motion.div
+                style={{ willChange: "opacity", transform: "translateZ(0)" }}
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                whileTap={{ rotate: 180, scale: 0.8 }}
+                transition={{
+                  opacity: { repeat: Infinity, duration: 2, ease: "easeInOut" },
+                  rotate: { type: "spring", stiffness: 300, damping: 15 },
+                  scale: { type: "spring", stiffness: 300, damping: 15 },
+                }}
+              >
+                <VscTerminalUbuntu size={24} />
+              </motion.div>
+            </a>
+
+            {/* Theme switcher on mobile */}
+            <button
+              onClick={toggleTheme}
+              className="text-primary active:text-primary/80 transition-colors z-50 transition-transform active:scale-95 px-2"
+              aria-label="Toggle Theme"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={theme}
+                  initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {theme === 'dark' ? <MdLightMode size={24} /> : <MdDarkMode size={24} />}
+                </motion.div>
+              </AnimatePresence>
+            </button>
 
             <button
 
@@ -218,10 +278,10 @@ const Navbar = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ 
-              opacity: 0, 
+            exit={{
+              opacity: 0,
               height: 0,
-              transition: { 
+              transition: {
                 opacity: { duration: 0.15, ease: "linear" },
                 height: { duration: 0.3, ease: [0.4, 0, 1, 1] }
               }
@@ -230,107 +290,100 @@ const Navbar = () => {
             className="w-full border-t border-primary/30 bg-background md:bg-background/95 md:backdrop-blur-xl overflow-hidden"
           >
             <div className="relative flex flex-col items-center gap-2 pb-8 pt-4 w-full">
-            {/* Tactical Scanline Effect */}
-            <motion.div
-              initial={{ y: "-100%" }}
-              animate={{ y: "200%" }}
-              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-              className="absolute inset-0 w-full h-[50%] bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none z-0"
-            />
-            
-            {/* Subtle Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
+              {/* Tactical Scanline Effect */}
+              <motion.div
+                initial={{ y: "-100%" }}
+                animate={{ y: "200%" }}
+                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                className="absolute inset-0 w-full h-[50%] bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none z-0"
+              />
 
-            <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
-              {[
-                { name: 'ABOUT', id: 'about', type: 'scroll' },
-                { name: 'PROJECTS', id: 'projects', type: 'scroll' },
-                { name: 'RESOURCES', href: '/resources', type: 'route' },
-                { name: 'CONTACT', id: 'contact', type: 'scroll' },
-              ].map((link, idx) => {
-                const isScrollDisabled = isSubRoute && link.type === 'scroll';
-                
-                return (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
-                  className="w-full"
-                >
-                  {isScrollDisabled ? (
-                    <span className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full py-4 border-b border-primary/10 last:border-0 cursor-not-allowed select-none">
-                      <span className="text-[10px] opacity-50">[{String(idx+1).padStart(2, '0')}]</span>
-                      <span>{link.name}</span>
-                      <span className="w-1.5 h-1.5 rounded-full border border-white/10" />
-                    </span>
-                  ) : link.type === 'scroll' ? (
-                    <a
-                      href={`#${link.id}`}
-                      onClick={(e) => handleLinkClick(e, link.id)}
-                      className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
-                    >
-                      <span className="text-[10px] opacity-70">[{String(idx+1).padStart(2, '0')}]</span>
-                      <span className="font-bold">{link.name}</span>
-                      <motion.span 
-                        animate={{ scale: [1, 1.5, 1] }} 
-                        transition={{ repeat: Infinity, duration: 2 }}
-                        className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" 
-                      />
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
-                    >
-                      <span className="text-[10px] opacity-70">[{String(idx+1).padStart(2, '0')}]</span>
-                      <span className="font-bold">{link.name}</span>
-                      <motion.span 
-                        animate={{ scale: [1, 1.5, 1] }} 
-                        transition={{ repeat: Infinity, duration: 2 }}
-                        className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]" 
-                      />
-                    </Link>
-                  )}
-                </motion.div>
-              )})}
-            </div>
+              {/* Subtle Grid Pattern */}
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              className="w-full px-8 pt-6 relative z-10"
-            >
-              <button
-                onClick={() => { toggleTheme(); setIsMenuOpen(false); }}
-                className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-foreground border border-border font-mono text-xs uppercase tracking-[0.3em] transition-all duration-300 hover:bg-foreground/5 active:scale-90 overflow-hidden mb-3"
+              <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
+                {[
+                  { name: 'ABOUT', id: 'about', type: 'scroll' },
+                  { name: 'PROJECTS', id: 'projects', type: 'scroll' },
+                  { name: 'CONTACT', id: 'contact', type: 'scroll' },
+                ].map((link, idx) => {
+                  const isScrollDisabled = isSubRoute && link.type === 'scroll';
+
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
+                      className="w-full"
+                    >
+                      {isScrollDisabled ? (
+                        <span className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full py-4 border-b border-primary/10 last:border-0 cursor-not-allowed select-none">
+                          <span className="text-[10px] opacity-50">[{String(idx + 1).padStart(2, '0')}]</span>
+                          <span>{link.name}</span>
+                          <span className="w-1.5 h-1.5 rounded-full border border-white/10" />
+                        </span>
+                      ) : link.type === 'scroll' ? (
+                        <a
+                          href={`#${link.id}`}
+                          onClick={(e) => handleLinkClick(e, link.id)}
+                          className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
+                        >
+                          <span className="text-[10px] opacity-70">[{String(idx + 1).padStart(2, '0')}]</span>
+                          <span className="font-bold">{link.name}</span>
+                          <motion.span
+                            animate={{ scale: [1, 1.5, 1] }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]"
+                          />
+                        </a>
+                      ) : (
+                        <Link
+                          to={link.href}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
+                        >
+                          <span className="text-[10px] opacity-70">[{String(idx + 1).padStart(2, '0')}]</span>
+                          <span className="font-bold">{link.name}</span>
+                          <motion.span
+                            animate={{ scale: [1, 1.5, 1] }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]"
+                          />
+                        </Link>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
+                className="w-full px-8 pt-6 relative z-10"
               >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-foreground/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                <span className="relative z-10 font-bold">MODE: {theme === 'dark' ? 'DARK' : 'LIGHT'}</span>
-              </button>
-
-              {isSubRoute && (
-                <Link
-                  to="/"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/10 hover:border-primary active:scale-90 overflow-hidden"
+              <a
+                  href={isSubRoute ? "/" : "/resources"}
+                  onClick={(e) => handleNavigateWithDelay(e, isSubRoute ? "/" : "/resources")}
+                  className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mb-3"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                  <span className="text-lg">◈</span>
-                  <span className="relative z-10 font-bold">RETURN TO BASE</span>
-                </Link>
-              )}
-            </motion.div>
-            
-            
-            {/* Bottom Accent */}
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                  {isSubRoute && <span className="text-lg">◈</span>}
+                  <span className="relative z-10 font-bold">
+                    {isSubRoute ? "RETURN TO BASE" : "RESOURCES"}
+                  </span>
+                </a>
+              </motion.div>
+
+
+              {/* Bottom Accent */}
+              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
     </motion.nav>
   );
 };
