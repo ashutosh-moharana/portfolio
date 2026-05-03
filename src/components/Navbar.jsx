@@ -324,27 +324,6 @@ const Navbar = () => {
                 })}
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
-                className="w-full px-8 pt-6 relative z-10"
-              >
-                {isSubRoute && (
-                  <a
-                    href="/"
-                    onClick={(e) => handleNavigateWithDelay(e, "/")}
-                    className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mb-3"
-                  >
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                    <span className="text-lg">◈</span>
-                    <span className="relative z-10 font-bold">
-                      RETURN TO BASE
-                    </span>
-                  </a>
-                )}
-              </motion.div>
-
 
               {/* Bottom Accent */}
               <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
