@@ -19,7 +19,8 @@ import BootSequence from "./components/BootSequence";
 import TerminalMode from "./components/TerminalMode";
 
 // Lazy-loaded routes — only downloaded when the user navigates to them
-const Resources   = lazy(() => import("./components/Resources"));
+const Archive     = lazy(() => import("./components/Archive"));
+const Hub         = lazy(() => import("./components/Hub"));
 const HackerTyper  = lazy(() => import("./components/HackerTyper"));
 const NotFound     = lazy(() => import("./components/NotFound"));
 
@@ -85,7 +86,8 @@ function App() {
             <Suspense fallback={<div className="min-h-screen bg-background" />}>
                 <Routes>
                     <Route path="/" element={<Portfolio />} />
-                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/archive" element={<Archive />} />
+                    <Route path="/hub" element={<Hub />} />
                     <Route path="/terminal" element={<TerminalMode />} />
                     <Route path="/hacker" element={<HackerTyper />} />
                     <Route path="*" element={<NotFound />} />

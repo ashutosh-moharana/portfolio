@@ -30,6 +30,20 @@ const Navbar = () => {
   // True when we're on a sub-route (not the main portfolio page)
   const isSubRoute = location.pathname !== '/';
 
+  const navLinks = isSubRoute 
+    ? [
+        { name: 'BASE', href: '/', type: 'route' },
+        { name: 'HUB', href: '/hub', type: 'route' },
+        { name: 'ARCHIVE', href: '/archive', type: 'route' },
+      ].filter(link => link.href !== location.pathname)
+    : [
+        { name: 'SUBJECT', id: 'about', type: 'scroll' },
+        { name: 'MISSIONS', id: 'projects', type: 'scroll' },
+        { name: 'HUB', href: '/hub', type: 'route' },
+        { name: 'ARCHIVE', href: '/archive', type: 'route' },
+        { name: 'TRANSMISSION', id: 'contact', type: 'scroll' },
+      ];
+
   const lastScrollY = useRef(0);
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > lastScrollY.current && latest > 150 && !isMenuOpen) {
@@ -110,23 +124,7 @@ const Navbar = () => {
         {!isMobile && (
           <div className="flex items-center gap-8">
             {/* Unified Links */}
-            {[
-              { name: 'ABOUT', id: 'about', type: 'scroll' },
-              { name: 'PROJECTS', id: 'projects', type: 'scroll' },
-              { name: 'RESOURCES', href: '/resources', type: 'route' },
-              { name: 'CONTACT', id: 'contact', type: 'scroll' },
-            ].map((link) => {
-              if (link.type === 'scroll' && isSubRoute) {
-                return (
-                  <span
-                    key={link.name}
-                    className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 cursor-not-allowed py-1 select-none"
-                    title="Navigate to portfolio to use this"
-                  >
-                    {link.name}
-                  </span>
-                )
-              }
+            {navLinks.map((link) => {
               const LinkElement = link.type === 'route' ? Link : 'a';
               const props = link.type === 'route' ? { to: link.href } : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
 
@@ -146,25 +144,6 @@ const Navbar = () => {
                 </LinkElement>
               )
             })}
-
-            {isSubRoute && (
-              <a
-                href="/"
-                onClick={(e) => handleNavigateWithDelay(e, "/")}
-                className="interactive group/btn relative flex items-center gap-1.5 px-6 py-2.5 bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-widest transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden"
-              >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                <span className="relative z-10">◈ PORTFOLIO</span>
-
-                {/* HUD Brackets */}
-                <div className="absolute inset-0">
-                  <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                  <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                  <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary/0 group-hover/btn:border-primary transitions-colors duration-300" />
-                </div>
-              </a>
-            )}
 
             <button
               onClick={toggleTheme}
@@ -302,13 +281,7 @@ const Navbar = () => {
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
 
               <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
-                {[
-                  { name: 'ABOUT', id: 'about', type: 'scroll' },
-                  { name: 'PROJECTS', id: 'projects', type: 'scroll' },
-                  { name: 'CONTACT', id: 'contact', type: 'scroll' },
-                ].map((link, idx) => {
-                  const isScrollDisabled = isSubRoute && link.type === 'scroll';
-
+                {navLinks.map((link, idx) => {
                   return (
                     <motion.div
                       key={link.name}
@@ -317,13 +290,7 @@ const Navbar = () => {
                       transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
                       className="w-full"
                     >
-                      {isScrollDisabled ? (
-                        <span className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-foreground/20 w-full py-4 border-b border-primary/10 last:border-0 cursor-not-allowed select-none">
-                          <span className="text-[10px] opacity-50">[{String(idx + 1).padStart(2, '0')}]</span>
-                          <span>{link.name}</span>
-                          <span className="w-1.5 h-1.5 rounded-full border border-white/10" />
-                        </span>
-                      ) : link.type === 'scroll' ? (
+                      {link.type === 'scroll' ? (
                         <a
                           href={`#${link.id}`}
                           onClick={(e) => handleLinkClick(e, link.id)}
@@ -363,17 +330,19 @@ const Navbar = () => {
                 transition={{ delay: 0.4, duration: 0.4 }}
                 className="w-full px-8 pt-6 relative z-10"
               >
-              <a
-                  href={isSubRoute ? "/" : "/resources"}
-                  onClick={(e) => handleNavigateWithDelay(e, isSubRoute ? "/" : "/resources")}
-                  className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mb-3"
-                >
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
-                  {isSubRoute && <span className="text-lg">◈</span>}
-                  <span className="relative z-10 font-bold">
-                    {isSubRoute ? "RETURN TO BASE" : "RESOURCES"}
-                  </span>
-                </a>
+                {isSubRoute && (
+                  <a
+                    href="/"
+                    onClick={(e) => handleNavigateWithDelay(e, "/")}
+                    className="interactive group/btn relative flex items-center justify-center gap-3 px-6 py-4 w-full bg-background text-primary border border-primary/50 font-mono text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:bg-primary/20 hover:border-primary active:scale-95 overflow-hidden mb-3"
+                  >
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 z-0" />
+                    <span className="text-lg">◈</span>
+                    <span className="relative z-10 font-bold">
+                      RETURN TO BASE
+                    </span>
+                  </a>
+                )}
               </motion.div>
 
 
