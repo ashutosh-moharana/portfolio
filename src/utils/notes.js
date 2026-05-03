@@ -4,12 +4,12 @@ const notes = [
     {
         id: 1,
         type: "h-note",
-        title: "SQL Basics",
+        title: "SQL Complete Notes",
         subject: "Database",
         format: "PDF",
-        size: "4.4 MB",
-        description: "Handwritten basic SQL notes covering queries, filtering, joins, and common syntax used in everyday database work.",
-        fileUrl: "https://drive.google.com/file/d/1kPUYXw66G_rxoKwRVFVAxVh6N5nsnakE/view?usp=drive_link",
+        size: "20.8 MB",
+        description: "Handwritten complete SQL notes covering queries, filtering, joins, and common syntax used in everyday database work.",
+        fileUrl: "https://drive.google.com/file/d/1gF_YHJFNUXVR_BO0QA2QftcaGO8qzerO/view?usp=drive_link",
     },
     {
         id: 2,
@@ -17,19 +17,19 @@ const notes = [
         title: "DBMS",
         subject: "Database",
         format: "PDF",
-        size: "1.1 MB",
+        size: "23.6 MB",
         description: "Handwritten DBMS notes covering normalization, indexing, transactions, recovery, and core database concepts.",
-        fileUrl: "https://drive.google.com/file/d/1F_eXvvZ4WrDzVj-E1j_7H2i_z0yIh8VR/view?usp=drive_link",
+        fileUrl: "https://drive.google.com/file/d/177srfiV6y9OEXQ3nuLdtlVzkjDOMhzUa/view?usp=drive_link",
     },
     {
         id: 3,
         type: "h-note",
-        title: "API Quick Reference",
-        subject: "Backend",
+        title: "Operating System",
+        subject: "CS Fundamentals",
         format: "PDF",
-        size: "12.6 MB",
-        description: "Handwritten quick reference notes for APIs, request flow, response handling, and practical backend usage.",
-        fileUrl: "https://drive.google.com/file/d/1u4tNK8xYUUGEKQH25ifltG8oDlOLMC9o/view?usp=drive_link",
+        size: "26.5 MB",
+        description: "Handwritten notes covering OS fundamentals such as process management, memory management, scheduling, and file systems.",
+        fileUrl: "https://drive.google.com/file/d/1gJxs4SVXgazjQfq9mluvQXpF6iiH44PH/view?usp=drive_link",
     },
     {
         id: 4,
@@ -47,9 +47,9 @@ const notes = [
         title: "Node.js",
         subject: "Backend",
         format: "PDF",
-        size: "735 KB",
+        size: "32.6 MB",
         description: "Handwritten Node.js notes covering runtime basics, modules, server-side concepts, and backend fundamentals.",
-        fileUrl: "https://drive.google.com/file/d/1X5sdf5hS4fhgc2c8fU49q5uvV528W2Z4/view?usp=drive_link",
+        fileUrl: "https://drive.google.com/file/d/1QtyHkbJnqBFinHbK0KQQZ3IwQrDv087L/view?usp=drive_link",
     },
     {
         id: 6,
@@ -66,6 +66,16 @@ const notes = [
     {
         id: 7,
         type: "cheatsheet",
+        title: "Spring Boot Annotations",
+        subject: "Backend",
+        format: "PDF",
+        size: "174 KB",
+        description: "Concise Spring Boot annotation cheatsheet covering core areas like dependency injection, configuration, REST controllers, AOP, security, caching, JPA, and testing. Useful for quick revision and real-world backend development.",
+        fileUrl: "https://drive.google.com/file/d/1UmKZCukLS0Z21J7gtJWiTrEuo9jSL1Sd/view?usp=drive_link",
+    },
+    {
+        id: 8,
+        type: "cheatsheet",
         title: "Git Cheatsheet",
         subject: "Version Control",
         format: "PDF",
@@ -74,7 +84,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1xNjDRcnDzYCqWZs8FIb4tHV7-5PGsgUa/view?usp=drive_link",
     },
     {
-        id: 8,
+        id: 9,
         type: "cheatsheet",
         title: "JavaScript",
         subject: "Frontend",
@@ -84,7 +94,7 @@ const notes = [
         folderUrl: "https://drive.google.com/drive/folders/1VFKaqNBn_ojI11y9HDQonhO1kzmcxhcq?usp=drive_link",
     },
     {
-        id: 9,
+        id: 10,
         type: "cheatsheet",
         title: "HTML",
         subject: "Frontend",
@@ -94,7 +104,7 @@ const notes = [
         folderUrl: "https://drive.google.com/drive/folders/12YzdbSaWQAv13nE9YCkOQUFQRDKioRxw?usp=drive_link",
     },
     {
-        id: 10,
+        id: 11,
         type: "cheatsheet",
         title: "More Cheatsheets",
         subject: "Cheatsheets",
@@ -106,7 +116,7 @@ const notes = [
 
     // MY-NOTES
     {
-        id: 11,
+        id: 12,
         type: "my-note",
         title: "Spring Boot",
         subject: "Backend",
@@ -116,7 +126,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1wnNej3lbxumErI5PVOJlCim-Xou8lVCp/view?usp=drive_link",
     },
     {
-        id: 12,
+        id: 13,
         type: "my-note",
         title: "React",
         subject: "Frontend",
@@ -126,7 +136,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1F5PXodNKzld6M7OxAcXF31d0JZteHmv1/view?usp=drive_link",
     },
     {
-        id: 13,
+        id: 14,
         type: "my-note",
         title: "More Personal Notes",
         subject: "My Notes",
@@ -138,7 +148,7 @@ const notes = [
 
     // NOTES
     {
-        id: 14,
+        id: 15,
         type: "note",
         title: "Java Programming Handbook",
         subject: "Java",
@@ -148,7 +158,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1F-jBwNcs1YVo2d_mj4tgiuo5t8_8PFO7/view?usp=drive_link",
     },
     {
-        id: 15,
+        id: 16,
         type: "note",
         title: "Java Interview Questions",
         subject: "Java",
@@ -158,7 +168,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1credeKeue4pMBU_STf1LDIc98QmBfyIW/view?usp=drive_link",
     },
     {
-        id: 16,
+        id: 17,
         type: "note",
         title: "More Notes",
         subject: "Notes",
@@ -170,7 +180,7 @@ const notes = [
 
     // BOOKS
     {
-        id: 17,
+        id: 18,
         type: "book",
         title: "Head First Java",
         subject: "Java",
@@ -180,7 +190,7 @@ const notes = [
         fileUrl: "https://drive.google.com/file/d/1kMWR2xaSVKXKxjgBbN-dHR0hL-RLU6z2/view?usp=drive_link",
     },
     {
-        id: 18,
+        id: 19,
         type: "book",
         title: "More Books",
         subject: "Books",
