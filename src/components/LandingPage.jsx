@@ -1,146 +1,134 @@
-import { motion } from "framer-motion";
-import { useContext } from "react";
+import { useRef, useContext } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
 import { LenisContext } from "../App";
-import Navbar from "./Navbar";
-import BackendBackground from "./BackendBackground";
+import { Link } from "react-router-dom";
 
-
-// Lightweight fade — opacity only, no layout-triggering transforms
-const fadeIn = (delay = 0) => ({
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  transition: { duration: 0.5, delay, ease: "easeOut" },
-});
+gsap.registerPlugin(ScrollTrigger);
 
 const LandingPage = () => {
   const isMobile = useDevice();
   const lenis = useContext(LenisContext);
+  const containerRef = useRef(null);
 
+  const resumeLink = import.meta.env.VITE_RESUME_LINK || "#";
 
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    tl.fromTo(".fade-up",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.1 }
+    );
+
+    tl.fromTo(".hero-image",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: "power2.out" },
+      "-=0.6"
+    );
+
+    tl.fromTo(".decorative-element",
+      { opacity: 0 },
+      { opacity: 0.6, duration: 0.8, stagger: 0.2, ease: "power2.out" },
+      "-=0.8"
+    );
+
+    // Parallax effect on scroll
+    gsap.to(".hero-image", {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+  }, { scope: containerRef });
 
   return (
-    <div id="landing" className="h-[100svh] md:h-screen flex relative items-center justify-center overflow-hidden bg-background">
-      <Navbar />
+    <div ref={containerRef} id="landing" className="min-h-[100svh] relative flex items-center justify-center overflow-hidden bg-background pt-32 pb-16">
 
-      {/* Global Data Flux / Scanline Overlay - Increased Opacity for Visibility */}
-      <div className="absolute inset-0 pointer-events-none z-30 opacity-[0.08]">
-        <motion.div
-          animate={{ y: ["-100%", "100%"] }}
-          transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-          className="w-full h-1 bg-primary shadow-[0_0_25px_var(--color-primary)]"
-          style={{ willChange: "transform" }}
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-40" />
+
+      {/* Decorative background shapes mimicking scrapbook paper */}
+      <div className="decorative-element absolute top-20 left-[-10%] w-64 md:w-80 h-40 md:h-56 bg-secondary rotate-[-10deg] rounded-sm opacity-60 z-0 shadow-sm" />
+      <div className="decorative-element absolute bottom-0 right-[-10%] w-[300px] md:w-[400px] h-60 md:h-72 bg-muted rotate-[8deg] rounded-sm opacity-60 z-0 shadow-sm" />
+
+      {/* Stacked PORTFOLIO text - Bottom Left */}
+      <div className="fade-up absolute bottom-8 left-4 md:left-12 flex flex-col font-chunky text-5xl md:text-7xl leading-none text-foreground/10 z-0 pointer-events-none">
+        <span>POR</span>
+        <span>TFO</span>
+        <span>LIO</span>
       </div>
 
-      {/* Name — top right */}
-      <div className="absolute top-28 md:top-32 right-4 md:right-10 z-20 text-right">
-        <motion.p {...fadeIn(0.15)} className="font-mono text-sm md:text-base text-subtle tracking-[0.3em] uppercase mb-1">
-          A S H U T O S H
-        </motion.p>
-        <motion.h1 {...fadeIn(0.3)} className="font-cinematic text-primary text-6xl md:text-8xl mt-0 tracking-wider">
-          MOHARANA
-        </motion.h1>
-      </div>
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl px-6 gap-12 lg:gap-16">
 
-      <BackendBackground />
+        {/* Text Content */}
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-20">
+          <p className="fade-up font-display text-4xl md:text-5xl lg:text-7xl text-foreground mb-[-10px] md:mb-[-15px] lg:mb-[-25px] z-10 relative">
+            hi i'm
+          </p>
 
+          <h1 className="fade-up font-chunky text-[3.5rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[8rem] text-primary leading-none uppercase drop-shadow-md relative z-10 tracking-wide"
+            style={{
+              WebkitTextStroke: isMobile ? "1px var(--color-foreground)" : "3px var(--color-foreground)",
+              color: "var(--color-primary)"
+            }}>
+            ASHUTOSH
+          </h1>
 
-
-
-
-      {/* Center — Profile */}
-      <div className="absolute inset-0 flex justify-center items-end pointer-events-none z-10">
-        <motion.div
-          className={`relative flex justify-center items-end w-full ${isMobile ? 'bottom-[88px] h-[45vh]' : 'bottom-0 h-[75vh]'}`}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            willChange: "transform, opacity",
-            transformStyle: "preserve-3d"
-          }}
-        >
-          <img
-            className={`object-contain object-bottom pointer-events-auto ${isMobile ? 'h-full w-full' : 'h-full w-auto max-w-[90vw]'}`}
-            style={{ filter: "brightness(0.8)", transform: "translateZ(0)" }}
-            src="/ashmo.webp"
-            alt="Ashutosh Moharana"
-          />
-        </motion.div>
-      </div>
-
-      <motion.div
-        {...fadeIn(0.2)}
-        className={`absolute left-0 z-20 ${isMobile
-          ? "bottom-0 box-border h-auto w-full px-8 py-4 border-t border-primary/50 bg-background overflow-hidden"
-          : "bottom-8 m-4 left-4 p-6 border-l-2 border-primary bg-gradient-to-r from-primary/10 to-transparent"
-          }`}
-      >
-        {/* Grid only on mobile */}
-        {isMobile && (
-          <div className="absolute inset-0 bg-[linear-gradient(var(--color-primary)_1px,transparent_1px),linear-gradient(90deg,var(--color-primary)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none opacity-5" />
-        )}
-
-        {/* Desktop HUD Corners */}
-        {!isMobile && (
-          <>
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/50" />
-            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/50" />
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/50" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/50" />
-          </>
-        )}
-
-        <div className="relative overflow-hidden w-fit">
-          <h2 className="font-cinematic text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight tracking-widest uppercase relative z-10 flex gap-2 md:gap-4">
-            <span className="text-primary">BACKEND</span>
-            <span>DEVELOPER</span>
-          </h2>
-
-          {/* High-Precision Glitch Overlay matching ASHMO */}
-          <motion.h2
-            animate={{
-              x: [0, -6, 6, -3, 0],
-              skewX: [0, 10, -10, 5, 0],
-              opacity: [0, 0.4, 0, 0.4, 0],
-            }}
-            transition={{ repeat: Infinity, duration: 0.3, repeatDelay: 4 }}
-            className="absolute inset-0 font-cinematic text-4xl md:text-5xl lg:text-6xl text-primary leading-tight tracking-widest uppercase select-none pointer-events-none opacity-0 flex gap-2 md:gap-4"
-            aria-hidden="true"
-          >
-            <span>BACKEND</span>
-            <span>DEVELOPER</span>
-          </motion.h2>
-        </div>
-        <div className="flex items-center gap-3 text-xs md:text-sm mt-2 font-mono uppercase tracking-widest max-w-[280px] md:max-w-md lg:max-w-lg text-subtle relative z-10">
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span>Classified: Secure APIs &amp; Data Infrastructures</span>
-        </div>
-      </motion.div>
-
-      {/* Desktop scroll indicator */}
-      {!isMobile && (
-        <motion.div
-          {...fadeIn(1.2)}
-          className="absolute bottom-10 right-10 md:right-12 flex flex-col items-center gap-4 z-20"
-        >
-          <span className="text-primary font-mono text-[10px] tracking-[0.4em] uppercase opacity-70" style={{ writingMode: "vertical-rl" }}>
-            INITIATE
-          </span>
-          <div className="w-[1px] h-16 bg-border/40 relative overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 w-full h-1/2 bg-primary"
-              animate={{ y: ["-100%", "200%"] }}
-              transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-              style={{ willChange: "transform" }}
-            />
+          <div className="fade-up mt-6 lg:mt-8 relative inline-block">
+            {/* Pill shape background */}
+            <div className="absolute inset-0 bg-foreground rounded-full transform scale-[1.05]" />
+            <p className="relative z-10 text-background font-sans font-medium px-6 md:px-10 py-2.5 lg:py-3 text-sm md:text-lg lg:text-xl uppercase tracking-[0.2em] whitespace-nowrap">
+              Backend Developer
+            </p>
           </div>
-        </motion.div>
-      )}
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none z-10" />
+          <div className="fade-up mt-12 lg:mt-20 flex flex-wrap justify-center lg:justify-start gap-4">
+            <Link
+              to="/archive"
+              className="bg-foreground text-background px-8 py-3 rounded-2xl font-chunky text-xl shadow-[4px_4px_0px_var(--color-primary)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-primary)] transition-all flex items-center justify-center"
+            >
+              Archive
+            </Link>
+            <a
+              href={resumeLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-secondary text-foreground px-8 py-3 rounded-2xl font-chunky text-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all flex items-center justify-center"
+            >
+              Resume
+            </a>
+          </div>
+        </div>
+
+        {/* Hero Image */}
+        <div className="flex-1 relative w-full max-w-sm lg:max-w-md flex justify-center items-center z-10 mt-8 lg:mt-0">
+          {/* Simulated polaroid/torn paper frame */}
+          <div className="hero-image relative p-3 md:p-4 pb-12 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full">
+            <div className="relative overflow-hidden w-full aspect-[4/5] bg-muted">
+              <img
+                className="w-full h-full object-cover border border-border/20"
+                src="/ashmo.webp"
+                alt="Ashutosh Moharana"
+              />
+            </div>
+
+            {/* Tape effect */}
+            <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 w-24 md:w-32 h-8 md:h-10 bg-secondary/80 backdrop-blur-sm -rotate-2 shadow-sm mix-blend-multiply" />
+
+            {/* Hand-drawn decorative element */}
+            <div className="absolute bottom-3 md:bottom-4 right-4 md:right-6 font-display text-xl md:text-2xl text-foreground opacity-80 rotate-[-10deg]">
+              hello!
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };

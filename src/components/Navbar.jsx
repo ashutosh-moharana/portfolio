@@ -1,12 +1,9 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState } from 'react';
 import { LenisContext } from '../App';
 import { ColorContext } from '../contexts/ColorContext';
-
 import { useDevice } from "../contexts/DeviceContext";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { VscTerminalUbuntu } from "react-icons/vsc";
 
 const Navbar = () => {
   const isMobile = useDevice();
@@ -14,54 +11,23 @@ const Navbar = () => {
   const { theme, toggleTheme } = useContext(ColorContext);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const { scrollY } = useScroll();
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const handleNavigateWithDelay = (e, path) => {
-    e.preventDefault();
-    setTimeout(() => {
-      navigate(path);
-      if (isMenuOpen) setIsMenuOpen(false);
-    }, 280); 
-  };
-
-  // True when we're on a sub-route (not the main portfolio page)
   const isSubRoute = location.pathname !== '/';
 
   const navLinks = isSubRoute 
     ? [
-        { name: 'BASE', href: '/', type: 'route' },
+        { name: 'HOME', href: '/', type: 'route' },
         { name: 'HUB', href: '/hub', type: 'route' },
         { name: 'ARCHIVE', href: '/archive', type: 'route' },
       ].filter(link => link.href !== location.pathname)
     : [
-        { name: 'SUBJECT', id: 'about', type: 'scroll' },
-        { name: 'MISSIONS', id: 'projects', type: 'scroll' },
+        { name: 'ABOUT', id: 'about', type: 'scroll' },
+        { name: 'PROJECTS', id: 'projects', type: 'scroll' },
         { name: 'HUB', href: '/hub', type: 'route' },
         { name: 'ARCHIVE', href: '/archive', type: 'route' },
-        { name: 'TRANSMISSION', id: 'contact', type: 'scroll' },
+        { name: 'CONTACT', id: 'contact', type: 'scroll' },
       ];
-
-  const lastScrollY = useRef(0);
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > lastScrollY.current && latest > 150 && !isMenuOpen) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-    lastScrollY.current = latest;
-  });
-
-  // Close mobile menu on scroll
-  useEffect(() => {
-    const onScroll = () => {
-      if (isMenuOpen) setIsMenuOpen(false);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [isMenuOpen]);
 
   const handleLinkClick = (e, targetId) => {
     e.preventDefault();
@@ -80,50 +46,97 @@ const Navbar = () => {
     }
   };
 
-
-
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{
-        y: hidden ? "-150%" : 0,
-        opacity: hidden ? 0 : 1,
-      }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 flex flex-col md:justify-center bg-background/98 md:bg-background/90 md:backdrop-blur-md border-b-2 border-primary`}
-    >
-      <div className="flex items-center justify-between px-6 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5 w-full">
-        {/* Logo / brand — links home on sub-routes, scrolls to top on main */}
-        <Link
-          to={isSubRoute ? "/" : "#"}
-          onClick={isSubRoute ? undefined : (e) => handleLinkClick(e, 'landing')}
-          className="group relative flex items-center gap-4 cursor-pointer"
-        >
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl">
+      <div className="relative group">
+        {/* Aesthetic "Tape" elements on corners */}
+        <div className="absolute -top-3 -left-2 w-12 h-6 bg-primary/40 -rotate-12 backdrop-blur-[2px] z-20 pointer-events-none mix-blend-multiply shadow-sm" />
+        <div className="absolute -bottom-3 -right-2 w-12 h-6 bg-secondary/60 rotate-12 backdrop-blur-[2px] z-20 pointer-events-none mix-blend-multiply shadow-sm" />
 
-          <div className="relative overflow-hidden pt-1 flex flex-col justify-center">
-            <div className="flex items-baseline gap-1">
-              <span className="text-foreground font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">ASH</span>
-              <span className="text-primary font-cinematic text-3xl tracking-[0.2em] leading-none uppercase">MO</span>
+        <div className="bg-card-bg/90 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border/40 rounded-2xl px-6 md:px-10 py-4 flex items-center justify-between gap-6 md:gap-10 transition-all duration-300">
+          
+          {/* Logo - Styled like a stamp or signature */}
+          <Link
+            to={isSubRoute ? "/" : "#"}
+            onClick={isSubRoute ? undefined : (e) => handleLinkClick(e, 'landing')}
+            className="relative flex items-center group/logo"
+          >
+            <div className="font-display text-2xl md:text-3xl tracking-tighter text-foreground group-hover/logo:text-primary transition-colors">
+              ASH<span className="text-primary group-hover/logo:text-foreground">MO</span>
             </div>
+            <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover/logo:w-full transition-all duration-300" />
+          </Link>
 
-            {/* High-Precision Glitch Overlays */}
-            <motion.div
-              animate={{
-                x: [0, -4, 4, -2, 0],
-                skewX: [0, 10, -10, 5, 0],
-                opacity: [0, 0.4, 0, 0.4, 0],
-              }}
-              transition={{ repeat: Infinity, duration: 0.3, repeatDelay: 4 }}
-              className="absolute inset-0 text-primary font-cinematic text-3xl tracking-[0.2em] leading-none select-none pointer-events-none opacity-0"
-            >
-              ASHMO
-            </motion.div>
-          </div>
-        </Link>
+          {/* Desktop Links - Minimal & Elegant */}
+          {!isMobile && (
+            <div className="flex items-center gap-10">
+              <div className="flex items-center gap-8">
+                {navLinks.map((link) => {
+                  const LinkElement = link.type === 'route' ? Link : 'a';
+                  const props = link.type === 'route' ? { to: link.href } : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
 
-        {!isMobile && (
-          <div className="flex items-center gap-8">
-            {/* Unified Links */}
+                  return (
+                    <LinkElement
+                      key={link.name}
+                      {...props}
+                      className="font-chunky text-base md:text-lg text-foreground/70 hover:text-primary transition-all duration-300 relative group/link"
+                    >
+                      {link.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary/40 group-hover/link:w-full transition-all duration-300" />
+                    </LinkElement>
+                  )
+                })}
+              </div>
+
+              {/* Decorative vertical separator */}
+              <div className="h-6 w-[1px] bg-border/60" />
+              
+              {/* Theme Toggle - Modern aesthetic icon */}
+              <button
+                onClick={toggleTheme}
+                className="relative p-2 rounded-xl bg-secondary/40 text-primary hover:bg-primary hover:text-white transition-all duration-500 overflow-hidden group/theme flex items-center justify-center w-10 h-10"
+                aria-label="Toggle Theme"
+              >
+                <div className="relative z-10 transition-transform duration-500 group-hover/theme:rotate-[360deg]">
+                  {theme === 'dark' ? <MdLightMode size={22} className="animate-in zoom-in-50 duration-500" /> : <MdDarkMode size={22} className="animate-in zoom-in-50 duration-500" />}
+                </div>
+                {/* Magnetic-like hover effect background */}
+                <div className="absolute inset-0 bg-primary translate-y-full group-hover/theme:translate-y-0 transition-transform duration-300 ease-out z-0" />
+              </button>
+            </div>
+          )}
+
+          {/* Mobile Controls */}
+          {isMobile && (
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2.5 rounded-xl bg-secondary/40 text-primary transition-colors flex items-center justify-center w-10 h-10"
+                aria-label="Toggle Theme"
+              >
+                <div className="transition-transform duration-500 active:rotate-[180deg]">
+                  {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
+                </div>
+              </button>
+              
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-foreground text-background transition-transform active:scale-90"
+              >
+                <div className="flex flex-col gap-1.5 items-end">
+                  <div className={`w-6 h-0.5 bg-background rounded-full transition-all duration-300 ${isMenuOpen ? '-rotate-45 translate-y-2 w-6' : ''}`} />
+                  <div className={`w-4 h-0.5 bg-background rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`} />
+                  <div className={`w-5 h-0.5 bg-background rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 -translate-y-2 w-6' : ''}`} />
+                </div>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Menu Dropdown - Aesthetic glassmorphism effect */}
+        {isMobile && isMenuOpen && (
+          <div className="absolute top-[110%] left-0 w-full bg-card-bg/95 backdrop-blur-2xl shadow-2xl rounded-2xl border border-border/40 py-8 px-6 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
+            <div className="text-[10px] font-sans font-bold text-subtle tracking-[0.3em] uppercase mb-2">Navigation</div>
             {navLinks.map((link) => {
               const LinkElement = link.type === 'route' ? Link : 'a';
               const props = link.type === 'route' ? { to: link.href } : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
@@ -132,207 +145,17 @@ const Navbar = () => {
                 <LinkElement
                   key={link.name}
                   {...props}
-                  className="text-sm font-mono tracking-[0.2em] uppercase text-foreground/80 hover:text-primary transition-colors relative group py-2 px-5"
+                  className="font-chunky text-2xl text-foreground hover:text-primary transition-all py-3 flex items-center justify-between group"
                 >
                   {link.name}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
-                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
-                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
-                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary shadow-[0_0_5px_var(--color-primary)]" />
-                  </div>
+                  <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                 </LinkElement>
               )
             })}
-
-            <button
-              onClick={toggleTheme}
-              className="text-primary hover:text-primary/80 transition-colors z-50 transition-transform active:scale-95 px-2"
-              aria-label="Toggle Theme"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={theme}
-                  initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                  exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
-                </motion.div>
-              </AnimatePresence>
-            </button>
-
-            {/* Minimal Terminal Button (Desktop) */}
-            <a
-              href="/terminal"
-              onClick={(e) => handleNavigateWithDelay(e, "/terminal")}
-              className="text-primary hover:text-primary/80 transition-all duration-300 z-50 active:scale-95 active:rotate-180 px-2 cursor-pointer"
-            >
-              <motion.div
-                style={{ willChange: "transform", transform: "translateZ(0)" }}
-                whileTap={{ rotate: 180, scale: 0.8 }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              >
-                <VscTerminalUbuntu size={24} />
-              </motion.div>
-            </a>
-
-          </div>
-        )}
-
-        {isMobile && (
-          <div className="flex items-center gap-5">
-            {/* Terminal Button (Mobile) */}
-            <a
-              href="/terminal"
-              onClick={(e) => handleNavigateWithDelay(e, "/terminal")}
-              className="text-primary active:text-primary/80 transition-all duration-300 z-50 active:scale-90 active:rotate-180 px-1 pt-[2px] cursor-pointer"
-              aria-label="Open Terminal"
-            >
-              <motion.div
-                style={{ willChange: "opacity", transform: "translateZ(0)" }}
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                whileTap={{ rotate: 180, scale: 0.8 }}
-                transition={{
-                  opacity: { repeat: Infinity, duration: 2, ease: "easeInOut" },
-                  rotate: { type: "spring", stiffness: 300, damping: 15 },
-                  scale: { type: "spring", stiffness: 300, damping: 15 },
-                }}
-              >
-                <VscTerminalUbuntu size={24} />
-              </motion.div>
-            </a>
-
-            {/* Theme switcher on mobile */}
-            <button
-              onClick={toggleTheme}
-              className="text-primary active:text-primary/80 transition-colors z-50 transition-transform active:scale-95 px-2"
-              aria-label="Toggle Theme"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={theme}
-                  initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                  exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {theme === 'dark' ? <MdLightMode size={24} /> : <MdDarkMode size={24} />}
-                </motion.div>
-              </AnimatePresence>
-            </button>
-
-            <button
-
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="group relative flex flex-col items-center justify-center w-10 h-10 z-50 overflow-hidden"
-              aria-label="Toggle Menu"
-            >
-              {/* Custom Hamburger Lines */}
-              <div className="flex flex-col gap-1.5 items-end">
-                <motion.span
-                  animate={isMenuOpen ? { rotate: 45, y: 8, width: "24px" } : { rotate: 0, y: 0, width: "20px" }}
-                  transition={{ duration: 0.3, ease: "anticipate" }}
-                  className="h-[2px] bg-primary block"
-                />
-                <motion.span
-                  animate={isMenuOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0, width: "24px" }}
-                  transition={{ duration: 0.2 }}
-                  className="h-[2px] bg-primary block"
-                />
-                <motion.span
-                  animate={isMenuOpen ? { rotate: -45, y: -8, width: "24px" } : { rotate: 0, y: 0, width: "16px" }}
-                  transition={{ duration: 0.3, ease: "anticipate" }}
-                  className="h-[2px] bg-primary block"
-                />
-              </div>
-            </button>
           </div>
         )}
       </div>
-
-      <AnimatePresence>
-        {isMobile && isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{
-              opacity: 0,
-              height: 0,
-              transition: {
-                opacity: { duration: 0.15, ease: "linear" },
-                height: { duration: 0.3, ease: [0.4, 0, 1, 1] }
-              }
-            }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full border-t border-primary/30 bg-background md:bg-background/95 md:backdrop-blur-xl overflow-hidden"
-          >
-            <div className="relative flex flex-col items-center gap-2 pb-8 pt-4 w-full">
-              {/* Tactical Scanline Effect */}
-              <motion.div
-                initial={{ y: "-100%" }}
-                animate={{ y: "200%" }}
-                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                className="absolute inset-0 w-full h-[50%] bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none z-0"
-              />
-
-              {/* Subtle Grid Pattern */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(to_right,#ed1d24_1px,transparent_1px),linear-gradient(to_bottom,#ed1d24_1px,transparent_1px)] bg-[size:40px_40px]" />
-
-              <div className="flex flex-col items-center gap-1 w-full px-8 relative z-10">
-                {navLinks.map((link, idx) => {
-                  return (
-                    <motion.div
-                      key={link.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + idx * 0.1, duration: 0.4 }}
-                      className="w-full"
-                    >
-                      {link.type === 'scroll' ? (
-                        <a
-                          href={`#${link.id}`}
-                          onClick={(e) => handleLinkClick(e, link.id)}
-                          className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
-                        >
-                          <span className="text-[10px] opacity-70">[{String(idx + 1).padStart(2, '0')}]</span>
-                          <span className="font-bold">{link.name}</span>
-                          <motion.span
-                            animate={{ scale: [1, 1.5, 1] }}
-                            transition={{ repeat: Infinity, duration: 2 }}
-                            className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]"
-                          />
-                        </a>
-                      ) : (
-                        <Link
-                          to={link.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center justify-between text-sm font-mono tracking-[0.2em] uppercase text-primary hover:text-foreground transition-all duration-300 w-full py-4 border-b border-primary/20 last:border-0 active:bg-primary/5 px-2"
-                        >
-                          <span className="text-[10px] opacity-70">[{String(idx + 1).padStart(2, '0')}]</span>
-                          <span className="font-bold">{link.name}</span>
-                          <motion.span
-                            animate={{ scale: [1, 1.5, 1] }}
-                            transition={{ repeat: Infinity, duration: 2 }}
-                            className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_var(--color-primary)]"
-                          />
-                        </Link>
-                      )}
-                    </motion.div>
-                  )
-                })}
-              </div>
-
-
-              {/* Bottom Accent */}
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-    </motion.nav>
+    </nav>
   );
 };
 

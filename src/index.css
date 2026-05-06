@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&family=Knewave&display=swap');
 @import "tailwindcss";
 
 ::-webkit-scrollbar {
@@ -5,42 +6,44 @@
 }
 
 :root {
-  /* Aesthetic Modern Dark Theme */
-  --background: #050505;
-  --foreground: #f4f4f5;
+  /* Aesthetic Modern Light Theme (Default) */
+  --background: #F4EFEB;
+  --foreground: #663131;
 
-  /* Accent Colors mapped to current */
-  --primary: #ef4444;
+  --primary: #C38661;
   --primary-foreground: #ffffff;
 
-  /* Deep tactical panels */
-  --secondary: #121212;
-  --secondary-foreground: #f1f1f1;
+  --secondary: #E3D2C6;
+  --secondary-foreground: #663131;
 
-  --heading-color: #f4f4f5;
-  --subtle-text: #888888;
+  --heading-color: #663131;
+  --subtle-text: #997A7A;
 
-  --border: #27272a;
-  --muted: #1a1a1a;
-  --muted-foreground: #a1a1aa;
+  --border: #D8C3B5;
+  --muted: #EBE0D8;
+  --muted-foreground: #997A7A;
+  --card-bg: #ffffff;
 }
 
-:root.light {
-  /* Elegant Off-White Theme */
-  --background: #ffffff;
-  --foreground: #111111;
+:root.dark {
+  /* Warm Dark Mode */
+  --background: #2D2424;
+  --foreground: #EFE6E0;
 
-  --secondary: #f4f4f5;
-  --secondary-foreground: #111111;
+  --primary: #C38661;
+  --primary-foreground: #ffffff;
 
-  --subtle-text: #71717a;
+  --secondary: #4A3A3A;
+  --secondary-foreground: #EFE6E0;
 
-  --border: #e4e4e7;
-  --muted: #ededed;
-  --muted-foreground: #a1a1aa;
+  --heading-color: #EFE6E0;
+  --subtle-text: #D6CCCC;
+
+  --border: #4A3A3A;
+  --muted: #3D2F2F;
+  --muted-foreground: #BCAEAE;
+  --card-bg: #3D2F2F;
 }
-
-
 
 @theme inline {
   --color-background: var(--background);
@@ -58,6 +61,7 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-card-bg: var(--card-bg);
 
 }
 
@@ -69,22 +73,20 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
 
-  .font-cinematic {
-    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  .font-chunky {
+    font-family: 'Fredoka', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .font-display {
+    font-family: 'Knewave', cursive;
     letter-spacing: 0.05em;
   }
 
-  @media (pointer: fine) {
 
-    *,
-    *::before,
-    *::after {
-      cursor: none !important;
-    }
-  }
 }
 
 /* ── Mobile tap / press feedback ───────────────────────────── */
