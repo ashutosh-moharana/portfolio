@@ -54,27 +54,31 @@ function App() {
 
     // Initialize Lenis
     useEffect(() => {
-        // Skip Lenis on touch devices for performance
-        if (window.matchMedia("(pointer: coarse)").matches) return;
-
         const lenisInstance = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true,
-            lerp: 0.1,
-            smoothTouch: false, // Ensure native touch scroll
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+            infinite: false,
         });
 
         setLenis(lenisInstance);
 
-        function raf(time) {
-            lenisInstance.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
+        // Synchronize Lenis with ScrollTrigger
+        lenisInstance.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenisInstance.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
 
         return () => {
             lenisInstance.destroy();
+            gsap.ticker.remove(lenisInstance.raf);
         };
     }, []);
 
