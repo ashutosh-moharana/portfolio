@@ -24,9 +24,9 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 // Lazy-loaded routes
-const Archive     = lazy(() => import("./components/Archive"));
-const Hub         = lazy(() => import("./components/Hub"));
-const NotFound     = lazy(() => import("./components/NotFound"));
+const Archive = lazy(() => import("./components/Archive"));
+const Hub = lazy(() => import("./components/Hub"));
+const NotFound = lazy(() => import("./components/NotFound"));
 
 // Create Lenis Context for smooth scrolling
 export const LenisContext = createContext();
@@ -37,11 +37,11 @@ function Portfolio() {
             <section id="landing" className="relative z-[1]">
                 <LandingPage />
             </section>
-            <section id="about" className="relative z-[2]">
-                <About />
-            </section>
-            <section id="projects" className="relative z-[3]">
+            <section id="projects" className="relative z-[2]">
                 <Projects />
+            </section>
+            <section id="about" className="relative z-[3]">
+                <About />
             </section>
             <section id="contact" className="relative z-[4]">
                 <Contact />

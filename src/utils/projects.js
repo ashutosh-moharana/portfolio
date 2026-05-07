@@ -5,7 +5,7 @@ const projects = [
     category: "Backend & APIs",
     date: "Dec 2024 – Feb 2025",
     description:
-      "A fast scalable backend powering a pet reunification platform. Focused heavily on backend development using Node.js and Express, designing a REST API, structuring MongoDB schemas, handling JWT authentication, and managing secure image uploads via Multer.",
+      "Backend-driven pet reunification platform featuring REST APIs, JWT authentication, image upload handling, and structured MongoDB schema architecture.",
     technologies: [
       "Node.js",
       "Express",
@@ -26,7 +26,7 @@ const projects = [
     category: "E-commerce Backend",
     date: "Sep 2025 – Feb 2026",
     description:
-      "A complete e-commerce architecture handling products and orders. Designed scalable backend APIs, managed complex database relationships, implemented secure Google OAuth access, and integrated robust payment processing via Razorpay alongside Cloudinary for media storage.",
+      "E-commerce platform with scalable APIs, authentication, payment integration, media handling, and optimized MongoDB relationship design.",
     technologies: [
       "Node.js",
       "Express",
@@ -47,7 +47,7 @@ const projects = [
     category: "Backend",
     date: "In Progress",
     description:
-      "A secure file sharing backend system built with Spring Boot. Features include file upload/download APIs, JPA-based database design, and a recurring scheduler that automatically handles 24-hour file expiration.",
+      "Secure file-sharing backend built with Spring Boot featuring REST APIs, JPA-based persistence, scheduled file expiration, and scalable storage architecture.",
     technologies: [
       "Java",
       "Spring Boot",

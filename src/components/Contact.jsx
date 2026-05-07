@@ -6,6 +6,7 @@ import { FiMail, FiPhone } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { MagneticElement, TextReveal } from "../utils/animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,10 +30,7 @@ const Contact = () => {
       }
     });
 
-    tl.fromTo(".contact-heading", 
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
-    );
+    // Heading handled by TextReveal
 
     tl.fromTo(".contact-form",
       { y: 50, opacity: 0, rotation: -5 },
@@ -97,29 +95,33 @@ const Contact = () => {
   };
 
   const inputClasses = (errorName) =>
-    `w-full bg-background border-2 ${errorName ? 'border-primary' : 'border-border/60'} text-foreground text-lg py-3 px-4 focus:outline-none focus:border-foreground transition-colors placeholder:text-subtle/70 font-sans shadow-[4px_4px_0px_rgba(0,0,0,0.05)] rounded-md`;
+    `w-full bg-background/80 dark:bg-background/60 border-2 ${errorName ? 'border-primary' : 'border-border'} text-foreground text-lg py-4 md:py-3.5 px-6 md:px-5 focus:outline-none focus:border-foreground focus:ring-1 focus:ring-foreground/20 transition-all duration-200 placeholder:text-subtle/50 dark:placeholder:text-subtle/60 font-sans shadow-[3px_3px_0px_var(--color-border)] hover:border-subtle/30 hover:shadow-[4px_4px_0px_var(--color-border)] rounded-md`;
 
   return (
-    <div ref={containerRef} id="contact" className="relative flex flex-col justify-between overflow-hidden pt-20 md:pt-32 bg-background">
+    <div ref={containerRef} id="contact" className="relative flex flex-col justify-between overflow-hidden pt-28 md:pt-40 bg-background">
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 w-full flex flex-col flex-1 relative z-10">
-        
-        {/* Decorative Tape */}
-        <div className="absolute -top-4 right-1/4 w-24 h-8 bg-secondary/80 backdrop-blur-sm rotate-6 shadow-sm z-20" />
 
-        <div className="contact-heading text-center mb-16">
-          <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-2 tracking-wide drop-shadow-sm text-center uppercase">
-            <span className="text-foreground">LET'S T</span>
-            <span className="text-primary">A</span>
-            <span className="text-foreground">LK</span>
-          </h2>
-          <p className="font-display text-3xl text-subtle mt-2 -rotate-2">I'd love to hear from you!</p>
+
+
+        <div className="text-center mb-16 md:mb-24 flex flex-col items-center">
+          <TextReveal delay={0.1}>
+            <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-4 tracking-wide drop-shadow-sm text-center uppercase">
+              <span className="text-foreground">LET'S T</span>
+              <span className="text-primary">A</span>
+              <span className="text-foreground">LK</span>
+            </h2>
+          </TextReveal>
+          <p className="contact-info font-display text-xl text-subtle mt-1 -rotate-2 opacity-80">Open to work, collaborations & good conversations.</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-20">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-24">
 
-          {/* Contact Form Container (looks like a letter) */}
-          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,0.08)] border border-border/50 relative">
+          {/* Contact Form Container */}
+          <div className="contact-form w-full lg:w-1/2 bg-[#f4f4f5]/95 dark:bg-[#e4e4e7]/10 backdrop-blur-xl p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl">
+            {/* Decorative Tape — pinned to the card */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-primary/30 border border-primary/40 backdrop-blur-xl rotate-2 shadow-sm z-20" />
+            <div className="absolute -top-3 right-10 w-16 h-6 bg-secondary/60 border border-secondary backdrop-blur-xl -rotate-3 shadow-sm z-20" />
             {isSubmitted ? (
               <div className="flex flex-col h-full justify-center items-center py-20 text-center">
                 <div className="text-primary font-display text-5xl mb-6">Yay!</div>
@@ -133,7 +135,7 @@ const Contact = () => {
                 </button>
               </div>
             ) : (
-              <form ref={formRef} onSubmit={sendEmail} autoComplete="off" className="flex flex-col gap-6">
+              <form ref={formRef} onSubmit={sendEmail} autoComplete="off" className="flex flex-col gap-7 md:gap-8">
                 <div>
                   <input
                     type="text"
@@ -187,26 +189,26 @@ const Contact = () => {
           </div>
 
           {/* Socials & Info */}
-          <div className="w-full lg:w-1/2 flex flex-col pt-8 md:pt-16">
-            <h3 className="contact-info font-chunky text-4xl text-foreground mb-6">Reach Out</h3>
-            <p className="contact-info font-sans text-lg text-subtle mb-10 leading-relaxed max-w-md">
-              Whether you have a question, want to collaborate, or just want to say hi, my inbox is always open.
+          <div className="w-full lg:w-1/2 flex flex-col pt-12 md:pt-16 gap-3">
+            <h3 className="contact-info font-chunky text-3xl text-foreground mb-2">Reach Out</h3>
+            <p className="contact-info font-sans text-base text-subtle/80 mb-10 leading-relaxed max-w-md">
+              Whether you have a question, want to collaborate, or just want to say hi - my inbox is always open.
             </p>
 
-            <div className="flex flex-col gap-6 font-sans text-lg">
-              <a href="mailto:ashutoshmoharana00@gmail.com" className="contact-info group flex items-center gap-5 text-foreground hover:text-primary transition-colors">
-                <div className="w-14 h-14 rounded-full bg-card-bg shadow-md flex items-center justify-center group-hover:-rotate-12 transition-transform border border-border/50 text-2xl text-primary">
-                  <FiMail />
-                </div>
-                <span className="font-medium underline decoration-border group-hover:decoration-primary underline-offset-4">ashutoshmoharana00@gmail.com</span>
-              </a>
-              
-              <div className="contact-info group flex items-center gap-5 text-foreground">
-                <div className="w-14 h-14 rounded-full bg-card-bg shadow-md flex items-center justify-center border border-border/50 text-2xl group-hover:rotate-12 transition-transform text-primary">
-                  <FiPhone />
-                </div>
-                <span className="font-medium">(+91) 9937727738</span>
-              </div>
+            <div className="flex flex-col gap-6 font-sans text-lg items-start">
+              <MagneticElement strength={20}>
+                <a href="mailto:ashutoshmoharana00@gmail.com" className="contact-info group flex items-center gap-5 text-foreground hover:text-primary transition-colors">
+                  <FiMail className="text-3xl text-primary group-hover:-rotate-12 transition-transform" />
+                  <span className="font-medium underline decoration-border group-hover:decoration-primary underline-offset-4">ashutoshmoharana00@gmail.com</span>
+                </a>
+              </MagneticElement>
+
+              <MagneticElement strength={20}>
+                <a href="tel:+919937727738" className="contact-info group flex items-center gap-5 text-foreground hover:text-primary transition-colors">
+                  <FiPhone className="text-3xl text-primary group-hover:rotate-12 transition-transform" />
+                  <span className="font-medium underline decoration-border group-hover:decoration-primary underline-offset-4">(+91) 9937727738</span>
+                </a>
+              </MagneticElement>
             </div>
           </div>
 

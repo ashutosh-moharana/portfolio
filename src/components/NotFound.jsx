@@ -13,7 +13,7 @@ const NotFound = () => {
                 className="relative z-10 bg-card-bg p-8 md:p-16 border border-border/40 shadow-xl rounded-xl max-w-lg w-full flex flex-col items-center rotate-2"
             >
                 {/* Tape */}
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-[#D8C3B5]/90 backdrop-blur-sm -rotate-3 mix-blend-multiply shadow-sm z-20" />
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-secondary/90 -rotate-3 shadow-sm z-20 border border-black/5" />
                 
                 <h1
                     className="text-8xl md:text-[120px] font-display text-primary leading-none select-none mb-4"

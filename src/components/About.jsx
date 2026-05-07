@@ -1,194 +1,339 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub } from "react-icons/si";
 import { FiArrowUpRight } from "react-icons/fi";
+import { MagneticElement, TextReveal } from "../utils/animations";
+import ProgressiveImage from "./ProgressiveImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const educationData = [
+    { year: "2025 - 2027", degree: "M.C.A", institution: "Indira Gandhi Institute of Technology", detail: "" },
+    { year: "2022 - 2025", degree: "B.SC. CSC", institution: "Udayanath Autonomous College", detail: "8.6 CGPA" },
+    { year: "2020 - 2022", degree: "HIGHER SECONDARY", institution: "Prananath Autonomous College", detail: "86%" },
+    { year: "2016 - 2020", degree: "SECONDARY EDUCATION", institution: "Young Phoenix Public School", detail: "84%" }
+];
+
 const About = () => {
-  const containerRef  = useRef(null);
-  const polaroidRef   = useRef(null);
-  const textRef       = useRef(null);
+    const containerRef = useRef(null);
+    const polaroidRef = useRef(null);
+    const textRef = useRef(null);
+    const [polaroidFlipped, setPolaroidFlipped] = useState(false);
 
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 70%",
-      }
-    });
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top 70%",
+            }
+        });
 
-    // Animate polaroid - Simplified
-    tl.fromTo(polaroidRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-      "-=0.2"
-    );
+        // Animate polaroid - Premium Reveal
+        tl.fromTo(polaroidRef.current,
+            { y: 50, opacity: 0, rotation: -10 },
+            { y: 0, opacity: 1, rotation: -2, duration: 1, ease: "back.out(1.2)" },
+            "-=0.2"
+        );
+        tl.fromTo(".polaroid-img-container",
+            { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" },
+            { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1.2, ease: "power3.inOut" },
+            "-=0.8"
+        );
+        tl.fromTo(".polaroid-img-inner",
+            { scale: 1.4 },
+            { scale: 1, duration: 1.5, ease: "power3.out" },
+            "-=1.2"
+        );
 
-    // Arrow animation - Simplified
-    tl.fromTo(".arrow-svg", 
-        { opacity: 0 }, 
-        { opacity: 1, duration: 0.6, ease: "power2.out" },
-        "-=0.4"
-    );
+        // Arrow animation - Simplified
+        tl.fromTo(".arrow-svg",
+            { opacity: 0 },
+            { opacity: 1, duration: 0.6, ease: "power2.out" },
+            "-=0.4"
+        );
 
-    // Animate heading and text
-    tl.fromTo(".about-text",
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" },
-      "-=0.4"
-    );
+        // Animate heading and text
+        tl.fromTo(".about-text",
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" },
+            "-=0.4"
+        );
 
-    // Skills - Simplified
-    tl.fromTo(".skill-card",
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.03, ease: "power2.out" },
-      "-=0.2"
-    );
+        // Skills - Simplified
+        tl.fromTo(".skill-card",
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.4, stagger: 0.03, ease: "power2.out" },
+            "-=0.2"
+        );
 
-    // Parallax on polaroid
-    gsap.to(polaroidRef.current, {
-      yPercent: 10,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
+        // Education scattered cards entry (premium 3D flip)
+        gsap.fromTo(".edu-card-wrapper",
+            { opacity: 0, y: 100, rotationX: -45, z: -100 },
+            {
+                opacity: 1,
+                y: 0,
+                rotationX: 0,
+                z: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "back.out(1.2)",
+                scrollTrigger: {
+                    trigger: ".edu-container",
+                    start: "top 75%"
+                }
+            }
+        );
 
-  }, { scope: containerRef });
+        // Parallax on polaroid
+        gsap.to(polaroidRef.current, {
+            yPercent: 10,
+            ease: "none",
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
 
-  return (
-    <div ref={containerRef} id="about" className="relative min-h-screen flex items-center bg-background py-20 md:py-24 px-6 md:px-12 lg:px-24 overflow-hidden">
-        
-        {/* Removed duplicate PORTFOLIO text to prevent stacking with LandingPage */}
+    }, { scope: containerRef });
 
-        <div className="max-w-7xl mx-auto w-full relative z-10 mt-12 lg:mt-0">
-            <div className="flex flex-col-reverse lg:flex-row gap-16 lg:gap-8 items-center lg:items-start">
-                
-                {/* Left side: Polaroid */}
-                <div className="w-full lg:w-1/2 flex justify-center lg:justify-start relative pl-0 lg:pl-10 self-start">
-                    {/* Inner wrapper: row on mobile (links beside), col on desktop (links below) */}
-                    <div className="flex flex-row lg:flex-col items-start gap-4 lg:gap-5">
+    return (
+        <div ref={containerRef} id="about" className="relative min-h-screen bg-background pt-28 pb-12 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-20 overflow-hidden">
+            <div className="w-full flex flex-col items-center">
+                <div className="max-w-7xl mx-auto w-full relative z-10">
+                    <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
 
-                        {/* Polaroid */}
-                        <div ref={polaroidRef} className="relative p-2 md:p-3 h-fit bg-[#f4f4f5] dark:bg-[#e4e4e7] shadow-[0_20px_50px_rgba(0,0,0,0.2)] rotate-[-2deg] w-36 sm:w-56 lg:w-[320px] border-2 border-white/20 z-30 shrink-0">
-                            <div className="w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center text-subtle/30 text-sm font-sans">
-                                {/* image coming soon */}
-                            </div>
-                            <div className="py-1.5 md:py-3 w-full text-center">
-                                <span className="font-display italic text-xs md:text-lg text-neutral-600 tracking-wide">@ash_mo</span>
-                            </div>
-                        </div>
+                        {/* Left side: Polaroid */}
+                        <div className="w-full lg:w-[45%] flex justify-center lg:justify-start relative pl-0 lg:pl-10">
+                            {/* Inner wrapper: row on mobile (links beside), col on desktop (links below) */}
+                            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-4 sm:gap-6 lg:gap-5">
 
-                        {/* Profile links — right of polaroid on mobile, below on desktop */}
-                        <div className="flex flex-col gap-3 pt-1 lg:pt-0 lg:pl-1 mt-0 lg:mt-3">
-                            <a href="https://linkedin.com/in/ashutosh-moharana" target="_blank" rel="noreferrer"
-                               className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                <SiLinkedin size={14} className="shrink-0" />
-                                <span className="group-hover:underline underline-offset-4">linkedin.com/in/ashutosh-moharana</span>
-                                <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5" />
-                            </a>
-                            <a href="https://leetcode.com/u/ash_mo/" target="_blank" rel="noreferrer"
-                               className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                <SiLeetcode size={14} className="shrink-0" />
-                                <span className="group-hover:underline underline-offset-4">leetcode.com/ash_mo</span>
-                                <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5" />
-                            </a>
-                            <a href="https://github.com/ashutosh-moharana" target="_blank" rel="noreferrer"
-                               className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                <SiGithub size={14} className="shrink-0" />
-                                <span className="group-hover:underline underline-offset-4">github.com/ashutosh-moharana</span>
-                                <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5" />
-                            </a>
-                            <a href="https://www.hackerrank.com/profile/ash_mo" target="_blank" rel="noreferrer"
-                               className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                <SiHackerrank size={14} className="shrink-0" />
-                                <span className="group-hover:underline underline-offset-4">hackerrank.com/ash_mo</span>
-                                <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5" />
-                            </a>
-                        </div>
+                                {/* Flippable Polaroid */}
+                                <div
+                                    ref={polaroidRef}
+                                    className="relative w-36 sm:w-56 lg:w-[320px] shrink-0 z-30 cursor-pointer"
+                                    style={{ perspective: "1000px" }}
+                                    onMouseEnter={() => setPolaroidFlipped(true)}
+                                    onMouseLeave={() => setPolaroidFlipped(false)}
+                                    onClick={() => setPolaroidFlipped(!polaroidFlipped)} // Fallback for mobile
+                                    title="Hover to flip"
+                                >
+                                    <div
+                                        className="relative w-full transition-transform duration-700"
+                                        style={{
+                                            transformStyle: "preserve-3d",
+                                            transform: polaroidFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+                                        }}
+                                    >
+                                        {/* FRONT — Photo */}
+                                        <div
+                                            className="relative p-2 md:p-3 bg-[#f4f4f5] shadow-[0_20px_50px_rgba(0,0,0,0.2)] rotate-[-2deg] border-2 border-white/10"
+                                            style={{ backfaceVisibility: "hidden" }}
+                                        >
+                                            {/* EST 2005 vertical text */}
+                                            <div
+                                                className="absolute -left-6 top-0 h-full flex items-start justify-start"
+                                                style={{ writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)" }}
+                                            >
+                                                <span className="font-display text-[10px] sm:text-xs tracking-[0.25em] text-neutral-400 uppercase select-none">
+                                                    EST 2005
+                                                </span>
+                                            </div>
 
-                    </div>
-                </div>
+                                            {/* TAP text - Bottom Right inside white area (Mobile only) */}
+                                            <div className="absolute right-1 bottom-1 sm:hidden">
+                                                <span className="font-display text-[7px] tracking-widest text-neutral-400 uppercase select-none">
+                                                    TAP
+                                                </span>
+                                            </div>
 
-                {/* Right side: Text block */}
-                <div className="w-full lg:w-1/2 relative flex flex-col justify-center pt-8 lg:pt-0">
-                    
-                    {/* SVG Arrow pointing to the heading */}
-                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 md:-top-20 md:-left-12 z-20 w-32 h-32 md:w-44 md:h-44 arrow-svg">
-                        <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
-                            <path 
-                                d="M40,20 C100,-10 160,40 100,100 C40,160 120,200 170,150" 
-                                stroke="var(--color-primary)" 
-                                strokeWidth="4" 
-                                strokeDasharray="10 10" 
-                                strokeLinecap="round" 
-                                fill="none"
-                                className="arrow-path"
-                            />
-                            <path d="M155,145 L180,155 L165,125 Z" fill="var(--color-primary)" />
-                        </svg>
-                    </div>
+                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center">
+                                                <ProgressiveImage
+                                                    src="/ashu.webp"
+                                                    alt="Ashutosh"
+                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700"
+                                                    wrapperClassName="w-full h-full"
+                                                />
+                                            </div>
+                                            <div className="py-1.5 md:py-3 w-full text-center flex justify-center">
+                                                <span className="font-display italic text-xs md:text-lg text-neutral-600/80 tracking-wide rotate-[-1.5deg] select-none">@ashutosh</span>
+                                            </div>
+                                        </div>
 
-                    {/* Background accent blocks */}
-                    <div className="absolute -top-12 bottom-20 -left-10 lg:-left-32 -right-10 bg-secondary/30 z-0 hidden lg:block rounded-sm"></div>
-                    <div className="absolute top-32 -bottom-10 left-10 lg:left-0 -right-20 bg-secondary/50 z-0 hidden lg:block rounded-sm"></div>
-
-                    <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
-                        <h2 className="about-text font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-8 tracking-wide drop-shadow-sm">
-                            <span className="text-foreground">AB</span>
-                            <span className="text-primary">O</span>
-                            <span className="text-foreground">UT M</span>
-                            <span className="text-primary">E</span>
-                        </h2>
-
-                        <div className="about-text font-sans text-base sm:text-lg text-foreground/80 leading-relaxed mb-8 max-w-xl font-medium">
-                            <p className="mb-6">
-                                I'm a creative developer who blends aesthetic intuition with
-                                systematic thinking to craft memorable digital experiences. From robust APIs to interactive interfaces, I believe every line of code should tell a story.
-                            </p>
-                            <p>
-                                My approach combines design thinking with modern architecture, creating work that is not only beautiful but strategically effective. I specialize in backend development, frontend integration, and seamless user experiences.
-                            </p>
-                        </div>
-
-                        {/* Toolkit */}
-                        <div className="mt-12 about-text w-full">
-                            <div className="flex flex-wrap gap-2 md:gap-3 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
-                            {['Java', 'Spring Boot', 'REST API', 'PostgreSQL', 'React', 'JavaScript', 'TailwindCSS', 'Node.js'].map((skill, i) => (
-                                <div key={i} className="skill-card px-3 md:px-4 py-2 bg-card-bg border-2 border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_var(--color-primary)] transition-all cursor-default">
-                                {skill}
+                                        {/* BACK — Funny Aadhar message */}
+                                        <div
+                                            className="absolute inset-0 p-3 md:p-5 bg-[#f4f4f5] dark:bg-[#3D2F2F] shadow-[0_20px_50px_rgba(0,0,0,0.2)] border-2 border-white/20 dark:border-white/5 flex flex-col items-center justify-center gap-2 md:gap-4 text-center"
+                                            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg) rotate(-2deg)" }}
+                                        >
+                                            <p className="font-display italic text-[10px] sm:text-sm md:text-base text-neutral-600 dark:text-neutral-300 leading-snug">
+                                               “this child thought adulthood looked fun.”
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            ))}
+
+                                {/* Profile links — right of polaroid on mobile, below on desktop */}
+                                <div className="flex flex-col gap-3 pt-0 lg:pl-1 mt-0 lg:mt-3">
+                                    <MagneticElement strength={20}>
+                                        <a href="https://linkedin.com/in/ashutosh-moharana" target="_blank" rel="noreferrer"
+                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
+                                            <SiLinkedin size={18} className="shrink-0" />
+                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">linkedin.com/in/ashutosh-moharana</span>
+                                            <span className="group-hover:underline underline-offset-4 sm:hidden">LinkedIn</span>
+                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                        </a>
+                                    </MagneticElement>
+                                    <MagneticElement strength={20}>
+                                        <a href="https://leetcode.com/u/ash_mo/" target="_blank" rel="noreferrer"
+                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
+                                            <SiLeetcode size={18} className="shrink-0" />
+                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">leetcode.com/ash_mo</span>
+                                            <span className="group-hover:underline underline-offset-4 sm:hidden">LeetCode</span>
+                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                        </a>
+                                    </MagneticElement>
+                                    <MagneticElement strength={20}>
+                                        <a href="https://github.com/ashutosh-moharana" target="_blank" rel="noreferrer"
+                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
+                                            <SiGithub size={18} className="shrink-0" />
+                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">github.com/ashutosh-moharana</span>
+                                            <span className="group-hover:underline underline-offset-4 sm:hidden">GitHub</span>
+                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                        </a>
+                                    </MagneticElement>
+                                    <MagneticElement strength={20}>
+                                        <a href="https://www.hackerrank.com/profile/ash_mo" target="_blank" rel="noreferrer"
+                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
+                                            <SiHackerrank size={18} className="shrink-0" />
+                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">hackerrank.com/ash_mo</span>
+                                            <span className="group-hover:underline underline-offset-4 sm:hidden">HackerRank</span>
+                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                        </a>
+                                    </MagneticElement>
+                                </div>
+
                             </div>
                         </div>
 
-                        {/* Profiles */}
-                        <div className="mt-6 about-text w-full">
-                            <div className="flex flex-wrap gap-3 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
-                                <a href="https://leetcode.com/u/ash_mo/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 bg-card-bg border-2 border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_var(--color-primary)] transition-all">
-                                    <SiLeetcode size={16} />
-                                    LeetCode
-                                </a>
-                                <a href="https://www.hackerrank.com/profile/ash_mo" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 bg-card-bg border-2 border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_var(--color-primary)] transition-all">
-                                    <SiHackerrank size={16} />
-                                    HackerRank
-                                </a>
+                        {/* Right side: Text block */}
+                        <div className="w-full lg:w-[55%] relative flex flex-col justify-center pt-8 lg:pt-0">
+
+                            {/* SVG Arrow pointing to the heading */}
+                            <div className="absolute -top-16 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 md:-top-20 md:-left-12 z-20 w-32 h-32 md:w-44 md:h-44 arrow-svg">
+                                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
+                                    <path
+                                        d="M40,20 C100,-10 160,40 100,100 C40,160 120,200 170,150"
+                                        stroke="var(--color-primary)"
+                                        strokeWidth="4"
+                                        strokeDasharray="10 10"
+                                        strokeLinecap="round"
+                                        fill="none"
+                                        className="arrow-path"
+                                    />
+                                    <path d="M155,145 L180,155 L165,125 Z" fill="var(--color-primary)" />
+                                </svg>
+                            </div>
+
+                            {/* Background accent blocks — extended to tie both sides together */}
+                            <div className="absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
+                            <div className="absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
+
+                            <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
+                                <TextReveal delay={0.1}>
+                                    <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-8 tracking-wide drop-shadow-sm">
+                                        <span className="text-foreground">AB</span>
+                                        <span className="text-primary">O</span>
+                                        <span className="text-foreground">UT M</span>
+                                        <span className="text-primary">E</span>
+                                    </h2>
+                                </TextReveal>
+
+                                <div className="about-text font-sans text-base sm:text-lg text-foreground/75 leading-[1.8] mb-10 max-w-xl font-normal">
+                                    <p>
+                                        Backend developer focused on building scalable APIs, database-driven applications, and clean backend architecture using Java and Spring Boot. Passionate about creating reliable systems while exploring modern backend technologies.
+                                    </p>
+                                </div>
+
+                                {/* Toolkit */}
+                                <div className="mt-10 about-text w-full">
+                                    <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-subtle font-bold mb-3 text-center lg:text-left">Toolkit</p>
+                                    <div className="flex flex-wrap gap-2 md:gap-2.5 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
+                                        {['Java', 'Spring Boot', 'REST API', 'PostgreSQL', 'React', 'JavaScript', 'TailwindCSS', 'Node.js'].map((skill, i) => (
+                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--color-primary)] transition-all cursor-default">
+                                                {skill}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
                     </div>
                 </div>
 
+                {/* Education — Horizontal Cards */}
+                <div className="edu-container w-full mt-24 relative z-10 pb-20">
+
+                    <TextReveal delay={0.1}>
+                        <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+                            <span className="text-foreground">EDUC</span>
+                            <span className="text-primary">A</span>
+                            <span className="text-foreground">TI</span>
+                            <span className="text-primary">O</span>
+                            <span className="text-foreground">N</span>
+                        </h3>
+                    </TextReveal>
+
+                    {/* Mobile: swipeable scroll / Desktop: flex wrap grid */}
+                    <div className="overflow-x-auto md:overflow-x-visible pb-6 md:pb-0" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+                        <div className="flex flex-nowrap md:flex-wrap gap-6 md:gap-8 px-6 md:px-12 lg:px-20 pt-8 pb-4 md:max-w-7xl md:mx-auto">
+                            {educationData.map((edu, idx) => {
+                                const rotations = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-1"];
+                                const rotation = rotations[idx % rotations.length];
+                                const tapeColors = [
+                                    "bg-secondary/60 border-secondary",
+                                    "bg-primary/30 border-primary/40",
+                                    "bg-muted/70 border-muted",
+                                    "bg-border/60 border-border",
+                                ];
+                                const tapeColor = tapeColors[idx % tapeColors.length];
+
+                                return (
+                                    <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6">
+                                        <div className={`relative bg-[#f4f4f5] dark:bg-[#e4e4e7]/10 backdrop-blur-sm p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-all duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
+
+                                            {/* Tape */}
+                                            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} backdrop-blur-xl shadow-sm border ${rotation} z-20`} />
+
+                                            <span className="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-primary mb-3">
+                                                {edu.year}
+                                            </span>
+                                            <h4 className="font-chunky text-lg md:text-2xl text-foreground mb-1 leading-tight">
+                                                {edu.degree}
+                                            </h4>
+                                            <p className="font-sans text-xs md:text-sm text-subtle/80 font-medium leading-relaxed">
+                                                {edu.institution}
+                                            </p>
+                                            {edu.detail && (
+                                                <div className="mt-4 inline-block px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-bold shadow-[2px_2px_0px_var(--color-primary)]">
+                                                    {edu.detail}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default About;
+

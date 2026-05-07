@@ -9,6 +9,12 @@ import {
 } from "react-icons/lu";
 
 import websites from "../utils/websites";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const iconMap = {
     map: <LuMap size={24} />,
@@ -40,44 +46,54 @@ const iconMap = {
 
 const WebsiteCard = ({ resource, onOpenModal }) => {
     const Icon = iconMap[resource.icon] || <LuGlobe size={24} />;
-    
-    return (
-        <div
-            onClick={() => onOpenModal(resource)}
-            className="group relative flex flex-col justify-between p-6 bg-card-bg border border-border/40 shadow-sm hover:shadow-[4px_4px_0px_var(--color-primary)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-300 rounded-xl cursor-pointer min-h-[180px] snap-start shrink-0 min-w-[75vw] sm:min-w-0 w-full"
-        >
-            <div className="relative z-10 flex items-start justify-between w-full">
-                <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center text-primary shrink-0 transition-transform group-hover:scale-110">
-                    {Icon}
-                </div>
-                
-                <a 
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="p-2.5 bg-background text-subtle hover:bg-primary hover:text-white rounded-full transition-colors z-20 shadow-sm"
-                    title="Visit Website"
-                >
-                    <FiArrowUpRight size={18} />
-                </a>
-            </div>
 
-            <div className="relative z-10 mt-auto pt-6 flex flex-col w-full">
-                <h3 className="font-chunky text-2xl text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
-                    {resource.title}
-                </h3>
-                <span className="text-sm text-subtle font-sans font-medium line-clamp-1">
-                    {resource.subject}
-                </span>
+    return (
+        <TiltCard maxTilt={10} scale={1.03} className="website-card w-[80vw] sm:w-full h-full snap-start shrink-0">
+            <div
+                onClick={() => onOpenModal(resource)}
+                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg/40 backdrop-blur-2xl border border-white/10 hover:border-white/20 rounded-[2rem] cursor-pointer h-full min-h-[240px] overflow-hidden transition-all duration-500"
+            >
+                {/* Dynamic Radial Glow Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                <div className="absolute -inset-4 bg-gradient-to-tr from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700 z-0 pointer-events-none"></div>
+
+                <div className="relative z-10 flex items-start justify-between w-full">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-secondary/90 to-secondary flex items-center justify-center text-primary shrink-0 transition-all duration-500 group-hover:scale-110 border border-white/5">
+                        {Icon}
+                    </div>
+
+                    <div className="opacity-100 sm:opacity-0 translate-y-0 sm:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                        <MagneticElement strength={20}>
+                            <a
+                                href={resource.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-10 h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                                title="Visit Website"
+                            >
+                                <FiArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                            </a>
+                        </MagneticElement>
+                    </div>
+                </div>
+
+                <div className="relative z-10 mt-auto pt-8 flex flex-col w-full">
+                    <span className="text-[10px] md:text-xs text-primary font-sans font-bold uppercase tracking-widest mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                        {resource.subject}
+                    </span>
+                    <h3 className="font-chunky text-2xl md:text-3xl text-foreground leading-tight line-clamp-2">
+                        {resource.title}
+                    </h3>
+                </div>
             </div>
-        </div>
+        </TiltCard>
     );
 };
 
 const HubModal = ({ resource, onClose }) => {
     const Icon = iconMap[resource.icon] || <LuGlobe size={28} />;
-    
+
     useEffect(() => {
         const handleEsc = (e) => {
             if (e.key === "Escape") onClose();
@@ -88,11 +104,11 @@ const HubModal = ({ resource, onClose }) => {
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-            <div 
+            <div
                 className="absolute inset-0 bg-background/80 backdrop-blur-sm"
                 onClick={onClose}
             />
-            
+
             <div
                 className="relative w-full max-w-lg bg-card-bg border border-border/40 shadow-xl rounded-2xl overflow-hidden p-6 md:p-8"
             >
@@ -100,7 +116,7 @@ const HubModal = ({ resource, onClose }) => {
                     <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-inner">
                         {Icon}
                     </div>
-                    <button 
+                    <button
                         onClick={onClose}
                         className="text-subtle hover:text-foreground transition-colors p-2 bg-background rounded-full hover:bg-secondary"
                     >
@@ -126,15 +142,17 @@ const HubModal = ({ resource, onClose }) => {
                 </div>
 
                 <div className="flex pt-2">
-                    <a 
-                        href={resource.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-primary text-white font-chunky text-xl rounded-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
-                    >
-                        Visit Website
-                        <FiArrowUpRight size={20} />
-                    </a>
+                    <MagneticElement strength={15}>
+                        <a
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-primary text-white font-chunky text-xl rounded-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
+                        >
+                            Visit Website
+                            <FiArrowUpRight size={20} />
+                        </a>
+                    </MagneticElement>
                 </div>
             </div>
         </div>
@@ -144,6 +162,32 @@ const HubModal = ({ resource, onClose }) => {
 const Hub = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedResource, setSelectedResource] = useState(null);
+    const containerRef = useRef(null);
+
+    useGSAP(() => {
+        // Main heading text reveal is handled by the component
+
+        // Staggered card entrance for all cards initially or per section
+        const sections = gsap.utils.toArray(".category-section");
+        sections.forEach((section) => {
+            gsap.fromTo(section.querySelectorAll(".website-card"),
+                { opacity: 0, y: 50, scale: 0.95, rotationX: -15 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotationX: 0,
+                    duration: 1,
+                    stagger: 0.08,
+                    ease: "elastic.out(1, 0.7)",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 85%"
+                    }
+                }
+            );
+        });
+    }, { scope: containerRef });
 
     const filteredWebsites = websites.filter(r => {
         if (searchQuery) {
@@ -161,7 +205,7 @@ const Hub = () => {
     }, {});
 
     return (
-        <div className="min-h-screen bg-background text-foreground pb-20">
+        <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 relative overflow-hidden">
 
 
             {/* Background elements */}
@@ -175,9 +219,11 @@ const Hub = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl">
-                        <h1 className="text-6xl md:text-8xl font-chunky text-foreground uppercase tracking-wide mb-6">
-                            My <span className="text-primary">Hub</span>
-                        </h1>
+                        <TextReveal delay={0.1}>
+                            <h1 className="text-6xl md:text-8xl font-chunky text-foreground uppercase tracking-wide mb-6">
+                                My <span className="text-primary">Hub</span>
+                            </h1>
+                        </TextReveal>
                         <p className="text-subtle text-lg font-sans leading-relaxed">
                             A curated collection of my favorite tools, platforms, and digital resources I use every day.
                         </p>
@@ -188,20 +234,22 @@ const Hub = () => {
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
                         </div>
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Find a resource..."
-                            className="w-full bg-card-bg border border-border/50 rounded-xl focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-sm"
-                        />
+                        <MagneticElement strength={10}>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Find a resource..."
+                                className="w-full bg-card-bg border border-border/50 rounded-xl focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-sm"
+                            />
+                        </MagneticElement>
                     </div>
                 </div>
 
                 {/* ── WEBSITES LISTING ──────────────────────────────────────── */}
                 <section className="space-y-16">
                     {Object.keys(groupedWebsites).length === 0 ? (
-                        <div 
+                        <div
                             className="flex flex-col items-center justify-center gap-4 py-24 text-center bg-card-bg rounded-xl border border-dashed border-border/50"
                         >
                             <div className="w-16 h-16 flex items-center justify-center bg-secondary rounded-full text-subtle">
@@ -214,18 +262,20 @@ const Hub = () => {
                         </div>
                     ) : (
                         Object.entries(groupedWebsites).map(([category, items]) => (
-                            <div key={category} className="space-y-6">
+                            <div key={category} className="category-section space-y-6">
                                 <div className="flex items-center gap-4 mb-4">
-                                    <h3 className="text-3xl font-display text-primary">
-                                        {category}
-                                    </h3>
+                                    <TextReveal delay={0.1}>
+                                        <h3 className="text-3xl font-display text-primary">
+                                            {category}
+                                        </h3>
+                                    </TextReveal>
                                 </div>
-                                
-                                <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0" style={{ scrollbarWidth: "none" }}>
+
+                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0 no-scrollbar" style={{ scrollbarWidth: "none" }}>
                                     {items.map((r) => (
-                                        <WebsiteCard 
-                                            key={r.id} 
-                                            resource={r} 
+                                        <WebsiteCard
+                                            key={r.id}
+                                            resource={r}
                                             onOpenModal={setSelectedResource}
                                         />
                                     ))}
@@ -237,9 +287,9 @@ const Hub = () => {
             </div>
 
             {selectedResource && (
-                <HubModal 
-                    resource={selectedResource} 
-                    onClose={() => setSelectedResource(null)} 
+                <HubModal
+                    resource={selectedResource}
+                    onClose={() => setSelectedResource(null)}
                 />
             )}
         </div>
