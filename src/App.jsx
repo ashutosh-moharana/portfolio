@@ -54,17 +54,17 @@ function App() {
 
     // Initialize Lenis
     useEffect(() => {
-        // Skip Lenis on touch devices for maximum mobile performance
-        if (window.matchMedia("(pointer: coarse)").matches) return;
+        const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
         const lenisInstance = new Lenis({
-            duration: 1.2,
+            duration: isTouch ? 2.5 : 1.2, // Slower duration on mobile for that "deliberate" feel
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             gestureOrientation: 'vertical',
             smoothWheel: true,
+            smoothTouch: true, // Enable smooth scroll on touch
             wheelMultiplier: 1,
-            touchMultiplier: 2,
+            touchMultiplier: isTouch ? 0.6 : 2, // Significantly slow down touch scroll
             infinite: false,
         });
 
