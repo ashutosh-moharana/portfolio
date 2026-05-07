@@ -15,35 +15,51 @@ const Projects = () => {
 
   useGSAP(() => {
     // Title letter-by-letter animation
-    gsap.fromTo(".project-title-char",
-      { y: 60, opacity: 0, rotationX: -90 },
-      {
-        y: 0,
-        opacity: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.05,
-        ease: "back.out(1.5)",
+    if (isMobile) {
+      gsap.fromTo(".project-title-char",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
             once: true
           }
-      }
-    );
+        }
+      );
+    } else {
+      gsap.fromTo(".project-title-char",
+        { y: 60, opacity: 0, rotationX: -90 },
+        {
+          y: 0,
+          opacity: 1,
+          rotationX: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: ".project-title-char",
+            start: "top 90%",
+            once: true
+          }
+        }
+      );
+    }
 
     // Individual card animations - Premium 3D flip entry
     gsap.utils.toArray(".project-card-container").forEach((card, i) => {
       gsap.fromTo(card,
-        { y: 20, opacity: 0, scale: 0.95 },
+        { y: isMobile ? 15 : 20, opacity: 0, scale: isMobile ? 1 : 0.95 },
         {
           y: 0, opacity: 1, scale: 1,
-          duration: 0.8,
+          duration: isMobile ? 0.5 : 0.8,
           ease: "power2.out",
-          delay: (i % 3) * 0.1,
+          delay: isMobile ? 0 : (i % 3) * 0.1,
           scrollTrigger: {
             trigger: card,
-            start: "top 90%",
+            start: "top 95%",
             once: true
           }
         }

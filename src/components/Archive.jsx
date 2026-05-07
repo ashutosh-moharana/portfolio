@@ -4,6 +4,7 @@ import { LuNotebook, LuFileText, LuBook, LuDownload, LuPenTool } from "react-ico
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useDevice } from "../contexts/DeviceContext";
 import notes from "../utils/notes";
 import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
 
@@ -190,6 +191,7 @@ const Archive = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedResource, setSelectedResource] = useState(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const isMobile = useDevice();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -199,38 +201,54 @@ const Archive = () => {
             { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.1 }
         );
 
-        tl.fromTo(".archive-char",
-            { y: 60, opacity: 0, rotationX: -90 },
-            {
-                y: 0,
-                opacity: 1,
-                rotationX: 0,
-                duration: 0.8,
-                stagger: 0.05,
-                ease: "back.out(1.5)",
-                scrollTrigger: {
-                    trigger: ".archive-char",
-                    start: "top 90%",
-                    once: true
+        if (isMobile) {
+            gsap.fromTo(".archive-char",
+                { y: 30, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: ".archive-char",
+                        start: "top 90%",
+                        once: true
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            tl.fromTo(".archive-char",
+                { y: 60, opacity: 0, rotationX: -90 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotationX: 0,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: ".archive-char",
+                        start: "top 90%",
+                        once: true
+                    }
+                }
+            );
+        }
 
         // 3D card flip entry on scroll
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
             gsap.fromTo(section.querySelectorAll(".archive-card"),
-                { y: 30, opacity: 0, scale: 0.98 },
+                { y: isMobile ? 15 : 30, opacity: 0, scale: isMobile ? 1 : 0.98 },
                 {
                     y: 0, opacity: 1,
                     scale: 1,
-                    duration: 0.8,
-                    stagger: 0.05,
+                    duration: isMobile ? 0.5 : 0.8,
+                    stagger: isMobile ? 0 : 0.05,
                     ease: "power2.out",
                     force3D: true,
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 85%",
+                        start: "top 90%",
                         once: true
                     }
                 }

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useDevice } from "../contexts/DeviceContext";
 import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub } from "react-icons/si";
 import { FiArrowUpRight } from "react-icons/fi";
 import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
@@ -19,6 +20,7 @@ const About = () => {
     const containerRef = useRef(null);
     const polaroidRef = useRef(null);
     const textRef = useRef(null);
+    const isMobile = useDevice();
     const [polaroidFlipped, setPolaroidFlipped] = useState(false);
 
     useGSAP(() => {
@@ -69,52 +71,71 @@ const About = () => {
         );
 
         // Heading letter-by-letter animation
-        gsap.fromTo(".about-title-char",
-            { y: 60, opacity: 0, rotationX: -90 },
-            {
-                y: 0,
-                opacity: 1,
-                rotationX: 0,
-                duration: 0.8,
-                stagger: 0.05,
-                ease: "back.out(1.5)",
-                scrollTrigger: {
-                    trigger: ".about-title-char",
-                    start: "top 90%",
-                    once: true
+        if (isMobile) {
+            gsap.fromTo(".about-title-char",
+                { y: 30, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: ".about-title-char",
+                        start: "top 90%",
+                        once: true
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            gsap.fromTo(".about-title-char",
+                { y: 60, opacity: 0, rotationX: -90 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotationX: 0,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: ".about-title-char",
+                        start: "top 90%",
+                        once: true
+                    }
+                }
+            );
+        }
 
-        // Education scattered cards entry (premium 3D flip)
+        // Education scattered cards entry
         gsap.fromTo(".edu-card-wrapper",
-            { opacity: 0, y: 100, rotationX: -45, z: -100 },
+            { opacity: 0, y: isMobile ? 30 : 100, rotationX: isMobile ? 0 : -45, z: isMobile ? 0 : -100 },
             {
                 opacity: 1,
                 y: 0,
                 rotationX: 0,
                 z: 0,
-                duration: 0.8,
-                stagger: 0.15,
+                duration: isMobile ? 0.6 : 0.8,
+                stagger: isMobile ? 0.1 : 0.15,
                 ease: "back.out(1.2)",
                 scrollTrigger: {
                     trigger: ".edu-container",
-                    start: "top 75%"
+                    start: "top 80%",
+                    once: true
                 }
             }
         );
 
         // Parallax on polaroid
-        gsap.to(polaroidRef.current, {
-            yPercent: 10,
-            ease: "none",
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
+        if (!isMobile) {
+            gsap.to(polaroidRef.current, {
+                yPercent: 10,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        }
 
     }, { scope: containerRef });
 

@@ -12,6 +12,7 @@ import websites from "../utils/websites";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useDevice } from "../contexts/DeviceContext";
 import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -165,44 +166,61 @@ const Hub = () => {
     const [activeFilter, setActiveFilter] = useState("All");
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const containerRef = useRef(null);
+    const isMobile = useDevice();
 
     const categories = ["All", ...new Set(websites.map(r => r.category))];
 
     useGSAP(() => {
         // Heading letter-by-letter animation
-        gsap.fromTo(".hub-char",
-            { y: 60, opacity: 0, rotationX: -90 },
-            {
-                y: 0,
-                opacity: 1,
-                rotationX: 0,
-                duration: 0.8,
-                stagger: 0.05,
-                ease: "back.out(1.5)",
-                scrollTrigger: {
-                    trigger: ".hub-char",
-                    start: "top 90%",
-                    once: true
+        if (isMobile) {
+            gsap.fromTo(".hub-char",
+                { y: 30, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: ".hub-char",
+                        start: "top 90%",
+                        once: true
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            gsap.fromTo(".hub-char",
+                { y: 60, opacity: 0, rotationX: -90 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotationX: 0,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: ".hub-char",
+                        start: "top 90%",
+                        once: true
+                    }
+                }
+            );
+        }
 
         // Staggered card entrance for all cards initially or per section
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
             gsap.fromTo(section.querySelectorAll(".website-card"),
-                { opacity: 0, y: 30, scale: 0.98 },
+                { opacity: 0, y: isMobile ? 15 : 30, scale: isMobile ? 1 : 0.98 },
                 {
                     opacity: 1,
                     y: 0,
                     scale: 1,
-                    duration: 0.8,
-                    stagger: 0.05,
+                    duration: isMobile ? 0.5 : 0.8,
+                    stagger: isMobile ? 0 : 0.05,
                     ease: "power2.out",
                     force3D: true,
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 85%",
+                        start: "top 90%",
                         once: true
                     }
                 }
