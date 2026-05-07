@@ -25,14 +25,15 @@ const About = () => {
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: containerRef.current,
-                start: "top 70%",
+                start: "top 80%",
+                toggleActions: "play reverse play reverse"
             }
         });
 
         // Animate polaroid - Premium Reveal
         tl.fromTo(polaroidRef.current,
-            { y: 50, opacity: 0, rotation: -10 },
-            { y: 0, opacity: 1, rotation: -2, duration: 1, ease: "back.out(1.2)" },
+            { y: 30, opacity: 0, rotation: -10 },
+            { y: 0, opacity: 1, rotation: -2, duration: 0.8, ease: "back.out(1.2)" },
             "-=0.2"
         );
         tl.fromTo(".polaroid-img-container",
@@ -65,6 +66,24 @@ const About = () => {
             { opacity: 0, y: 10 },
             { opacity: 1, y: 0, duration: 0.4, stagger: 0.03, ease: "power2.out" },
             "-=0.2"
+        );
+
+        // Heading letter-by-letter animation
+        gsap.fromTo(".about-title-char",
+            { y: 60, opacity: 0, rotationX: -90 },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".about-title-char",
+                    start: "top 90%",
+                    once: true
+                }
+            }
         );
 
         // Education scattered cards entry (premium 3D flip)
@@ -242,11 +261,19 @@ const About = () => {
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
-                                    <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-8 tracking-wide drop-shadow-sm">
-                                        <span className="text-foreground">AB</span>
-                                        <span className="text-primary">O</span>
-                                        <span className="text-foreground">UT M</span>
-                                        <span className="text-primary">E</span>
+                                    <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden">
+                                        {"ABOUT ME".split("").map((char, index) => {
+                                            const isPrimary = index === 2 || index === 7;
+                                            return (
+                                                <span
+                                                    key={index}
+                                                    className={`about-title-char inline-block origin-bottom ${isPrimary ? "text-primary" : "text-foreground"}`}
+                                                    style={{ minWidth: char === " " ? "0.3em" : "auto" }}
+                                                >
+                                                    {char}
+                                                </span>
+                                            );
+                                        })}
                                     </h2>
                                 </TextReveal>
 
@@ -306,7 +333,7 @@ const About = () => {
                                         <div className={`relative bg-[#f4f4f5] dark:bg-[#e4e4e7]/10 backdrop-blur-sm p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-all duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
 
                                             {/* Tape */}
-                                            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} backdrop-blur-xl shadow-sm border ${rotation} z-20`} />
+                                            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} shadow-sm ${rotation} z-20`} />
 
                                             <span className="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-primary mb-3">
                                                 {edu.year}

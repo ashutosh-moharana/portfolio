@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { FiFilter, FiChevronDown } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -13,12 +14,28 @@ const Projects = () => {
   const containerRef = useRef(null);
 
   useGSAP(() => {
-    // Title animation is now handled by TextReveal
+    // Title letter-by-letter animation
+    gsap.fromTo(".project-title-char",
+      { y: 60, opacity: 0, rotationX: -90 },
+      {
+        y: 0,
+        opacity: 1,
+        rotationX: 0,
+        duration: 0.8,
+        stagger: 0.05,
+        ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: ".project-title-char",
+            start: "top 90%",
+            once: true
+          }
+      }
+    );
 
     // Individual card animations - Premium 3D flip entry
     gsap.utils.toArray(".project-card-container").forEach((card, i) => {
       gsap.fromTo(card,
-        { y: 100, opacity: 0, rotationY: 30, z: -100 },
+        { y: 20, opacity: 0, rotationY: 20, z: -50 },
         {
           y: 0, opacity: 1, rotationY: 0, z: 0,
           duration: 1,
@@ -26,7 +43,8 @@ const Projects = () => {
           delay: (i % 3) * 0.15,
           scrollTrigger: {
             trigger: card,
-            start: "top 80%",
+            start: "top 90%",
+            once: true
           }
         }
       );
@@ -41,39 +59,46 @@ const Projects = () => {
       <div className="absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px]" />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-0">
-        <TextReveal delay={0.1}>
-          <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase">
-            <span className="text-foreground">MY W</span>
-            <span className="text-primary">O</span>
-            <span className="text-foreground">RKS</span>
-          </h2>
-        </TextReveal>
+        <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-hidden">
+          {"MY WORKS".split("").map((char, index) => {
+            const isPrimary = index === 4; // The letter 'O'
+            return (
+              <span
+                key={index}
+                className={`project-title-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
+                style={{ minWidth: char === " " ? "0.3em" : "auto" }}
+              >
+                {char}
+              </span>
+            );
+          })}
+        </h2>
 
         {/* Projects Grid / Carousel layout */}
-        <div className="overflow-x-auto md:overflow-x-visible pb-12 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+        <div className="overflow-x-auto md:overflow-x-visible pb-12 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 no-scrollbar" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
           <div className="flex flex-nowrap md:flex-wrap gap-8 md:gap-12 md:justify-center items-stretch pt-8 w-max md:w-auto">
             {[...projects].reverse().map((project, index) => {
               const rotations = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-3", "-rotate-3", "rotate-1"];
               const rotation = rotations[index % rotations.length];
 
               return (
-                <div key={project.id} className="project-card-container shrink-0 w-[85vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative">
+                <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative">
                 <div className={`project-card relative h-full flex flex-col bg-[#f4f4f5]/90 dark:bg-[#e4e4e7]/10 backdrop-blur-xl p-6 md:p-8 pb-10 md:pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-300 ${rotation} hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:scale-[1.02]`}>
 
                   {/* Tape effect on top */}
                   {(() => {
                     const tapeColors = [
-                      "bg-secondary/60 border-secondary",
-                      "bg-primary/30 border-primary/40",
-                      "bg-muted/70 border-muted",
-                      "bg-border/60 border-border",
-                      "bg-secondary/40 border-primary/20",
-                      "bg-primary/20 border-muted",
+                      "bg-secondary/80",
+                      "bg-primary/50",
+                      "bg-muted",
+                      "bg-secondary/60",
+                      "bg-primary/30",
+                      "bg-muted/80",
                     ];
                     const tapeRotates = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-3", "-rotate-3", "rotate-1"];
                     const tc = tapeColors[index % tapeColors.length];
                     const tr = tapeRotates[(index + 1) % tapeRotates.length];
-                    return <div className={`absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-8 ${tc} backdrop-blur-xl ${tr} shadow-sm z-20 border`} />;
+                    return <div className={`absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-8 ${tc} ${tr} shadow-sm z-20`} />;
                   })()}
 
                   {/* Image Container */}
@@ -166,13 +191,13 @@ const Projects = () => {
 
                 </div>
               </div>
-          );
-        })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Projects;

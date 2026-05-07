@@ -163,14 +163,6 @@
   backface-visibility: hidden;
 }
 
-/* Disable expensive filters on mobile */
-@media (pointer: coarse) {
-  [class*="backdrop-blur"] {
-    backdrop-filter: none !important;
-    background-color: var(--card-bg) !important; /* Fallback to solid color */
-  }
-}
-
 /* ── Custom Cursor Styles ────────────────────────────────── */
 .cursor-dot {
   position: fixed;

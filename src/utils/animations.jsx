@@ -69,14 +69,12 @@ export const TextReveal = ({ children, className = "", delay = 0, triggerRef = n
       duration: 1.2,
       delay: delay,
       ease: "power4.out",
+      scrollTrigger: {
+        trigger: triggerRef?.current || containerRef.current,
+        start: "top 90%",
+        toggleActions: "play reverse play reverse"
+      }
     };
-
-    if (triggerRef && triggerRef.current) {
-      animConfig.scrollTrigger = {
-        trigger: triggerRef.current,
-        start: "top 80%",
-      };
-    }
 
     gsap.fromTo(text,
       { y: "110%", opacity: 0, rotation: 3 },

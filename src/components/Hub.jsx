@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FiArrowUpRight, FiX, FiSearch } from "react-icons/fi";
+import { FiArrowUpRight, FiX, FiSearch, FiFilter, FiChevronDown } from "react-icons/fi";
 
 import {
     LuMap, LuCode, LuBook, LuEye, LuTerminal, LuGitBranch, LuFolder, LuLayers,
@@ -162,10 +162,30 @@ const HubModal = ({ resource, onClose }) => {
 const Hub = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedResource, setSelectedResource] = useState(null);
+    const [activeFilter, setActiveFilter] = useState("All");
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const containerRef = useRef(null);
 
+    const categories = ["All", ...new Set(websites.map(r => r.category))];
+
     useGSAP(() => {
-        // Main heading text reveal is handled by the component
+        // Heading letter-by-letter animation
+        gsap.fromTo(".hub-char",
+            { y: 60, opacity: 0, rotationX: -90 },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".hub-char",
+                    start: "top 90%",
+                    once: true
+                }
+            }
+        );
 
         // Staggered card entrance for all cards initially or per section
         const sections = gsap.utils.toArray(".category-section");
@@ -190,11 +210,13 @@ const Hub = () => {
     }, { scope: containerRef });
 
     const filteredWebsites = websites.filter(r => {
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            if (!r.title.toLowerCase().includes(query) && !r.subject.toLowerCase().includes(query) && !r.description.toLowerCase().includes(query)) return false;
-        }
-        return true;
+        const matchesSearch = !searchQuery || (
+            r.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            r.subject.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            r.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        const matchesCategory = activeFilter === "All" || r.category === activeFilter;
+        return matchesSearch && matchesCategory;
     });
 
     const groupedWebsites = filteredWebsites.reduce((acc, curr) => {
@@ -219,30 +241,90 @@ const Hub = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl">
-                        <TextReveal delay={0.1}>
-                            <h1 className="text-6xl md:text-8xl font-chunky text-foreground uppercase tracking-wide mb-6">
-                                My <span className="text-primary">Hub</span>
-                            </h1>
-                        </TextReveal>
+                        <h1 className="text-6xl md:text-8xl font-chunky uppercase tracking-wide mb-6 flex flex-wrap overflow-hidden">
+                            {"HUB".split("").map((char, index) => {
+                                const isPrimary = index === 1; // The letter 'U'
+                                return (
+                                    <span
+                                        key={index}
+                                        className={`hub-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
+                                    >
+                                        {char}
+                                    </span>
+                                );
+                            })}
+                        </h1>
                         <p className="text-subtle text-lg font-sans leading-relaxed">
                             A curated collection of my favorite tools, platforms, and digital resources I use every day.
                         </p>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="relative w-full lg:w-80 shrink-0 group">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
+                    {/* Search & Filter Container */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0">
+                        {/* Filter Dropdown */}
+                        <div className="relative w-full sm:w-48 z-[30]">
+                            <button
+                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                className={`w-full flex items-center justify-between px-5 py-3 font-chunky text-sm rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
+                                    isFilterOpen
+                                        ? "bg-primary text-white border-primary"
+                                        : "bg-card-bg/80 backdrop-blur-xl text-foreground border-border hover:border-primary"
+                                }`}
+                            >
+                                <div className="flex items-center gap-2">
+                                    <FiFilter className={isFilterOpen ? "animate-pulse" : ""} />
+                                    <span className="truncate max-w-[100px]">{activeFilter}</span>
+                                </div>
+                                <FiChevronDown className={`transition-transform duration-300 ${isFilterOpen ? "rotate-180" : ""}`} />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isFilterOpen && (
+                                <div className="absolute top-full right-0 mt-3 w-64 bg-card-bg/95 backdrop-blur-2xl border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                    {categories.map((cat) => {
+                                        const isActive = activeFilter === cat;
+                                        const count = cat === "All" ? websites.length : websites.filter(r => r.category === cat).length;
+                                        return (
+                                            <button
+                                                key={cat}
+                                                onClick={() => {
+                                                    setActiveFilter(cat);
+                                                    setIsFilterOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-6 py-3 text-left transition-colors ${
+                                                    isActive
+                                                        ? "bg-primary/10 text-primary font-bold"
+                                                        : "text-subtle hover:bg-secondary/30 hover:text-foreground"
+                                                }`}
+                                            >
+                                                <span className="font-sans text-xs tracking-wide">{cat}</span>
+                                                <span className={`text-[10px] px-2 py-0.5 rounded-md font-sans font-bold ${
+                                                    isActive ? "bg-primary text-white" : "bg-secondary text-subtle"
+                                                }`}>
+                                                    {count}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
-                        <MagneticElement strength={10}>
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Find a resource..."
-                                className="w-full bg-card-bg border border-border/50 rounded-xl focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-sm"
-                            />
-                        </MagneticElement>
+
+                        {/* Search Bar */}
+                        <div className="relative w-full lg:w-80 shrink-0 group">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
+                            </div>
+                            <MagneticElement strength={10}>
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Find a resource..."
+                                    className="w-full bg-card-bg border border-border/50 rounded-xl focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-sm"
+                                />
+                            </MagneticElement>
+                        </div>
                     </div>
                 </div>
 
@@ -264,11 +346,9 @@ const Hub = () => {
                         Object.entries(groupedWebsites).map(([category, items]) => (
                             <div key={category} className="category-section space-y-6">
                                 <div className="flex items-center gap-4 mb-4">
-                                    <TextReveal delay={0.1}>
-                                        <h3 className="text-3xl font-display text-primary">
-                                            {category}
-                                        </h3>
-                                    </TextReveal>
+                                    <h3 className="text-3xl font-display text-primary">
+                                        {category}
+                                    </h3>
                                 </div>
 
                                 <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0 no-scrollbar" style={{ scrollbarWidth: "none" }}>

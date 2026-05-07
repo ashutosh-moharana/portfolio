@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FiArrowUpRight, FiX, FiSearch, FiInfo, FiFolder } from "react-icons/fi";
+import { FiArrowUpRight, FiX, FiSearch, FiInfo, FiFolder, FiFilter, FiChevronDown } from "react-icons/fi";
 import { LuNotebook, LuFileText, LuBook, LuDownload, LuPenTool } from "react-icons/lu";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -49,7 +49,7 @@ const NoteCard = ({ resource, onOpenModal }) => {
     return (
         <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[80vw] sm:w-full h-full snap-start shrink-0">
             {/* Masking Tape (placed outside clip-path so it doesn't get cut off) */}
-            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-16 h-7 bg-secondary/60 backdrop-blur-md z-30 ${tapeRotation} border border-black/5`}></div>
+            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-16 h-7 bg-secondary/60 z-30 ${tapeRotation}`}></div>
 
             <div
                 onClick={() => onOpenModal(resource)}
@@ -189,6 +189,7 @@ const Archive = () => {
     const [activeFilter, setActiveFilter] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedResource, setSelectedResource] = useState(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -196,6 +197,23 @@ const Archive = () => {
         tl.fromTo(".fade-up",
             { y: 30, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.1 }
+        );
+
+        tl.fromTo(".archive-char",
+            { y: 60, opacity: 0, rotationX: -90 },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".archive-char",
+                    start: "top 90%",
+                    once: true
+                }
+            }
         );
 
         // 3D card flip entry on scroll
@@ -250,15 +268,20 @@ const Archive = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl fade-up">
-                        <TextReveal delay={0.1}>
-                            <h1 className="text-6xl sm:text-7xl lg:text-[5rem] font-chunky uppercase tracking-wide mb-6 drop-shadow-sm">
-                                <span className="text-foreground">MY A</span>
-                                <span className="text-primary">R</span>
-                                <span className="text-foreground">CHI</span>
-                                <span className="text-primary">V</span>
-                                <span className="text-foreground">E</span>
-                            </h1>
-                        </TextReveal>
+                        <h1 className="text-6xl sm:text-7xl lg:text-[5rem] font-chunky uppercase tracking-wide mb-6 drop-shadow-sm flex flex-wrap overflow-hidden">
+                            {"ARCHIVE".split("").map((char, index) => {
+                                const isPrimary = index === 1 || index === 5; // 'R' and 'V' in ARCHIVE
+                                return (
+                                    <span
+                                        key={index}
+                                        className={`archive-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
+                                        style={{ minWidth: char === " " ? "0.3em" : "auto" }}
+                                    >
+                                        {char}
+                                    </span>
+                                );
+                            })}
+                        </h1>
                         <p className="text-subtle text-lg font-sans leading-relaxed">
                             A digital scrapbook of the best study notes, learning materials, and useful PDFs I've collected along the way.
                         </p>
@@ -304,33 +327,57 @@ const Archive = () => {
                 {/* ── NOTES & CHEAT SHEETS ───────────────────────────────── */}
                 <section>
                     <div
-                        className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 relative"
+                        className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 relative"
                     >
                         <div>
                             <h2 className="text-4xl font-display text-foreground">Collection</h2>
                         </div>
-                        {/* Filter tabs */}
-                        <div className="flex flex-nowrap md:flex-wrap gap-3 overflow-x-auto md:overflow-visible pb-2 md:pb-0 snap-x snap-mandatory pr-6 md:pr-0 no-scrollbar" style={{ scrollbarWidth: "none" }}>
-                            {FILE_FILTERS.map((f) => {
-                                const count = f.value === "all" ? notes.length : notes.filter(r => r.type === f.value).length;
-                                const isActive = activeFilter === f.value;
-                                return (
-                                    <MagneticElement key={f.value} strength={10}>
+                        
+                        {/* Filter Dropdown */}
+                        <div className="relative group self-start md:self-auto">
+                            <button
+                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                className={`flex items-center gap-3 px-6 py-2.5 font-chunky text-base rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
+                                    isFilterOpen 
+                                    ? "bg-primary text-primary-foreground border-primary" 
+                                    : "bg-card-bg/80 backdrop-blur-xl text-foreground border-border hover:border-primary"
+                                }`}
+                            >
+                                <FiFilter className={isFilterOpen ? "animate-pulse" : ""} />
+                                <span>Filter: {FILE_FILTERS.find(f => f.value === activeFilter)?.label}</span>
+                                <FiChevronDown className={`transition-transform duration-300 ${isFilterOpen ? "rotate-180" : ""}`} />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isFilterOpen && (
+                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-64 bg-card-bg/95 backdrop-blur-2xl border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                    {FILE_FILTERS.map((f) => {
+                                        const count = f.value === "all" ? notes.length : notes.filter(r => r.type === f.value).length;
+                                        const isActive = activeFilter === f.value;
+                                        return (
                                             <button
-                                                onClick={() => setActiveFilter(f.value)}
-                                                className={`relative flex items-center gap-2 px-5 py-2.5 font-chunky text-sm rounded-xl transition-all duration-300 snap-start shrink-0 border ${isActive
-                                                    ? "bg-primary text-primary-foreground border-primary -translate-y-0.5"
-                                                    : "bg-card-bg/80 backdrop-blur-xl text-subtle hover:text-foreground border-border/50 hover:border-primary/50 hover:-translate-y-0.5"
-                                                    }`}
+                                                key={f.value}
+                                                onClick={() => {
+                                                    setActiveFilter(f.value);
+                                                    setIsFilterOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-6 py-3 text-left transition-colors ${
+                                                    isActive 
+                                                    ? "bg-primary/10 text-primary font-bold" 
+                                                    : "text-subtle hover:bg-secondary/30 hover:text-foreground"
+                                                }`}
                                             >
-                                            <span className="relative z-10 flex items-center gap-2">
-                                                {f.label}
-                                                <span className={`text-[10px] px-2 py-0.5 rounded-md font-sans font-bold transition-colors ${isActive ? "bg-white/20 text-white" : "bg-secondary text-subtle"}`}>{count}</span>
-                                            </span>
-                                        </button>
-                                    </MagneticElement>
-                                );
-                            })}
+                                                <span className="font-sans text-sm tracking-wide">{f.label}</span>
+                                                <span className={`text-[10px] px-2 py-0.5 rounded-md font-sans font-bold ${
+                                                    isActive ? "bg-primary text-primary-foreground" : "bg-secondary text-subtle"
+                                                }`}>
+                                                    {count}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -355,12 +402,10 @@ const Archive = () => {
                                 const style = typeStyles[type] || typeStyles.note;
                                 return (
                                     <div key={type} className="category-section space-y-6">
-                                        <div className="flex items-center gap-4 mb-2">
-                                            <TextReveal delay={0.1}>
-                                                <h3 className="text-2xl font-display text-primary">
-                                                    {style.label}
-                                                </h3>
-                                            </TextReveal>
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <h3 className="text-3xl font-display text-primary">
+                                                {style.label}
+                                            </h3>
                                         </div>
                                         <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-8 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0 pt-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
                                             {items.map((r) => (

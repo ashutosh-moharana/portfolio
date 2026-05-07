@@ -20,8 +20,8 @@ const LandingPage = () => {
     const tl = gsap.timeline();
 
     tl.fromTo(".fade-up",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.1 }
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "power2.out", delay: 0.1 }
     );
 
     // Letter by letter animation for ASHUTOSH
@@ -33,19 +33,19 @@ const LandingPage = () => {
 
     // Premium image reveal
     tl.fromTo(".hero-image",
-      { y: 50, opacity: 0, rotation: 10 },
-      { y: 0, opacity: 1, rotation: 3, duration: 1, ease: "back.out(1.2)" },
+      { y: 30, opacity: 0, rotation: 5 },
+      { y: 0, opacity: 1, rotation: 3, duration: 0.8, ease: "power3.out" },
       "-=0.6"
     );
     tl.fromTo(".hero-img-container",
       { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" },
-      { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1.2, ease: "power3.inOut" },
-      "-=0.8"
+      { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1, ease: "power3.inOut" },
+      "-=0.7"
     );
     tl.fromTo(".hero-img-inner",
-      { scale: 1.4 },
-      { scale: 1, duration: 1.5, ease: "power3.out" },
-      "-=1.2"
+      { scale: 1.2 },
+      { scale: 1, duration: 1.2, ease: "power3.out" },
+      "-=1"
     );
 
     tl.fromTo(".decorative-element",
@@ -172,10 +172,10 @@ const LandingPage = () => {
         {/* Hero Image */}
         <div className="flex-1 relative w-full max-w-[280px] sm:max-w-sm lg:max-w-md flex justify-center items-center z-10 mt-6 lg:mt-0">
           {/* Simulated polaroid/torn paper frame */}
-          <div className="hero-image relative p-2.5 md:p-4 pb-10 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full">
-            <div className="hero-img-container relative overflow-hidden w-full aspect-[4/5] bg-muted">
+          <div className="hero-image relative p-2.5 md:p-4 pb-10 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full will-change-transform">
+            <div className="hero-img-container relative overflow-hidden w-full aspect-[4/5] bg-muted will-change-[clip-path]">
               <img
-                className="hero-img-inner w-full h-full object-cover border border-border/20"
+                className="hero-img-inner w-full h-full object-cover border border-border/20 will-change-transform"
                 src="/ashutosh.webp"
                 alt="Ashutosh Moharana"
                 loading="lazy"
@@ -183,7 +183,7 @@ const LandingPage = () => {
             </div>
 
             {/* Tape effect */}
-            <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-24 md:w-32 h-8 md:h-10 bg-secondary/90 -rotate-2 shadow-sm z-20 border border-black/5" />
+            <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-24 md:w-32 h-8 md:h-10 bg-secondary/90 -rotate-2 shadow-sm z-20" />
 
             {/* Hand-drawn decorative element */}
             <div className="absolute bottom-3 md:bottom-4 right-4 md:right-6 font-display text-xl md:text-2xl text-foreground opacity-80 rotate-[-10deg]">
