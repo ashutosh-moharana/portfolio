@@ -4,8 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub } from "react-icons/si";
 import { FiArrowUpRight } from "react-icons/fi";
-import { MagneticElement, TextReveal } from "../utils/animations";
-import ProgressiveImage from "./ProgressiveImage";
+import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,11 +150,11 @@ const About = () => {
                                             </div>
 
                                             <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center">
-                                                <ProgressiveImage
+                                                <img
                                                     src="/ashu.webp"
                                                     alt="Ashutosh"
                                                     className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700"
-                                                    wrapperClassName="w-full h-full"
+                                                    loading="lazy"
                                                 />
                                             </div>
                                             <div className="py-1.5 md:py-3 w-full text-center flex justify-center">

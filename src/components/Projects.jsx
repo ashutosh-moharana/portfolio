@@ -1,10 +1,9 @@
-import { useRef, useContext } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
 import projects from "../utils/projects";
-import ProgressiveImage from "./ProgressiveImage";
 import { MagneticElement, TextReveal } from "../utils/animations";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -87,11 +86,11 @@ const Projects = () => {
                         loading="lazy"
                       />
                     ) : (
-                      <ProgressiveImage
+                      <img
                         src={project.imageUrl || "/ashmo.webp"}
                         alt={project.title}
-                        className="w-full h-full object-cover filter contrast-110 saturate-[1.1] group-hover:scale-110 transition-transform duration-700 ease-out"
-                        wrapperClassName="w-full h-full absolute inset-0"
+                        className="w-full h-full object-cover filter contrast-110 saturate-[1.1] group-hover:scale-110 transition-transform duration-700 ease-out absolute inset-0"
+                        loading="lazy"
                       />
                     )}
 

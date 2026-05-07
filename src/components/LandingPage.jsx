@@ -5,8 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
 import { LenisContext } from "../App";
 import { Link } from "react-router-dom";
-import { MagneticElement } from "../utils/animations";
-import ProgressiveImage from "./ProgressiveImage";
+import { MagneticElement, TextReveal } from "../utils/animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -175,11 +174,11 @@ const LandingPage = () => {
           {/* Simulated polaroid/torn paper frame */}
           <div className="hero-image relative p-2.5 md:p-4 pb-10 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full">
             <div className="hero-img-container relative overflow-hidden w-full aspect-[4/5] bg-muted">
-              <ProgressiveImage
+              <img
                 className="hero-img-inner w-full h-full object-cover border border-border/20"
-                wrapperClassName="w-full h-full"
                 src="/ashutosh.webp"
                 alt="Ashutosh Moharana"
+                loading="lazy"
               />
             </div>
 

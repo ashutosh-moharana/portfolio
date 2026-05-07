@@ -54,11 +54,15 @@ function App() {
 
     // Initialize Lenis
     useEffect(() => {
+        // Skip Lenis on touch devices for performance
+        if (window.matchMedia("(pointer: coarse)").matches) return;
+
         const lenisInstance = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smooth: true,
             lerp: 0.1,
+            smoothTouch: false, // Ensure native touch scroll
         });
 
         setLenis(lenisInstance);
@@ -74,11 +78,12 @@ function App() {
         };
     }, []);
 
+    const isTouch = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+
     return (     
         <DeviceProvider>
             <LenisContext.Provider value={lenis}>
-                <div className="film-grain" aria-hidden="true" />
-                <CustomCursor />
+                {!isTouch && <CustomCursor />}
                 <Navbar />
                 <div className="app-container bg-background">
                     <Suspense fallback={<div className="min-h-screen bg-background" />}>
