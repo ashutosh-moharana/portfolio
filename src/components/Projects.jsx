@@ -25,7 +25,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
-            once: true
+            toggleActions: "play none none reverse"
           }
         }
       );
@@ -42,7 +42,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
-            once: true
+            toggleActions: "play none none reverse"
           }
         }
       );
@@ -60,7 +60,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: card,
             start: "top 95%",
-            once: true
+            toggleActions: "play none none reverse"
           }
         }
       );
@@ -99,7 +99,7 @@ const Projects = () => {
 
               return (
                 <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative will-change-transform">
-                <div className={`project-card relative h-full flex flex-col bg-[#f4f4f5]/90 dark:bg-[#e4e4e7]/10 backdrop-blur-xl p-6 md:p-8 pb-10 md:pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-300 ${rotation} hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:scale-[1.02]`}>
+                <div className={`project-card relative h-full flex flex-col bg-card-bg p-6 md:p-8 pb-10 md:pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-white/20 transition-transform duration-300 ${rotation} hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:scale-[1.02]`}>
 
                   {/* Tape effect on top */}
                   {(() => {
@@ -136,7 +136,7 @@ const Projects = () => {
                     )}
 
                     {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-foreground/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center gap-4 backdrop-blur-sm">
+                    <div className="absolute inset-0 bg-foreground opacity-0 group-hover:opacity-95 transition-opacity duration-300 flex flex-col justify-center items-center gap-4">
                       {project.demoLink && (
                         <MagneticElement strength={25}>
                           <a href={project.demoLink} target="_blank" rel="noreferrer" className="px-6 py-2.5 bg-background text-foreground font-chunky text-lg hover:scale-105 transition-transform shadow-[2px_2px_0px_var(--color-primary)] inline-block">

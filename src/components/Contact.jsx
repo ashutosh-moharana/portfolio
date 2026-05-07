@@ -27,7 +27,7 @@ const Contact = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top 85%",
-        once: true
+        toggleActions: "play none none reverse"
       }
     });
 
@@ -137,7 +137,7 @@ const Contact = () => {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-24">
 
           {/* Contact Form Container */}
-          <div className="contact-form w-full lg:w-1/2 bg-[#f4f4f5]/95 dark:bg-[#e4e4e7]/10 backdrop-blur-xl p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl">
+          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl">
             {/* Decorative Tape — pinned to the card */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-primary/30 rotate-2 shadow-sm z-20" />
             <div className="absolute -top-3 right-10 w-16 h-6 bg-secondary/60 -rotate-3 shadow-sm z-20" />

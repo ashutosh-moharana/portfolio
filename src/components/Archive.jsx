@@ -54,14 +54,14 @@ const NoteCard = ({ resource, onOpenModal }) => {
 
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg/90 backdrop-blur-xl border border-border/50 cursor-pointer h-full min-h-[220px] transition-shadow duration-500"
+                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg border border-border/50 cursor-pointer h-full min-h-[220px] transition-shadow duration-500"
                 style={{ clipPath: "polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 0 100%)" }}
             >
                 {/* Folded Corner */}
                 <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-primary/20 to-card-bg shadow-[-4px_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 group-hover:scale-110 origin-top-right"></div>
 
                 <div className="relative z-10 flex items-start justify-between w-full mt-2">
-                    <div className={`w-14 h-14 rounded-full bg-secondary/80 backdrop-blur-sm flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-500 group-hover:scale-110 border border-border/40`}>
+                    <div className={`w-14 h-14 rounded-full bg-secondary flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-500 group-hover:scale-110 border border-border/40`}>
                         {style.icon}
                     </div>
                     <div className="flex flex-col items-end gap-3">
@@ -112,7 +112,7 @@ const ResourceModal = ({ resource, onClose }) => {
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
             <div
-                className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+                className="absolute inset-0 bg-background/95"
                 onClick={onClose}
             />
 
@@ -359,7 +359,7 @@ const Archive = () => {
                                 className={`flex items-center gap-3 px-6 py-2.5 font-chunky text-base rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
                                     isFilterOpen 
                                     ? "bg-primary text-primary-foreground border-primary" 
-                                    : "bg-card-bg/80 backdrop-blur-xl text-foreground border-border hover:border-primary"
+                                    : "bg-card-bg text-foreground border-border hover:border-primary"
                                 }`}
                             >
                                 <FiFilter className={isFilterOpen ? "animate-pulse" : ""} />
@@ -369,7 +369,7 @@ const Archive = () => {
 
                             {/* Dropdown Menu */}
                             {isFilterOpen && (
-                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-64 bg-card-bg/95 backdrop-blur-2xl border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
                                     {FILE_FILTERS.map((f) => {
                                         const count = f.value === "all" ? notes.length : notes.filter(r => r.type === f.value).length;
                                         const isActive = activeFilter === f.value;
@@ -426,14 +426,17 @@ const Archive = () => {
                                                 {style.label}
                                             </h3>
                                         </div>
-                                        <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-8 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0 pt-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
-                                            {items.map((r) => (
-                                                <NoteCard
-                                                    key={r.id}
-                                                    resource={r}
-                                                    onOpenModal={setSelectedResource}
-                                                />
-                                            ))}
+                                        <div className="-mx-6 px-6 sm:mx-0 sm:px-0">
+                                            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
+                                                {items.map((r) => (
+                                                    <div key={r.id} className="min-w-[85%] sm:min-w-full snap-start h-full">
+                                                        <NoteCard
+                                                            resource={r}
+                                                            onOpenModal={setSelectedResource}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 );

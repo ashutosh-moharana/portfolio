@@ -52,7 +52,7 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
         <TiltCard maxTilt={10} scale={1.03} className="website-card w-[80vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg/40 backdrop-blur-2xl border border-white/10 hover:border-white/20 rounded-[2rem] cursor-pointer h-full min-h-[240px] overflow-hidden transition-all duration-500"
+                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg border border-white/10 hover:border-white/20 rounded-[2rem] cursor-pointer h-full min-h-[240px] overflow-hidden transition-all duration-500"
             >
                 {/* Dynamic Radial Glow Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
@@ -106,7 +106,7 @@ const HubModal = ({ resource, onClose }) => {
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
             <div
-                className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+                className="absolute inset-0 bg-background/95"
                 onClick={onClose}
             />
 
@@ -287,7 +287,7 @@ const Hub = () => {
                                 className={`w-full flex items-center justify-between px-5 py-3 font-chunky text-sm rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
                                     isFilterOpen
                                         ? "bg-primary text-white border-primary"
-                                        : "bg-card-bg/80 backdrop-blur-xl text-foreground border-border hover:border-primary"
+                                        : "bg-card-bg text-foreground border-border hover:border-primary"
                                 }`}
                             >
                                 <div className="flex items-center gap-2">
@@ -299,7 +299,7 @@ const Hub = () => {
 
                             {/* Dropdown Menu */}
                             {isFilterOpen && (
-                                <div className="absolute top-full right-0 mt-3 w-64 bg-card-bg/95 backdrop-blur-2xl border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="absolute top-full right-0 mt-3 w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
                                     {categories.map((cat) => {
                                         const isActive = activeFilter === cat;
                                         const count = cat === "All" ? websites.length : websites.filter(r => r.category === cat).length;
@@ -370,13 +370,14 @@ const Hub = () => {
                                     </h3>
                                 </div>
 
-                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-6 sm:pb-0 snap-x snap-mandatory pr-6 sm:pr-0 no-scrollbar" style={{ scrollbarWidth: "none" }}>
+                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
                                     {items.map((r) => (
-                                        <WebsiteCard
-                                            key={r.id}
-                                            resource={r}
-                                            onOpenModal={setSelectedResource}
-                                        />
+                                        <div key={r.id} className="min-w-[85%] sm:min-w-full snap-start h-full">
+                                            <WebsiteCard
+                                                resource={r}
+                                                onOpenModal={setSelectedResource}
+                                            />
+                                        </div>
                                     ))}
                                 </div>
                             </div>

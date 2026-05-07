@@ -81,7 +81,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".about-title-char",
                         start: "top 90%",
-                        once: true
+                        toggleActions: "play none none reverse"
                     }
                 }
             );
@@ -98,7 +98,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".about-title-char",
                         start: "top 90%",
-                        once: true
+                        toggleActions: "play none none reverse"
                     }
                 }
             );
@@ -118,7 +118,7 @@ const About = () => {
                 scrollTrigger: {
                     trigger: ".edu-container",
                     start: "top 80%",
-                    once: true
+                    toggleActions: "play none none reverse"
                 }
             }
         );
@@ -136,6 +136,24 @@ const About = () => {
                 }
             });
         }
+
+        // Toolkit smooth reveal - Simplified horizontal slide
+        gsap.fromTo(".skill-card",
+            { x: -20, opacity: 0 },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.5,
+                stagger: 0.03,
+                ease: "power2.out",
+                force3D: true,
+                scrollTrigger: {
+                    trigger: ".skill-card",
+                    start: "top 95%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
 
     }, { scope: containerRef });
 
@@ -309,7 +327,7 @@ const About = () => {
                                     <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-subtle font-bold mb-3 text-center lg:text-left">Toolkit</p>
                                     <div className="flex flex-wrap gap-2 md:gap-2.5 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
                                         {['Java', 'Spring Boot', 'REST API', 'PostgreSQL', 'React', 'JavaScript', 'TailwindCSS', 'Node.js'].map((skill, i) => (
-                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--color-primary)] transition-all cursor-default">
+                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:shadow-[3px_3px_0px_var(--color-primary)] cursor-default">
                                                 {skill}
                                             </div>
                                         ))}
@@ -351,7 +369,7 @@ const About = () => {
 
                                 return (
                                     <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6">
-                                        <div className={`relative bg-[#f4f4f5] dark:bg-[#e4e4e7]/10 backdrop-blur-sm p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-all duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
+                                        <div className={`relative bg-card-bg p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-all duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
 
                                             {/* Tape */}
                                             <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} shadow-sm ${rotation} z-20`} />
@@ -362,7 +380,7 @@ const About = () => {
                                             <h4 className="font-chunky text-lg md:text-2xl text-foreground mb-1 leading-tight">
                                                 {edu.degree}
                                             </h4>
-                                            <p className="font-sans text-xs md:text-sm text-subtle/80 font-medium leading-relaxed">
+                                            <p className="font-sans text-xs md:text-sm text-subtle font-medium leading-relaxed">
                                                 {edu.institution}
                                             </p>
                                             {edu.detail && (

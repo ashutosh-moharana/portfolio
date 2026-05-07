@@ -46,8 +46,8 @@
   --border: #D8C3B5;
   --muted: #EBE0D8;
   --muted-foreground: #997A7A;
-  --card-bg: rgba(255, 255, 255, 0.85);
-  /* Slightly translucent for glassmorphism */
+  --card-bg: #FDFCFB;
+  /* Slightly translucent for glassmorphism - disabled */
   --primary-rgb: 195, 134, 97;
 }
 
@@ -68,8 +68,8 @@
   --border: #4A3A3A;
   --muted: #3D2F2F;
   --muted-foreground: #BCAEAE;
-  --card-bg: rgba(61, 47, 47, 0.85);
-  /* Slightly translucent for glassmorphism */
+  --card-bg: #3D2F2F;
+  /* Slightly translucent for glassmorphism - disabled */
   --primary-rgb: 195, 134, 97;
 }
 
@@ -90,7 +90,6 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-card-bg: var(--card-bg);
-
 }
 
 @layer base {
@@ -151,16 +150,6 @@
 /* ── Performance: GPU layer hints ───────────────────────────── */
 .will-change-transform {
   will-change: transform;
-}
-
-.interactive {
-  isolation: isolate;
-}
-
-/* Keep backdrop-blur elements off the main thread */
-[class*="backdrop-blur"] {
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 /* ── Custom Cursor Styles ────────────────────────────────── */

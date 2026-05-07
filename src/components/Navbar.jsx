@@ -73,7 +73,7 @@ const Navbar = () => {
         <div className="absolute -top-3 -left-2 w-12 h-6 bg-secondary/90 -rotate-12 z-20 pointer-events-none border border-black/5" />
         <div className="absolute -bottom-3 -right-2 w-12 h-6 bg-secondary/90 rotate-12 z-20 pointer-events-none border border-black/5" />
 
-        <div className="bg-card-bg/90 backdrop-blur-xl border border-border/40 rounded-2xl px-6 md:px-10 py-4 flex items-center justify-between gap-6 md:gap-10">
+        <div className="bg-card-bg border border-border/40 rounded-2xl px-6 md:px-10 py-4 flex items-center justify-between gap-6 md:gap-10">
 
           {/* Logo */}
           <Link
@@ -152,7 +152,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobile && isMenuOpen && (
-          <div className="absolute top-[calc(100%+12px)] left-0 w-full bg-card-bg/95 backdrop-blur-2xl rounded-2xl border border-border/40 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-[calc(100%+12px)] left-0 w-full bg-card-bg rounded-2xl border border-border/40 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col divide-y divide-border/20">
               {navLinks.map((link, i) => {
                 const isRoute = link.type === 'route';
