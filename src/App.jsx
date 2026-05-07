@@ -8,7 +8,6 @@ import {
 import { Routes, Route } from "react-router-dom";
 
 import { DeviceProvider } from "./contexts/DeviceContext";
-import { SoundProvider } from "./contexts/SoundContext";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -75,8 +74,7 @@ function App() {
         };
     }, []);
 
-    return (
-        <SoundProvider>
+    return (     
         <DeviceProvider>
             <LenisContext.Provider value={lenis}>
                 <div className="film-grain" aria-hidden="true" />
@@ -94,7 +92,6 @@ function App() {
                 </div>
             </LenisContext.Provider>
         </DeviceProvider>
-        </SoundProvider>
     );
 }
 
