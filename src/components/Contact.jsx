@@ -117,7 +117,7 @@ const Contact = () => {
 
 
         <div className="text-center mb-16 md:mb-24 flex flex-col items-center">
-          <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-4 tracking-wide drop-shadow-sm text-center uppercase flex flex-wrap justify-center overflow-hidden">
+          <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-4 tracking-wide drop-shadow-sm text-center uppercase flex flex-wrap justify-center overflow-hidden">
             {"LET'S TALK".split("").map((char, index) => {
               const isPrimary = index === 7; // The letter 'A'
               return (

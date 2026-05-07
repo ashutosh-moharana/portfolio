@@ -38,13 +38,13 @@ const LandingPage = () => {
       "-=0.6"
     );
     tl.fromTo(".hero-img-container",
-      { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" },
-      { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1, ease: "power3.inOut" },
+      { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", willChange: "clip-path" },
+      { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1, ease: "power2.inOut", force3D: true },
       "-=0.7"
     );
     tl.fromTo(".hero-img-inner",
-      { scale: 1.2 },
-      { scale: 1, duration: 1.2, ease: "power3.out" },
+      { scale: 1.15, willChange: "transform" },
+      { scale: 1, duration: 1.2, ease: "power2.out", force3D: true },
       "-=1"
     );
 

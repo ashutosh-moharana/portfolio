@@ -261,7 +261,7 @@ const About = () => {
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
-                                    <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden">
+                                    <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden">
                                         {"ABOUT ME".split("").map((char, index) => {
                                             const isPrimary = index === 2 || index === 7;
                                             return (

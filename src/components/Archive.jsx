@@ -47,7 +47,7 @@ const NoteCard = ({ resource, onOpenModal }) => {
     const tapeOffsetX = resource.id % 2 === 0 ? "-translate-x-3" : "translate-x-2";
 
     return (
-        <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[80vw] sm:w-full h-full snap-start shrink-0">
+        <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[80vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             {/* Masking Tape (placed outside clip-path so it doesn't get cut off) */}
             <div className={`absolute -top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-16 h-7 bg-secondary/60 z-30 ${tapeRotation}`}></div>
 
@@ -220,17 +220,18 @@ const Archive = () => {
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
             gsap.fromTo(section.querySelectorAll(".archive-card"),
-                { y: 50, opacity: 0, scale: 0.95, rotationX: -15, z: -50 },
+                { y: 30, opacity: 0, scale: 0.98 },
                 {
                     y: 0, opacity: 1,
                     scale: 1,
-                    rotationX: 0, z: 0,
-                    duration: 1,
-                    stagger: 0.08,
-                    ease: "elastic.out(1, 0.7)",
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "power2.out",
+                    force3D: true,
                     scrollTrigger: {
                         trigger: section,
                         start: "top 85%",
+                        once: true
                     }
                 }
             );
@@ -268,7 +269,7 @@ const Archive = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl fade-up">
-                        <h1 className="text-6xl sm:text-7xl lg:text-[5rem] font-chunky uppercase tracking-wide mb-6 drop-shadow-sm flex flex-wrap overflow-hidden">
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-chunky uppercase tracking-wide mb-6 drop-shadow-sm flex flex-wrap overflow-hidden">
                             {"ARCHIVE".split("").map((char, index) => {
                                 const isPrimary = index === 1 || index === 5; // 'R' and 'V' in ARCHIVE
                                 return (

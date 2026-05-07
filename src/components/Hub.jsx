@@ -48,7 +48,7 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
     const Icon = iconMap[resource.icon] || <LuGlobe size={24} />;
 
     return (
-        <TiltCard maxTilt={10} scale={1.03} className="website-card w-[80vw] sm:w-full h-full snap-start shrink-0">
+        <TiltCard maxTilt={10} scale={1.03} className="website-card w-[80vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             <div
                 onClick={() => onOpenModal(resource)}
                 className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg/40 backdrop-blur-2xl border border-white/10 hover:border-white/20 rounded-[2rem] cursor-pointer h-full min-h-[240px] overflow-hidden transition-all duration-500"
@@ -191,18 +191,19 @@ const Hub = () => {
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
             gsap.fromTo(section.querySelectorAll(".website-card"),
-                { opacity: 0, y: 50, scale: 0.95, rotationX: -15 },
+                { opacity: 0, y: 30, scale: 0.98 },
                 {
                     opacity: 1,
                     y: 0,
                     scale: 1,
-                    rotationX: 0,
-                    duration: 1,
-                    stagger: 0.08,
-                    ease: "elastic.out(1, 0.7)",
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "power2.out",
+                    force3D: true,
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 85%"
+                        start: "top 85%",
+                        once: true
                     }
                 }
             );
@@ -241,7 +242,7 @@ const Hub = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl">
-                        <h1 className="text-6xl md:text-8xl font-chunky uppercase tracking-wide mb-6 flex flex-wrap overflow-hidden">
+                        <h1 className="text-5xl md:text-7xl font-chunky uppercase tracking-wide mb-6 flex flex-wrap overflow-hidden">
                             {"HUB".split("").map((char, index) => {
                                 const isPrimary = index === 1; // The letter 'U'
                                 return (

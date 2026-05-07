@@ -35,12 +35,12 @@ const Projects = () => {
     // Individual card animations - Premium 3D flip entry
     gsap.utils.toArray(".project-card-container").forEach((card, i) => {
       gsap.fromTo(card,
-        { y: 20, opacity: 0, rotationY: 20, z: -50 },
+        { y: 20, opacity: 0, scale: 0.95 },
         {
-          y: 0, opacity: 1, rotationY: 0, z: 0,
-          duration: 1,
-          ease: "power3.out",
-          delay: (i % 3) * 0.15,
+          y: 0, opacity: 1, scale: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          delay: (i % 3) * 0.1,
           scrollTrigger: {
             trigger: card,
             start: "top 90%",
@@ -59,7 +59,7 @@ const Projects = () => {
       <div className="absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px]" />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-0">
-        <h2 className="font-chunky text-6xl sm:text-7xl lg:text-[5rem] mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-hidden">
+        <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-hidden">
           {"MY WORKS".split("").map((char, index) => {
             const isPrimary = index === 4; // The letter 'O'
             return (
@@ -82,7 +82,7 @@ const Projects = () => {
               const rotation = rotations[index % rotations.length];
 
               return (
-                <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative">
+                <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative will-change-transform">
                 <div className={`project-card relative h-full flex flex-col bg-[#f4f4f5]/90 dark:bg-[#e4e4e7]/10 backdrop-blur-xl p-6 md:p-8 pb-10 md:pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-300 ${rotation} hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:scale-[1.02]`}>
 
                   {/* Tape effect on top */}
