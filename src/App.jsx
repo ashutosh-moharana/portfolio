@@ -1,11 +1,13 @@
 import {
     useState,
+    useRef,
     createContext,
     useEffect,
     lazy,
     Suspense
 } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useGSAP } from "@gsap/react";
 
 import { DeviceProvider } from "./contexts/DeviceContext";
 import Lenis from "lenis";
@@ -47,6 +49,17 @@ function Portfolio() {
             </section>
         </>
     );
+}
+
+function PageEntrance({ children }) {
+    const ref = useRef(null);
+    useGSAP(() => {
+        gsap.fromTo(ref.current,
+            { opacity: 0, y: 8 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+        );
+    }, { scope: ref });
+    return <div ref={ref}>{children}</div>;
 }
 
 function App() {
@@ -94,12 +107,14 @@ function App() {
                 <Navbar />
                 <div className="app-container bg-background">
                     <Suspense fallback={<div className="min-h-screen bg-background" />}>
-                        <Routes>
-                            <Route path="/" element={<Portfolio />} />
-                            <Route path="/archive" element={<Archive />} />
-                            <Route path="/hub" element={<Hub />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
+                        <PageEntrance>
+                            <Routes>
+                                <Route path="/" element={<Portfolio />} />
+                                <Route path="/archive" element={<Archive />} />
+                                <Route path="/hub" element={<Hub />} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </PageEntrance>
                     </Suspense>
                 </div>
             </LenisContext.Provider>

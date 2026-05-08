@@ -18,48 +18,48 @@ import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
 gsap.registerPlugin(ScrollTrigger);
 
 const iconMap = {
-    map: <LuMap size={24} />,
-    code: <LuCode size={24} />,
-    book: <LuBook size={24} />,
-    eye: <LuEye size={24} />,
-    terminal: <LuTerminal size={24} />,
-    git: <LuGitBranch size={24} />,
-    folder: <LuFolder size={24} />,
-    layers: <LuLayers size={24} />,
-    activity: <LuActivity size={24} />,
-    camera: <LuCamera size={24} />,
-    mail: <LuMail size={24} />,
-    component: <LuComponent size={24} />,
-    grid: <LuLayoutGrid size={24} />,
-    scissors: <LuScissors size={24} />,
-    wind: <LuWind size={24} />,
-    layout: <LuLayoutDashboard size={24} />,
-    brain: <LuBrain size={24} />,
-    presentation: <LuPresentation size={24} />,
-    pen: <LuPenTool size={24} />,
-    lock: <LuLock size={24} />,
-    smile: <LuSmile size={24} />,
-    database: <LuDatabase size={24} />,
-    image: <LuImage size={24} />,
-    music: <LuMusic size={24} />,
-    globe: <LuGlobe size={24} />,
+    map: <LuMap className="w-5 h-5 md:w-6 md:h-6" />,
+    code: <LuCode className="w-5 h-5 md:w-6 md:h-6" />,
+    book: <LuBook className="w-5 h-5 md:w-6 md:h-6" />,
+    eye: <LuEye className="w-5 h-5 md:w-6 md:h-6" />,
+    terminal: <LuTerminal className="w-5 h-5 md:w-6 md:h-6" />,
+    git: <LuGitBranch className="w-5 h-5 md:w-6 md:h-6" />,
+    folder: <LuFolder className="w-5 h-5 md:w-6 md:h-6" />,
+    layers: <LuLayers className="w-5 h-5 md:w-6 md:h-6" />,
+    activity: <LuActivity className="w-5 h-5 md:w-6 md:h-6" />,
+    camera: <LuCamera className="w-5 h-5 md:w-6 md:h-6" />,
+    mail: <LuMail className="w-5 h-5 md:w-6 md:h-6" />,
+    component: <LuComponent className="w-5 h-5 md:w-6 md:h-6" />,
+    grid: <LuLayoutGrid className="w-5 h-5 md:w-6 md:h-6" />,
+    scissors: <LuScissors className="w-5 h-5 md:w-6 md:h-6" />,
+    wind: <LuWind className="w-5 h-5 md:w-6 md:h-6" />,
+    layout: <LuLayoutDashboard className="w-5 h-5 md:w-6 md:h-6" />,
+    brain: <LuBrain className="w-5 h-5 md:w-6 md:h-6" />,
+    presentation: <LuPresentation className="w-5 h-5 md:w-6 md:h-6" />,
+    pen: <LuPenTool className="w-5 h-5 md:w-6 md:h-6" />,
+    lock: <LuLock className="w-5 h-5 md:w-6 md:h-6" />,
+    smile: <LuSmile className="w-5 h-5 md:w-6 md:h-6" />,
+    database: <LuDatabase className="w-5 h-5 md:w-6 md:h-6" />,
+    image: <LuImage className="w-5 h-5 md:w-6 md:h-6" />,
+    music: <LuMusic className="w-5 h-5 md:w-6 md:h-6" />,
+    globe: <LuGlobe className="w-5 h-5 md:w-6 md:h-6" />,
 };
 
 const WebsiteCard = ({ resource, onOpenModal }) => {
-    const Icon = iconMap[resource.icon] || <LuGlobe size={24} />;
+    const Icon = iconMap[resource.icon] || <LuGlobe className="w-5 h-5 md:w-6 md:h-6" />;
 
     return (
-        <TiltCard maxTilt={10} scale={1.03} className="website-card w-[80vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
+        <TiltCard maxTilt={10} scale={1.03} className="website-card w-[72vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg border border-white/10 hover:border-white/20 rounded-[2rem] cursor-pointer h-full min-h-[240px] overflow-hidden transition-all duration-500"
+                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg border border-white/10 hover:border-white/20 rounded-[1.5rem] md:rounded-[2rem] cursor-pointer h-full min-h-[180px] md:min-h-[240px] overflow-hidden transition-all duration-500"
             >
                 {/* Dynamic Radial Glow Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="absolute -inset-4 bg-gradient-to-tr from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700 z-0 pointer-events-none"></div>
 
                 <div className="relative z-10 flex items-start justify-between w-full">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-secondary/90 to-secondary flex items-center justify-center text-primary shrink-0 transition-all duration-500 group-hover:scale-110 border border-white/5">
+                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-secondary/90 to-secondary flex items-center justify-center text-primary shrink-0 transition-all duration-500 group-hover:scale-110 border border-white/5">
                         {Icon}
                     </div>
 
@@ -70,20 +70,20 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-10 h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
                                 title="Visit Website"
                             >
-                                <FiArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                <FiArrowUpRight className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                             </a>
                         </MagneticElement>
                     </div>
                 </div>
 
-                <div className="relative z-10 mt-auto pt-8 flex flex-col w-full">
-                    <span className="text-[10px] md:text-xs text-primary font-sans font-bold uppercase tracking-widest mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                <div className="relative z-10 mt-auto pt-4 md:pt-8 flex flex-col w-full">
+                    <span className="text-[9px] md:text-xs text-primary font-sans font-bold uppercase tracking-widest mb-1 md:mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
                         {resource.subject}
                     </span>
-                    <h3 className="font-chunky text-2xl md:text-3xl text-foreground leading-tight line-clamp-2">
+                    <h3 className="font-chunky text-lg md:text-3xl text-foreground leading-tight line-clamp-2">
                         {resource.title}
                     </h3>
                 </div>
@@ -178,7 +178,9 @@ const Hub = () => {
                 {
                     y: 0,
                     opacity: 1,
-                    duration: 0.6,
+                    duration: 0.5,
+                    stagger: 0.04,
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: ".hub-char",
                         start: "top 90%",
@@ -205,7 +207,54 @@ const Hub = () => {
             );
         }
 
-        // Staggered card entrance for all cards initially or per section
+        // Search bar reveal
+        gsap.fromTo(".hub-search-bar",
+            { y: 15, opacity: 0 },
+            {
+                y: 0, opacity: 1,
+                duration: 0.4, stagger: 0.08,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".hub-search-bar",
+                    start: "top 95%",
+                    once: true
+                }
+            }
+        );
+
+        // Background parallax
+        gsap.to(".hub-bg-blob", {
+            yPercent: -10,
+            ease: "none",
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.5,
+            }
+        });
+
+        // Section label slide-in
+        gsap.utils.toArray(".category-section").forEach((section) => {
+            const label = section.querySelector(".section-label");
+            if (label) {
+                gsap.fromTo(label,
+                    { x: -20, opacity: 0 },
+                    {
+                        x: 0, opacity: 1,
+                        duration: 0.4,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 90%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        });
+
+        // Card entrance per section
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
             gsap.fromTo(section.querySelectorAll(".website-card"),
@@ -214,9 +263,9 @@ const Hub = () => {
                     opacity: 1,
                     y: 0,
                     scale: 1,
-                    duration: isMobile ? 0.5 : 0.8,
+                    duration: isMobile ? 0.4 : 0.5,
                     stagger: isMobile ? 0 : 0.05,
-                    ease: "power2.out",
+                    ease: "power3.out",
                     force3D: true,
                     scrollTrigger: {
                         trigger: section,
@@ -250,7 +299,7 @@ const Hub = () => {
 
 
             {/* Background elements */}
-            <div className="absolute top-[20%] left-[-10%] w-[30%] h-[40%] bg-primary opacity-10 pointer-events-none rounded-full blur-[100px] z-0" />
+            <div className="hub-bg-blob absolute top-[20%] left-0 w-[30%] h-[40%] bg-primary opacity-10 pointer-events-none rounded-full blur-[100px] z-0 will-change-transform" />
 
             {/* Page Body */}
             <div className="px-6 md:px-12 lg:px-24 pt-32 md:pt-40 relative z-10 max-w-7xl mx-auto">
@@ -260,7 +309,7 @@ const Hub = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl">
-                        <h1 className="text-5xl md:text-7xl font-chunky uppercase tracking-wide mb-6 flex flex-wrap overflow-hidden">
+                        <h1 className="text-4xl md:text-7xl font-chunky uppercase tracking-wide mb-4 md:mb-6 flex flex-wrap overflow-hidden">
                             {"HUB".split("").map((char, index) => {
                                 const isPrimary = index === 1; // The letter 'U'
                                 return (
@@ -273,13 +322,13 @@ const Hub = () => {
                                 );
                             })}
                         </h1>
-                        <p className="text-subtle text-lg font-sans leading-relaxed">
+                        <p className="text-subtle text-base md:text-lg font-sans leading-relaxed">
                             A curated collection of my favorite tools, platforms, and digital resources I use every day.
                         </p>
                     </div>
 
                     {/* Search & Filter Container */}
-                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0">
+                    <div className="hub-search-bar flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0">
                         {/* Filter Dropdown */}
                         <div className="relative w-full sm:w-48 z-[30]">
                             <button
@@ -364,15 +413,15 @@ const Hub = () => {
                     ) : (
                         Object.entries(groupedWebsites).map(([category, items]) => (
                             <div key={category} className="category-section space-y-6">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <h3 className="text-3xl font-display text-primary">
+                                <div className="section-label flex items-center gap-4 mb-4">
+                                    <h3 className="text-xl md:text-3xl font-display text-primary">
                                         {category}
                                     </h3>
                                 </div>
 
-                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
+                                <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-8 sm:gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
                                     {items.map((r) => (
-                                        <div key={r.id} className="min-w-[85%] sm:min-w-full snap-start h-full">
+                                        <div key={r.id} className="min-w-[78%] sm:min-w-full snap-start h-full">
                                             <WebsiteCard
                                                 resource={r}
                                                 onOpenModal={setSelectedResource}

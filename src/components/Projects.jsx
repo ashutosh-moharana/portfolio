@@ -21,7 +21,9 @@ const Projects = () => {
         {
           y: 0,
           opacity: 1,
-          duration: 0.6,
+          duration: 0.5,
+          stagger: 0.04,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
@@ -48,31 +50,68 @@ const Projects = () => {
       );
     }
 
-    // Individual card animations - Premium 3D flip entry
+    // Background accent parallax
+    gsap.to(".project-bg-accent", {
+      yPercent: -12,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+      }
+    });
+
+    // Directional card entry — alternate left/right on desktop, simple y on mobile
     gsap.utils.toArray(".project-card-container").forEach((card, i) => {
+      const direction = i % 2 === 0 ? -1 : 1;
       gsap.fromTo(card,
-        { y: isMobile ? 15 : 20, opacity: 0, scale: isMobile ? 1 : 0.95 },
         {
-          y: 0, opacity: 1, scale: 1,
-          duration: isMobile ? 0.5 : 0.8,
-          ease: "power2.out",
-          delay: isMobile ? 0 : (i % 3) * 0.1,
+          y: isMobile ? 20 : 25,
+          x: isMobile ? 0 : direction * 20,
+          opacity: 0,
+          scale: isMobile ? 1 : 0.97,
+        },
+        {
+          y: 0, x: 0, opacity: 1, scale: 1,
+          duration: isMobile ? 0.4 : 0.6,
+          ease: "power3.out",
+          force3D: true,
+          delay: isMobile ? 0 : (i % 3) * 0.08,
           scrollTrigger: {
             trigger: card,
-            start: "top 95%",
+            start: "top 93%",
             toggleActions: "play none none reverse"
           }
         }
       );
-    });
 
+      // Tape decoration reveal
+      const tape = card.querySelector(".tape-decoration");
+      if (tape) {
+        gsap.fromTo(tape,
+          { scaleX: 0, opacity: 0 },
+          {
+            scaleX: 1, opacity: 1,
+            duration: 0.35,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 93%",
+              toggleActions: "play none none reverse"
+            },
+            delay: isMobile ? 0.15 : 0.25 + (i % 3) * 0.08,
+          }
+        );
+      }
+    });
   }, { scope: containerRef });
 
   return (
     <div ref={containerRef} id="projects" className="relative bg-background pt-16 pb-20 md:py-32 px-0 md:px-12 lg:px-24 overflow-hidden min-h-screen">
 
       {/* Background layered box */}
-      <div className="absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px]" />
+      <div className="project-bg-accent absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px] will-change-transform" />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-0">
         <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-hidden">
@@ -114,7 +153,7 @@ const Projects = () => {
                     const tapeRotates = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-3", "-rotate-3", "rotate-1"];
                     const tc = tapeColors[index % tapeColors.length];
                     const tr = tapeRotates[(index + 1) % tapeRotates.length];
-                    return <div className={`absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-8 ${tc} ${tr} shadow-sm z-20`} />;
+                    return <div className={`tape-decoration absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-8 ${tc} ${tr} shadow-sm z-20`} style={{ transformOrigin: 'center center' }} />;
                   })()}
 
                   {/* Image Container */}

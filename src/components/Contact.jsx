@@ -45,15 +45,29 @@ const Contact = () => {
     );
 
     tl.fromTo(".contact-form",
-      { y: 50, opacity: 0, rotation: -5 },
-      { y: 0, opacity: 1, rotation: 1, duration: 0.8, ease: "back.out(1.2)" },
-      "-=0.4"
+      { y: 30, opacity: 0, rotation: -1 },
+      { y: 0, opacity: 1, rotation: 1, duration: 0.5, ease: "power3.out" },
+      "-=0.3"
+    );
+
+    // Form field stagger
+    tl.fromTo(".contact-field",
+      { y: 15, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.35, stagger: 0.08, ease: "power3.out" },
+      "-=0.2"
+    );
+
+    // Submit button reveal
+    tl.fromTo(".contact-submit",
+      { y: 10, opacity: 0, scale: 0.97 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" },
+      "-=0.1"
     );
 
     tl.fromTo(".contact-info",
-      { x: 30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: "power2.out" },
-      "-=0.6"
+      { x: 20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "power3.out" },
+      "-=0.3"
     );
   }, { scope: containerRef });
 
@@ -137,7 +151,7 @@ const Contact = () => {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-24">
 
           {/* Contact Form Container */}
-          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl">
+          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl rotate-1">
             {/* Decorative Tape — pinned to the card */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-primary/30 rotate-2 shadow-sm z-20" />
             <div className="absolute -top-3 right-10 w-16 h-6 bg-secondary/60 -rotate-3 shadow-sm z-20" />
@@ -155,7 +169,7 @@ const Contact = () => {
               </div>
             ) : (
               <form ref={formRef} onSubmit={sendEmail} autoComplete="off" className="flex flex-col gap-7 md:gap-8">
-                <div>
+                <div className="contact-field">
                   <input
                     type="text"
                     name="user_name"
@@ -167,7 +181,7 @@ const Contact = () => {
                   {formErrors.user_name && <p className="text-primary text-sm mt-1 font-medium">{formErrors.user_name}</p>}
                 </div>
 
-                <div>
+                <div className="contact-field">
                   <input
                     type="email"
                     name="user_email"
@@ -179,7 +193,7 @@ const Contact = () => {
                   {formErrors.user_email && <p className="text-primary text-sm mt-1 font-medium">{formErrors.user_email}</p>}
                 </div>
 
-                <div>
+                <div className="contact-field">
                   <textarea
                     name="message"
                     value={formData.message}
@@ -193,7 +207,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={!isFormValid() || isSending}
-                  className={`mt-4 w-full md:w-auto self-start px-10 py-3 font-chunky text-xl rounded-xl transition-all flex items-center justify-center gap-2 ${isSending
+                  className={`contact-submit mt-4 w-full md:w-auto self-start px-10 py-3 font-chunky text-xl rounded-xl transition-all flex items-center justify-center gap-2 ${isSending
                     ? 'bg-muted text-subtle cursor-wait'
                     : isFormValid()
                       ? 'bg-primary text-white shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)]'

@@ -4,7 +4,7 @@ const notes = [
     {
         id: 1,
         type: "h-note",
-        title: "SQL Complete Notes",
+        title: "SQL",
         subject: "Database",
         format: "PDF",
         size: "20.8 MB",
@@ -54,7 +54,7 @@ const notes = [
     {
         id: 6,
         type: "h-note",
-        title: "More Handwritten Notes",
+        title: "More",
         subject: "Handwritten Notes",
         format: "Folder",
         size: "",
@@ -66,7 +66,7 @@ const notes = [
     {
         id: 7,
         type: "cheatsheet",
-        title: "Spring Boot Annotations",
+        title: "Spring Boot",
         subject: "Backend",
         format: "PDF",
         size: "174 KB",
@@ -76,7 +76,7 @@ const notes = [
     {
         id: 8,
         type: "cheatsheet",
-        title: "Git Cheatsheet",
+        title: "Git",
         subject: "Version Control",
         format: "PDF",
         size: "464 KB",
@@ -106,7 +106,7 @@ const notes = [
     {
         id: 11,
         type: "cheatsheet",
-        title: "More Cheatsheets",
+        title: "More",
         subject: "Cheatsheets",
         format: "Folder",
         size: "",
@@ -138,7 +138,7 @@ const notes = [
     {
         id: 14,
         type: "my-note",
-        title: "More Personal Notes",
+        title: "More",
         subject: "My Notes",
         format: "Folder",
         size: "",
@@ -150,7 +150,7 @@ const notes = [
     {
         id: 15,
         type: "note",
-        title: "Java Programming Handbook",
+        title: "Java Handbook",
         subject: "Java",
         format: "PDF",
         size: "1.1 MB",
@@ -160,7 +160,7 @@ const notes = [
     {
         id: 16,
         type: "note",
-        title: "Java Interview Questions",
+        title: "Java Interview",
         subject: "Java",
         format: "PDF",
         size: "138 KB",
@@ -170,7 +170,7 @@ const notes = [
     {
         id: 17,
         type: "note",
-        title: "More Notes",
+        title: "More",
         subject: "Notes",
         format: "Folder",
         size: "",
@@ -192,7 +192,7 @@ const notes = [
     {
         id: 19,
         type: "book",
-        title: "More Books",
+        title: "More",
         subject: "Books",
         format: "Folder",
         size: "",

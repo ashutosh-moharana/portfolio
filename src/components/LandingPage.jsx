@@ -21,7 +21,13 @@ const LandingPage = () => {
 
     tl.fromTo(".fade-up",
       { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "power2.out", delay: 0.1 }
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: "power3.out", delay: 0.1 }
+    );
+
+    tl.fromTo(".cta-btn",
+      { y: 15, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+      "-=0.2"
     );
 
     // Letter by letter animation for ASHUTOSH
@@ -84,9 +90,22 @@ const LandingPage = () => {
       }
     });
 
+    // Soft section exit on scroll
+    gsap.to(containerRef.current, {
+      opacity: 0.3,
+      scale: 0.97,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "60% top",
+        end: "bottom top",
+        scrub: 1,
+      }
+    });
+
     // Parallax effect on scroll
     gsap.to(".hero-image", {
-      yPercent: 15,
+      yPercent: 10,
       ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
@@ -147,7 +166,7 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="fade-up mt-12 lg:mt-20 flex flex-wrap justify-center lg:justify-start gap-4">
+          <div className="cta-btn mt-12 lg:mt-20 flex flex-wrap justify-center lg:justify-start gap-4">
             <MagneticElement strength={30}>
               <Link
                 to="/archive"

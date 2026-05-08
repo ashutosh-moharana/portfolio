@@ -4,11 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
   <!-- Apply theme BEFORE React loads to prevent flash -->
   <script>
     (function() {
-      if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      const savedTheme = localStorage.getItem("portfolio-theme");
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
         document.documentElement.classList.add('light');
       }
     })();

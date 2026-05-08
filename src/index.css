@@ -98,9 +98,14 @@
   }
 
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
   }
 
   @media (pointer: fine) {
@@ -203,6 +208,15 @@ textarea:focus {
 input,
 textarea {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Prevent mobile auto-zoom on input focus (iOS Safari requires >= 16px) */
+@media screen and (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 /* ── Lenis Smooth Scroll Styles ───────────────────────────── */

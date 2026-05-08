@@ -77,7 +77,9 @@ const About = () => {
                 {
                     y: 0,
                     opacity: 1,
-                    duration: 0.6,
+                    duration: 0.5,
+                    stagger: 0.04,
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: ".about-title-char",
                         start: "top 90%",
@@ -104,20 +106,20 @@ const About = () => {
             );
         }
 
-        // Education scattered cards entry
+        // Education scattered cards entry — subtle y + scale, no heavy 3D
         gsap.fromTo(".edu-card-wrapper",
-            { opacity: 0, y: isMobile ? 30 : 100, rotationX: isMobile ? 0 : -45, z: isMobile ? 0 : -100 },
+            { opacity: 0, y: isMobile ? 25 : 40, scale: 0.97 },
             {
                 opacity: 1,
                 y: 0,
-                rotationX: 0,
-                z: 0,
-                duration: isMobile ? 0.6 : 0.8,
-                stagger: isMobile ? 0.1 : 0.15,
-                ease: "back.out(1.2)",
+                scale: 1,
+                duration: isMobile ? 0.4 : 0.6,
+                stagger: isMobile ? 0.08 : 0.1,
+                ease: "power3.out",
+                force3D: true,
                 scrollTrigger: {
                     trigger: ".edu-container",
-                    start: "top 80%",
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 }
             }
@@ -137,19 +139,77 @@ const About = () => {
             });
         }
 
-        // Toolkit smooth reveal - Simplified horizontal slide
-        gsap.fromTo(".skill-card",
-            { x: -20, opacity: 0 },
-            {
-                x: 0,
-                opacity: 1,
-                duration: 0.5,
-                stagger: 0.03,
-                ease: "power2.out",
-                force3D: true,
+        // Education heading letter-by-letter
+        if (isMobile) {
+            gsap.fromTo(".edu-title-char",
+                { y: 30, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.5,
+                    stagger: 0.04,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: ".edu-title-char",
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        } else {
+            gsap.fromTo(".edu-title-char",
+                { y: 60, opacity: 0, rotationX: -90 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotationX: 0,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "back.out(1.5)",
+                    scrollTrigger: {
+                        trigger: ".edu-title-char",
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        }
+
+        // Background accent blocks parallax — layered paper depth
+        if (!isMobile) {
+            gsap.to(".about-bg-block-1", {
+                yPercent: -8,
+                ease: "none",
                 scrollTrigger: {
-                    trigger: ".skill-card",
-                    start: "top 95%",
+                    trigger: containerRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                }
+            });
+            gsap.to(".about-bg-block-2", {
+                yPercent: 6,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                }
+            });
+        }
+
+        // Social links stagger
+        gsap.fromTo(".social-link-item",
+            { x: -15, opacity: 0 },
+            {
+                x: 0, opacity: 1,
+                duration: 0.4,
+                stagger: 0.08,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".social-link-item",
+                    start: "top 92%",
                     toggleActions: "play none none reverse"
                 }
             }
@@ -234,7 +294,7 @@ const About = () => {
 
                                 {/* Profile links — right of polaroid on mobile, below on desktop */}
                                 <div className="flex flex-col gap-3 pt-0 lg:pl-1 mt-0 lg:mt-3">
-                                    <MagneticElement strength={20}>
+                                    <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://linkedin.com/in/ashutosh-moharana" target="_blank" rel="noreferrer"
                                             className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
                                             <SiLinkedin size={18} className="shrink-0" />
@@ -243,7 +303,7 @@ const About = () => {
                                             <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
                                         </a>
                                     </MagneticElement>
-                                    <MagneticElement strength={20}>
+                                    <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://leetcode.com/u/ash_mo/" target="_blank" rel="noreferrer"
                                             className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
                                             <SiLeetcode size={18} className="shrink-0" />
@@ -252,7 +312,7 @@ const About = () => {
                                             <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
                                         </a>
                                     </MagneticElement>
-                                    <MagneticElement strength={20}>
+                                    <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://github.com/ashutosh-moharana" target="_blank" rel="noreferrer"
                                             className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
                                             <SiGithub size={18} className="shrink-0" />
@@ -261,7 +321,7 @@ const About = () => {
                                             <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
                                         </a>
                                     </MagneticElement>
-                                    <MagneticElement strength={20}>
+                                    <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://www.hackerrank.com/profile/ash_mo" target="_blank" rel="noreferrer"
                                             className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
                                             <SiHackerrank size={18} className="shrink-0" />
@@ -295,8 +355,8 @@ const About = () => {
                             </div>
 
                             {/* Background accent blocks — extended to tie both sides together */}
-                            <div className="absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
-                            <div className="absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
+                            <div className="about-bg-block-1 absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none will-change-transform"></div>
+                            <div className="about-bg-block-2 absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none will-change-transform"></div>
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
@@ -344,12 +404,19 @@ const About = () => {
                 <div className="edu-container w-full mt-24 relative z-10 pb-20">
 
                     <TextReveal delay={0.1}>
-                        <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-                            <span className="text-foreground">EDUC</span>
-                            <span className="text-primary">A</span>
-                            <span className="text-foreground">TI</span>
-                            <span className="text-primary">O</span>
-                            <span className="text-foreground">N</span>
+                        <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-wrap justify-center lg:justify-start overflow-hidden">
+                            {"EDUCATION".split("").map((char, index) => {
+                                const isPrimary = index === 4 || index === 7; // 'A' and 'O'
+                                return (
+                                    <span
+                                        key={index}
+                                        className={`edu-title-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
+                                        style={{ minWidth: char === " " ? "0.3em" : "auto" }}
+                                    >
+                                        {char}
+                                    </span>
+                                );
+                            })}
                         </h3>
                     </TextReveal>
 

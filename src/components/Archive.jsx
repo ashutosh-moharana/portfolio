@@ -31,11 +31,11 @@ const FILE_FILTERS = [
 ];
 
 const typeStyles = {
-    "h-note": { icon: <LuPenTool size={20} />, label: "Handwritten", colorClass: "text-[#C38661]" },
-    "cheatsheet": { icon: <LuFileText size={20} />, label: "Cheat Sheet", colorClass: "text-[#D8C3B5]" },
-    "my-note": { icon: <LuNotebook size={20} />, label: "My Notes", colorClass: "text-primary/80" },
-    "note": { icon: <LuNotebook size={20} />, label: "Notes", colorClass: "text-primary" },
-    "book": { icon: <LuBook size={20} />, label: "Book", colorClass: "text-subtle" },
+    "h-note": { icon: <LuPenTool className="w-4 h-4 md:w-5 md:h-5" />, label: "Handwritten", colorClass: "text-[#C38661]" },
+    "cheatsheet": { icon: <LuFileText className="w-4 h-4 md:w-5 md:h-5" />, label: "Cheat Sheet", colorClass: "text-[#D8C3B5]" },
+    "my-note": { icon: <LuNotebook className="w-4 h-4 md:w-5 md:h-5" />, label: "My Notes", colorClass: "text-primary/80" },
+    "note": { icon: <LuNotebook className="w-4 h-4 md:w-5 md:h-5" />, label: "Notes", colorClass: "text-primary" },
+    "book": { icon: <LuBook className="w-4 h-4 md:w-5 md:h-5" />, label: "Book", colorClass: "text-subtle" },
 };
 
 const NoteCard = ({ resource, onOpenModal }) => {
@@ -48,20 +48,20 @@ const NoteCard = ({ resource, onOpenModal }) => {
     const tapeOffsetX = resource.id % 2 === 0 ? "-translate-x-3" : "translate-x-2";
 
     return (
-        <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[80vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
+        <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[72vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             {/* Masking Tape (placed outside clip-path so it doesn't get cut off) */}
-            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-16 h-7 bg-secondary/60 z-30 ${tapeRotation}`}></div>
+            <div className={`absolute -top-2.5 md:-top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-12 md:w-16 h-5 md:h-7 bg-secondary/60 z-30 ${tapeRotation}`}></div>
 
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-6 md:p-8 bg-card-bg border border-border/50 cursor-pointer h-full min-h-[220px] transition-shadow duration-500"
+                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg border border-border/50 cursor-pointer h-full min-h-[170px] md:min-h-[220px] transition-shadow duration-500"
                 style={{ clipPath: "polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 0 100%)" }}
             >
                 {/* Folded Corner */}
                 <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-primary/20 to-card-bg shadow-[-4px_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 group-hover:scale-110 origin-top-right"></div>
 
-                <div className="relative z-10 flex items-start justify-between w-full mt-2">
-                    <div className={`w-14 h-14 rounded-full bg-secondary flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-500 group-hover:scale-110 border border-border/40`}>
+                <div className="relative z-10 flex items-start justify-between w-full mt-1 md:mt-2">
+                    <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full bg-secondary flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-500 group-hover:scale-110 border border-border/40`}>
                         {style.icon}
                     </div>
                     <div className="flex flex-col items-end gap-3">
@@ -71,23 +71,23 @@ const NoteCard = ({ resource, onOpenModal }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-10 h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
                                 title={resource.folderUrl ? "Open Folder" : "Open File"}
                             >
-                                {resource.folderUrl ? <FiFolder size={18} /> : <FiArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />}
+                                {resource.folderUrl ? <FiFolder className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" /> : <FiArrowUpRight className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />}
                             </a>
                         </MagneticElement>
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-md border border-primary/20 whitespace-nowrap opacity-80">
+                        <span className="text-[8px] md:text-[10px] font-sans font-bold uppercase tracking-widest text-primary bg-primary/10 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md border border-primary/20 whitespace-nowrap opacity-80">
                             {resource.format} {resource.size ? `• ${resource.size}` : ""}
                         </span>
                     </div>
                 </div>
 
-                <div className="relative z-10 mt-auto pt-8 flex flex-col w-full">
-                    <h3 className="font-chunky text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
+                <div className="relative z-10 mt-auto pt-4 md:pt-8 flex flex-col w-full">
+                    <h3 className="font-chunky text-lg md:text-3xl text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
                         {resource.title}
                     </h3>
-                    <span className="text-xs text-subtle font-sans mt-2 flex items-center gap-2 uppercase tracking-widest font-bold opacity-70 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] md:text-xs text-subtle font-sans mt-1 md:mt-2 flex items-center gap-2 uppercase tracking-widest font-bold opacity-70 group-hover:opacity-100 transition-opacity">
                         {resource.subject}
                     </span>
                 </div>
@@ -207,7 +207,9 @@ const Archive = () => {
                 {
                     y: 0,
                     opacity: 1,
-                    duration: 0.6,
+                    duration: 0.5,
+                    stagger: 0.04,
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: ".archive-char",
                         start: "top 90%",
@@ -234,6 +236,45 @@ const Archive = () => {
             );
         }
 
+        // Search bar reveal
+        tl.fromTo(".archive-search-bar",
+            { y: 15, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, stagger: 0.08, ease: "power3.out" },
+            "-=0.3"
+        );
+
+        // Background parallax
+        gsap.to(".archive-bg-blob", {
+            yPercent: -10,
+            ease: "none",
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.5,
+            }
+        });
+
+        // Section label slide-in
+        gsap.utils.toArray(".category-section").forEach((section) => {
+            const label = section.querySelector(".section-label");
+            if (label) {
+                gsap.fromTo(label,
+                    { x: -20, opacity: 0 },
+                    {
+                        x: 0, opacity: 1,
+                        duration: 0.4,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 90%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        });
+
         // 3D card flip entry on scroll
         const sections = gsap.utils.toArray(".category-section");
         sections.forEach((section) => {
@@ -242,9 +283,9 @@ const Archive = () => {
                 {
                     y: 0, opacity: 1,
                     scale: 1,
-                    duration: isMobile ? 0.5 : 0.8,
+                    duration: isMobile ? 0.4 : 0.5,
                     stagger: isMobile ? 0 : 0.05,
-                    ease: "power2.out",
+                    ease: "power3.out",
                     force3D: true,
                     scrollTrigger: {
                         trigger: section,
@@ -275,9 +316,9 @@ const Archive = () => {
     }, {});
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 overflow-x-hidden">
+        <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 overflow-x-hidden relative">
             {/* Background elements */}
-            <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[50%] bg-secondary opacity-30 pointer-events-none rounded-full blur-3xl z-0" />
+            <div className="archive-bg-blob absolute top-0 right-0 w-[35%] h-[50%] bg-secondary opacity-30 pointer-events-none rounded-full blur-3xl z-0 will-change-transform" />
 
             {/* Page Body */}
             <div className="px-6 md:px-12 lg:px-24 pt-32 md:pt-40 relative z-10 max-w-7xl mx-auto">
@@ -287,7 +328,7 @@ const Archive = () => {
                     className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20"
                 >
                     <div className="max-w-2xl fade-up">
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-chunky uppercase tracking-wide mb-6 drop-shadow-sm flex flex-wrap overflow-hidden">
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-chunky uppercase tracking-wide mb-4 md:mb-6 drop-shadow-sm flex flex-wrap overflow-hidden">
                             {"ARCHIVE".split("").map((char, index) => {
                                 const isPrimary = index === 1 || index === 5; // 'R' and 'V' in ARCHIVE
                                 return (
@@ -301,13 +342,13 @@ const Archive = () => {
                                 );
                             })}
                         </h1>
-                        <p className="text-subtle text-lg font-sans leading-relaxed">
+                        <p className="text-subtle text-base md:text-lg font-sans leading-relaxed">
                             A digital scrapbook of the best study notes, learning materials, and useful PDFs I've collected along the way.
                         </p>
 
                         {/* Notice & Direct Access */}
-                        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center bg-card-bg p-4 rounded-md shadow-sm border border-border/40">
-                            <div className="flex-1 text-sm font-sans text-subtle leading-relaxed">
+                        <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4 items-start sm:items-center bg-card-bg p-3 md:p-4 rounded-md shadow-sm border border-border/40">
+                            <div className="flex-1 text-xs md:text-sm font-sans text-subtle leading-relaxed">
                                 <span className="text-primary font-bold mr-2 inline-flex items-center gap-1.5">
                                     <FiInfo size={16} />
                                     Tip:
@@ -329,7 +370,7 @@ const Archive = () => {
                     </div>
 
                     {/* Search Bar */}
-                    <div className="relative w-full lg:w-80 shrink-0 group fade-up">
+                    <div className="archive-search-bar relative w-full lg:w-80 shrink-0 group fade-up">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
                         </div>
@@ -338,7 +379,7 @@ const Archive = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search the archive..."
-                            className="w-full bg-card-bg border-2 border-border/40 rounded-md focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-[4px_4px_0px_rgba(0,0,0,0.05)]"
+                            className="w-full bg-card-bg border-2 border-border/40 rounded-md focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors"
                         />
                     </div>
                 </div>
@@ -348,15 +389,15 @@ const Archive = () => {
                     <div
                         className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 relative"
                     >
-                        <div>
-                            <h2 className="text-4xl font-display text-foreground">Collection</h2>
+                        <div className="archive-search-bar">
+                            <h2 className="text-2xl md:text-4xl font-display text-foreground">Collection</h2>
                         </div>
                         
                         {/* Filter Dropdown */}
                         <div className="relative group self-start md:self-auto">
                             <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className={`flex items-center gap-3 px-6 py-2.5 font-chunky text-base rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
+                                className={`flex items-center gap-3 px-4 md:px-6 py-2.5 font-chunky text-sm md:text-base rounded-xl transition-all duration-300 border shadow-[3px_3px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
                                     isFilterOpen 
                                     ? "bg-primary text-primary-foreground border-primary" 
                                     : "bg-card-bg text-foreground border-border hover:border-primary"
@@ -369,7 +410,7 @@ const Archive = () => {
 
                             {/* Dropdown Menu */}
                             {isFilterOpen && (
-                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-56 md:w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
                                     {FILE_FILTERS.map((f) => {
                                         const count = f.value === "all" ? notes.length : notes.filter(r => r.type === f.value).length;
                                         const isActive = activeFilter === f.value;
@@ -421,15 +462,15 @@ const Archive = () => {
                                 const style = typeStyles[type] || typeStyles.note;
                                 return (
                                     <div key={type} className="category-section space-y-6">
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <h3 className="text-3xl font-display text-primary">
+                                        <div className="section-label flex items-center gap-4 mb-4">
+                                            <h3 className="text-xl md:text-3xl font-display text-primary">
                                                 {style.label}
                                             </h3>
                                         </div>
                                         <div className="-mx-6 px-6 sm:mx-0 sm:px-0">
-                                            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
+                                            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr gap-8 sm:gap-6 overflow-x-auto sm:overflow-visible pb-8 sm:pb-0 snap-x snap-mandatory no-scrollbar" style={{ scrollbarWidth: "none" }}>
                                                 {items.map((r) => (
-                                                    <div key={r.id} className="min-w-[85%] sm:min-w-full snap-start h-full">
+                                                    <div key={r.id} className="min-w-[78%] sm:min-w-full snap-start h-full">
                                                         <NoteCard
                                                             resource={r}
                                                             onOpenModal={setSelectedResource}
