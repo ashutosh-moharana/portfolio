@@ -32,20 +32,20 @@ const About = () => {
             }
         });
 
-        // Animate polaroid - Premium Reveal
+        // Animate polaroid - Premium Reveal (Optimized for performance)
         tl.fromTo(polaroidRef.current,
-            { y: 30, opacity: 0, rotation: -10 },
-            { y: 0, opacity: 1, rotation: -2, duration: 0.8, ease: "back.out(1.2)" },
+            { y: isMobile ? 20 : 30, opacity: 0, rotation: isMobile ? -5 : -10 },
+            { y: 0, opacity: 1, rotation: -2, duration: 0.8, ease: isMobile ? "power3.out" : "back.out(1.2)", force3D: true },
             "-=0.2"
         );
         tl.fromTo(".polaroid-img-container",
             { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" },
-            { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: 1.2, ease: "power3.inOut" },
+            { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)", duration: isMobile ? 0.8 : 1.2, ease: "power3.inOut", force3D: true },
             "-=0.8"
         );
         tl.fromTo(".polaroid-img-inner",
-            { scale: 1.4 },
-            { scale: 1, duration: 1.5, ease: "power3.out" },
+            { scale: isMobile ? 1.2 : 1.4 },
+            { scale: 1, duration: isMobile ? 1.0 : 1.5, ease: "power3.out", force3D: true },
             "-=1.2"
         );
 
@@ -106,16 +106,16 @@ const About = () => {
             );
         }
 
-        // Education scattered cards entry — subtle y + scale, no heavy 3D
+        // Education scattered cards entry — Optimized for performance
         gsap.fromTo(".edu-card-wrapper",
-            { opacity: 0, y: isMobile ? 25 : 40, scale: 0.97 },
+            { opacity: 0, y: isMobile ? 20 : 30, scale: 0.98 },
             {
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                duration: isMobile ? 0.4 : 0.6,
-                stagger: isMobile ? 0.08 : 0.1,
-                ease: "power3.out",
+                duration: isMobile ? 0.45 : 0.6,
+                stagger: isMobile ? 0.12 : 0.1,
+                ease: "expo.out",
                 force3D: true,
                 scrollTrigger: {
                     trigger: ".edu-container",
@@ -267,11 +267,11 @@ const About = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center">
+                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center will-change-[clip-path]">
                                                 <img
                                                     src="/ashu.webp"
                                                     alt="Ashutosh"
-                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700"
+                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700 will-change-transform"
                                                     loading="lazy"
                                                 />
                                             </div>
@@ -435,8 +435,8 @@ const About = () => {
                                 const tapeColor = tapeColors[idx % tapeColors.length];
 
                                 return (
-                                    <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6">
-                                        <div className={`relative bg-card-bg p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-all duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
+                                    <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6 will-change-transform will-change-opacity">
+                                        <div className={`relative bg-card-bg p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-[transform,shadow] duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
 
                                             {/* Tape */}
                                             <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} shadow-sm ${rotation} z-20`} />
