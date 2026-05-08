@@ -107,6 +107,17 @@
     @apply bg-background text-foreground font-sans;
     font-family: 'Outfit', sans-serif;
     overflow-x: hidden;
+    /* Disable text selection for an app-like feel */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Re-enable selection for interactive input elements */
+  input, textarea, [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
   }
 
   @media (pointer: fine) {
