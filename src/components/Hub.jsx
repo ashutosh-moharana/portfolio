@@ -297,7 +297,6 @@ const Hub = () => {
     return (
         <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 relative overflow-hidden">
 
-
             {/* Background elements */}
             <div className="hub-bg-blob absolute top-[20%] left-0 w-[30%] h-[40%] bg-primary opacity-10 pointer-events-none rounded-full blur-[100px] z-0 will-change-transform" />
 
@@ -328,9 +327,9 @@ const Hub = () => {
                     </div>
 
                     {/* Search & Filter Container */}
-                    <div className="hub-search-bar flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0">
+                    <div className="hub-search-bar flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0 relative z-[40]">
                         {/* Filter Dropdown */}
-                        <div className="relative w-full sm:w-48 z-[30]">
+                        <div className="relative w-full sm:w-48 z-[50]">
                             <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
                                 className={`w-full flex items-center justify-between px-5 py-3 font-chunky text-sm rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
