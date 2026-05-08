@@ -70,16 +70,16 @@ function App() {
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
         const lenisInstance = new Lenis({
-            duration: isTouch ? 2.0 : 1.2, // Slightly more responsive duration on mobile
+            duration: isTouch ? 1.5 : 1.0, // Reduced duration for less 'floaty' feel
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             gestureOrientation: 'vertical',
             smoothWheel: true,
             smoothTouch: true,
-            syncTouch: isTouch, // Synchronize touch for smoother experience in Chrome Mobile
+            syncTouch: isTouch,
             wheelMultiplier: 1,
-            touchMultiplier: isTouch ? 0.8 : 2, // Less draggy touch scroll
-            lerp: isTouch ? 0.07 : 0.1, // Added lerp for extra smoothness
+            touchMultiplier: isTouch ? 0.8 : 2,
+            lerp: isTouch ? 0.1 : 0.12, // Increased lerp for more direct response
             infinite: false,
         });
 
