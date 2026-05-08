@@ -3,7 +3,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
-import { LenisContext } from "../App";
 import { Link } from "react-router-dom";
 import { MagneticElement, TextReveal } from "../utils/animations";
 
@@ -11,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const LandingPage = () => {
   const isMobile = useDevice();
-  const lenis = useContext(LenisContext);
   const containerRef = useRef(null);
 
   const resumeLink = import.meta.env.VITE_RESUME_LINK || "#";

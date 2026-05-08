@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { LenisContext } from '../App';
 import { ColorContext } from '../contexts/ColorContext';
 import { useDevice } from "../contexts/DeviceContext";
 import { Link, useLocation } from "react-router-dom";
@@ -9,7 +8,6 @@ import gsap from "gsap";
 
 const Navbar = () => {
   const isMobile = useDevice();
-  const lenis = useContext(LenisContext);
   const { theme, toggleTheme } = useContext(ColorContext);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -208,11 +206,7 @@ const Navbar = () => {
     closeMenu();
     const target = document.getElementById(targetId);
     if (!target) return;
-    if (lenis) {
-      lenis.scrollTo(target, { offset: 0, duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-    } else {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    target.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
