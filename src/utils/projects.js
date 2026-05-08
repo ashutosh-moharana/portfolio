@@ -56,7 +56,7 @@ const projects = [
       "PostgreSQL"
     ],
     imageUrl: "https://res.cloudinary.com/dzyi0rnff/image/upload/v1776781318/Screenshot_2026-04-21_195130_xj5vwz.png",
-    demoLink: "#",
+    demoLink: "https://fylex.onrender.com/swagger-ui/index.html",
     codeLink: "https://github.com/ashutosh-moharana/fylex",
   }
 ];
