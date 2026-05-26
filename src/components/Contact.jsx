@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { MagneticElement, TextReveal } from "../utils/animations";
+import { CircleDoodle, ArrowDoodle, SwirlDoodle, UnderlineDoodle } from "./Doodles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,7 +28,7 @@ const Contact = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top 85%",
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none none"
       }
     });
 
@@ -57,10 +58,10 @@ const Contact = () => {
       "-=0.2"
     );
 
-    // Submit button reveal
+    // Submit button reveal - Optimized
     tl.fromTo(".contact-submit",
-      { y: 10, opacity: 0, scale: 0.97 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" },
+      { y: 15, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", force3D: true, willChange: "transform, opacity" },
       "-=0.1"
     );
 
@@ -130,8 +131,9 @@ const Contact = () => {
 
 
 
-        <div className="text-center mb-16 md:mb-24 flex flex-col items-center">
-          <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-4 tracking-wide drop-shadow-sm text-center uppercase flex flex-wrap justify-center overflow-hidden">
+        <div className="text-center mb-16 md:mb-24 flex flex-col items-center relative">
+          <SwirlDoodle className="absolute -top-10 left-4 md:left-[20%] text-primary opacity-60 pointer-events-none" size={40} />
+          <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-4 tracking-wide drop-shadow-sm text-center uppercase flex flex-wrap justify-center overflow-visible relative">
             {"LET'S TALK".split("").map((char, index) => {
               const isPrimary = index === 7; // The letter 'A'
               return (
@@ -145,7 +147,10 @@ const Contact = () => {
               );
             })}
           </h2>
-          <p className="contact-info font-display text-xl text-subtle mt-1 -rotate-2 opacity-80">Open to work, collaborations & good conversations.</p>
+          <p className="contact-info font-display text-xl text-subtle mt-1 -rotate-2 opacity-80 relative">
+            <span className="relative z-10">Open to work, collaborations & good conversations.</span>
+            <UnderlineDoodle className="absolute -bottom-2 left-0 w-[110%] -translate-x-[5%] h-3 text-secondary opacity-60 pointer-events-none -z-10" />
+          </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-24">
@@ -157,7 +162,10 @@ const Contact = () => {
             <div className="absolute -top-3 right-10 w-16 h-6 bg-secondary/60 -rotate-3 shadow-sm z-20" />
             {isSubmitted ? (
               <div className="flex flex-col h-full justify-center items-center py-20 text-center">
-                <div className="text-primary font-display text-5xl mb-6">Yay!</div>
+                <div className="text-primary font-display text-5xl mb-6 relative">
+                  Yay!
+                  <CircleDoodle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-secondary opacity-80 pointer-events-none" size={100} />
+                </div>
                 <h3 className="text-3xl font-chunky text-foreground mb-4">Message Sent</h3>
                 <p className="text-subtle font-sans text-lg mb-8">Thanks for reaching out. I'll get back to you soon.</p>
                 <button
@@ -222,7 +230,8 @@ const Contact = () => {
           </div>
 
           {/* Socials & Info */}
-          <div className="w-full lg:w-1/2 flex flex-col pt-12 md:pt-16 gap-3">
+          <div className="w-full lg:w-1/2 flex flex-col pt-12 md:pt-16 gap-3 relative">
+            <ArrowDoodle className="absolute top-0 right-10 text-primary opacity-60 hidden md:block rotate-[120deg]" size={60} />
             <h3 className="contact-info font-chunky text-3xl text-foreground mb-2">Reach Out</h3>
             <p className="contact-info font-sans text-base text-subtle/80 mb-10 leading-relaxed max-w-md">
               Whether you have a question, want to collaborate, or just want to say <b className="text-foreground">hii</b> - my inbox is always open.

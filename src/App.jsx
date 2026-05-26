@@ -31,11 +31,11 @@ function Portfolio() {
             <section id="landing" className="relative z-[1]">
                 <LandingPage />
             </section>
-            <section id="projects" className="relative z-[2]">
-                <Projects />
-            </section>
-            <section id="about" className="relative z-[3]">
+            <section id="about" className="relative z-[2]">
                 <About />
+            </section>
+            <section id="projects" className="relative z-[3]">
+                <Projects />
             </section>
             <section id="contact" className="relative z-[4]">
                 <Contact />

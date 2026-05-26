@@ -6,6 +6,7 @@ import { useDevice } from "../contexts/DeviceContext";
 import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub } from "react-icons/si";
 import { FiArrowUpRight } from "react-icons/fi";
 import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
+import { ArrowDoodle, CircleDoodle, UnderlineDoodle } from "./Doodles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,7 +29,7 @@ const About = () => {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top 80%",
-                toggleActions: "play reverse play reverse"
+                toggleActions: "play none none none"
             }
         });
 
@@ -63,10 +64,10 @@ const About = () => {
             "-=0.4"
         );
 
-        // Skills - Simplified
+        // Skills - Optimized
         tl.fromTo(".skill-card",
-            { opacity: 0, y: 10 },
-            { opacity: 1, y: 0, duration: 0.4, stagger: 0.03, ease: "power2.out" },
+            { opacity: 0, scale: 0.95, y: 5 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.35, stagger: 0.02, ease: "power1.out", force3D: true, willChange: "transform, opacity" },
             "-=0.2"
         );
 
@@ -83,7 +84,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".about-title-char",
                         start: "top 90%",
-                        toggleActions: "play none none reverse"
+                        toggleActions: "play none none none"
                     }
                 }
             );
@@ -100,7 +101,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".about-title-char",
                         start: "top 90%",
-                        toggleActions: "play none none reverse"
+                        toggleActions: "play none none none"
                     }
                 }
             );
@@ -120,7 +121,7 @@ const About = () => {
                 scrollTrigger: {
                     trigger: ".edu-container",
                     start: "top 85%",
-                    toggleActions: "play none none reverse"
+                    toggleActions: "play none none none"
                 }
             }
         );
@@ -152,7 +153,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".edu-title-char",
                         start: "top 90%",
-                        toggleActions: "play none none reverse"
+                        toggleActions: "play none none none"
                     }
                 }
             );
@@ -169,7 +170,7 @@ const About = () => {
                     scrollTrigger: {
                         trigger: ".edu-title-char",
                         start: "top 90%",
-                        toggleActions: "play none none reverse"
+                        toggleActions: "play none none none"
                     }
                 }
             );
@@ -210,7 +211,7 @@ const About = () => {
                 scrollTrigger: {
                     trigger: ".social-link-item",
                     start: "top 92%",
-                    toggleActions: "play none none reverse"
+                    toggleActions: "play none none none"
                 }
             }
         );
@@ -275,8 +276,11 @@ const About = () => {
                                                     loading="lazy"
                                                 />
                                             </div>
-                                            <div className="py-1.5 md:py-3 w-full text-center flex justify-center">
-                                                <span className="font-display italic text-xs md:text-lg text-neutral-600/80 tracking-wide rotate-[-1.5deg] select-none">@ashutosh</span>
+                                            <div className="py-1.5 md:py-3 w-full text-center flex justify-center relative">
+                                                <span className="font-display italic text-xs md:text-lg text-neutral-600/80 tracking-wide rotate-[-1.5deg] select-none relative z-10">
+                                                    @ashutosh
+                                                    <UnderlineDoodle className="absolute -bottom-2 left-0 w-[110%] -translate-x-[5%] h-3 text-primary opacity-80 pointer-events-none -z-10" />
+                                                </span>
                                             </div>
                                         </div>
 
@@ -338,6 +342,7 @@ const About = () => {
                         {/* Right side: Text block */}
                         <div className="w-full lg:w-[55%] relative flex flex-col justify-center pt-8 lg:pt-0">
 
+
                             {/* SVG Arrow pointing to the heading */}
                             <div className="absolute -top-16 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 md:-top-20 md:-left-12 z-20 w-32 h-32 md:w-44 md:h-44 arrow-svg">
                                 <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
@@ -360,12 +365,14 @@ const About = () => {
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
-                                    <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden">
+                                    <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden relative" aria-label="About Me">
+                                        <ArrowDoodle className="absolute -top-4 -right-12 text-secondary opacity-60 hidden lg:block -rotate-12" />
                                         {"ABOUT ME".split("").map((char, index) => {
                                             const isPrimary = index === 2 || index === 7;
                                             return (
                                                 <span
                                                     key={index}
+                                                    aria-hidden="true"
                                                     className={`about-title-char inline-block origin-bottom ${isPrimary ? "text-primary" : "text-foreground"}`}
                                                     style={{ minWidth: char === " " ? "0.3em" : "auto" }}
                                                 >
@@ -376,9 +383,10 @@ const About = () => {
                                     </h2>
                                 </TextReveal>
 
-                                <div className="about-text font-sans text-base sm:text-lg text-foreground/75 leading-[1.8] mb-10 max-w-xl font-normal">
+                                <div className="about-text font-sans text-base sm:text-lg text-foreground/75 leading-[1.8] mb-10 max-w-xl font-normal relative">
+                                    <UnderlineDoodle className="absolute top-7 left-0 md:left-2 w-36 h-4 text-secondary opacity-80 pointer-events-none rotate-2" />
                                     <p>
-                                        Backend developer focused on building scalable APIs, database-driven applications, and clean backend architecture using Java and Spring Boot. Passionate about creating reliable systems while exploring modern backend technologies.
+                                        <span className="font-bold text-foreground">Backend developer</span> focused on building <span className="font-bold text-foreground">scalable APIs</span>, database-driven applications, and <span className="font-bold text-foreground">clean backend architecture</span> using <span className="font-bold text-primary">Java</span> and <span className="font-bold text-primary">Spring Boot</span>. Passionate about creating reliable systems while exploring modern backend technologies.
                                     </p>
                                 </div>
 
@@ -387,7 +395,7 @@ const About = () => {
                                     <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-subtle font-bold mb-3 text-center lg:text-left">Toolkit</p>
                                     <div className="flex flex-wrap gap-2 md:gap-2.5 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
                                         {['Java', 'Spring Boot', 'REST API', 'PostgreSQL', 'React', 'JavaScript', 'TailwindCSS', 'Node.js'].map((skill, i) => (
-                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:shadow-[3px_3px_0px_var(--color-primary)] cursor-default">
+                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:shadow-[4px_4px_0px_var(--color-primary)] hover:-translate-y-1 hover:border-primary/60 transition-all duration-200 cursor-default">
                                                 {skill}
                                             </div>
                                         ))}
@@ -404,12 +412,14 @@ const About = () => {
                 <div className="edu-container w-full mt-24 relative z-10 pb-20">
 
                     <TextReveal delay={0.1}>
-                        <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-wrap justify-center lg:justify-start overflow-hidden">
+                        <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-wrap justify-center lg:justify-start overflow-visible relative" aria-label="Education">
+                            <UnderlineDoodle className="absolute -bottom-3 left-1/2 lg:left-20 -translate-x-1/2 lg:translate-x-0 w-[200px] h-5 text-secondary opacity-80 pointer-events-none rotate-1 -z-10" />
                             {"EDUCATION".split("").map((char, index) => {
                                 const isPrimary = index === 4 || index === 7; // 'A' and 'O'
                                 return (
                                     <span
                                         key={index}
+                                        aria-hidden="true"
                                         className={`edu-title-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
                                         style={{ minWidth: char === " " ? "0.3em" : "auto" }}
                                     >
@@ -421,8 +431,8 @@ const About = () => {
                     </TextReveal>
 
                     {/* Mobile: swipeable scroll / Desktop: flex wrap grid */}
-                    <div className="overflow-x-auto md:overflow-x-visible pb-6 md:pb-0" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
-                        <div className="flex flex-nowrap md:flex-wrap gap-6 md:gap-8 px-6 md:px-12 lg:px-20 pt-8 pb-4 md:max-w-7xl md:mx-auto">
+                    <div className="overflow-x-auto md:overflow-x-visible pb-6 md:pb-0 -mx-6 md:mx-0 no-scrollbar" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+                        <div className="flex flex-nowrap md:flex-wrap gap-6 md:gap-8 px-12 md:px-12 lg:px-20 pt-8 pb-4 w-max md:w-auto md:max-w-7xl md:mx-auto">
                             {educationData.map((edu, idx) => {
                                 const rotations = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-1"];
                                 const rotation = rotations[idx % rotations.length];

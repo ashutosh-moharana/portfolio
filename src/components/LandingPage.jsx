@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
 import { Link } from "react-router-dom";
 import { MagneticElement, TextReveal } from "../utils/animations";
+import { Sparkle, Squiggle, SwirlDoodle, UnderlineDoodle } from "./Doodles";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,9 +163,12 @@ const LandingPage = () => {
             <p className="relative z-10 text-background font-sans font-medium px-6 md:px-10 py-2.5 lg:py-3 text-sm md:text-lg lg:text-xl uppercase tracking-[0.2em] whitespace-nowrap">
               Backend Developer
             </p>
+            <Sparkle className="absolute -top-6 -right-8 text-primary animate-pulse opacity-80" size={32} />
+            <Squiggle className="absolute -bottom-6 left-4 text-secondary/60 w-24 h-6" />
           </div>
 
-          <div className="cta-btn mt-12 lg:mt-20 flex flex-wrap justify-center lg:justify-start gap-4">
+          <div className="cta-btn mt-12 lg:mt-20 flex flex-wrap justify-center lg:justify-start gap-4 relative">
+            <SwirlDoodle className="absolute -top-10 -left-6 text-primary opacity-60" size={40} />
             <MagneticElement strength={30}>
               <Link
                 to="/archive"
@@ -195,7 +199,8 @@ const LandingPage = () => {
                 className="hero-img-inner w-full h-full object-cover border border-border/20 will-change-transform"
                 src="/ashutosh.webp"
                 alt="Ashutosh Moharana"
-                loading="lazy"
+                fetchPriority="high"
+                loading="eager"
               />
             </div>
 

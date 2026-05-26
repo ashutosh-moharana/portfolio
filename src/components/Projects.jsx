@@ -6,12 +6,14 @@ import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
 import projects from "../utils/projects";
 import { MagneticElement, TextReveal } from "../utils/animations";
+import { UnderlineDoodle, SwirlDoodle } from "./Doodles";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const isMobile = useDevice();
   const containerRef = useRef(null);
+  const [activeIframe, setActiveIframe] = useState(null);
 
   useGSAP(() => {
     // Title letter-by-letter animation
@@ -27,7 +29,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
-            toggleActions: "play none none reverse"
+            toggleActions: "play none none none"
           }
         }
       );
@@ -44,7 +46,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: ".project-title-char",
             start: "top 90%",
-            toggleActions: "play none none reverse"
+            toggleActions: "play none none none"
           }
         }
       );
@@ -81,7 +83,7 @@ const Projects = () => {
           scrollTrigger: {
             trigger: card,
             start: "top 93%",
-            toggleActions: "play none none reverse"
+            toggleActions: "play none none none"
           }
         }
       );
@@ -98,7 +100,7 @@ const Projects = () => {
             scrollTrigger: {
               trigger: card,
               start: "top 93%",
-              toggleActions: "play none none reverse"
+              toggleActions: "play none none none"
             },
             delay: isMobile ? 0.15 : 0.25 + (i % 3) * 0.08,
           }
@@ -112,14 +114,17 @@ const Projects = () => {
 
       {/* Background layered box */}
       <div className="project-bg-accent absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px] will-change-transform" />
+      <SwirlDoodle className="absolute top-[20%] left-[10%] text-primary opacity-30 z-0" size={35} />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-0">
-        <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-hidden">
+        <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-16 tracking-wide drop-shadow-sm text-center md:text-left uppercase flex flex-wrap justify-center md:justify-start overflow-visible relative" aria-label="My Works">
+          <UnderlineDoodle className="absolute -bottom-2 left-1/2 md:left-2 -translate-x-1/2 md:translate-x-0 w-[60%] md:w-64 h-6 text-secondary opacity-80 pointer-events-none -rotate-2 -z-10" />
           {"MY WORKS".split("").map((char, index) => {
             const isPrimary = index === 4; // The letter 'O'
             return (
               <span
                 key={index}
+                aria-hidden="true"
                 className={`project-title-char inline-block origin-bottom will-change-transform ${isPrimary ? "text-primary" : "text-foreground"}`}
                 style={{ minWidth: char === " " ? "0.3em" : "auto" }}
               >
@@ -157,8 +162,8 @@ const Projects = () => {
                   })()}
 
                   {/* Image Container */}
-                  <div className="w-full aspect-video md:aspect-[4/3] bg-muted mb-4 md:mb-5 overflow-hidden border border-black/5 relative group cursor-pointer">
-                    {project.embedUrl ? (
+                  <div className="w-full aspect-video md:aspect-[4/3] bg-muted mb-4 md:mb-5 overflow-hidden border border-black/5 relative group cursor-pointer" onClick={() => project.embedUrl && setActiveIframe(project.id)}>
+                    {project.embedUrl && activeIframe === project.id ? (
                       <iframe
                         src={project.embedUrl}
                         title={project.title}
@@ -166,12 +171,21 @@ const Projects = () => {
                         loading="lazy"
                       />
                     ) : (
-                      <img
-                        src={project.imageUrl || "/ashmo.webp"}
-                        alt={project.title}
-                        className="w-full h-full object-cover filter contrast-110 saturate-[1.1] group-hover:scale-110 transition-transform duration-700 ease-out absolute inset-0"
-                        loading="lazy"
-                      />
+                      <>
+                        <img
+                          src={project.imageUrl || "/ashmo.webp"}
+                          alt={project.title}
+                          className="w-full h-full object-cover filter contrast-110 saturate-[1.1] group-hover:scale-110 transition-transform duration-700 ease-out absolute inset-0"
+                          loading="lazy"
+                        />
+                        {project.embedUrl && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
+                            <div className="bg-background text-foreground px-4 py-2 rounded-xl font-chunky text-sm shadow-[2px_2px_0px_var(--color-primary)] group-hover:scale-105 transition-transform">
+                              Load Preview
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
 
                     {/* Hover overlay */}
@@ -210,11 +224,6 @@ const Projects = () => {
                           {tech}
                         </span>
                       ))}
-                      {project.technologies.length > 3 && (
-                        <span className="text-[10px] uppercase font-sans font-semibold px-2.5 py-1 bg-secondary text-foreground rounded-sm">
-                          +{project.technologies.length - 3}
-                        </span>
-                      )}
                     </div>
 
                     {/* Mobile-only action buttons — always visible at the end of the card */}

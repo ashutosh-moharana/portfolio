@@ -72,7 +72,7 @@ export const TextReveal = ({ children, className = "", delay = 0, triggerRef = n
       scrollTrigger: {
         trigger: triggerRef?.current || containerRef.current,
         start: "top 90%",
-        toggleActions: "play reverse play reverse"
+        toggleActions: "play none none none"
       }
     };
 
