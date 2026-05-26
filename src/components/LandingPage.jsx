@@ -193,10 +193,10 @@ const LandingPage = () => {
         {/* Hero Image */}
         <div className="flex-1 relative w-full max-w-[280px] sm:max-w-sm lg:max-w-md flex justify-center items-center z-10 mt-6 lg:mt-0">
           {/* Simulated polaroid/torn paper frame */}
-          <div className="hero-image relative p-2.5 md:p-4 pb-10 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full will-change-transform">
-            <div className="hero-img-container relative overflow-hidden w-full aspect-[4/5] bg-muted will-change-[clip-path]">
+          <div className="hero-image relative p-2.5 md:p-4 pb-10 md:pb-16 bg-card-bg shadow-xl rotate-[3deg] w-full">
+            <div className="hero-img-container relative overflow-hidden w-full aspect-[4/5] bg-muted">
               <img
-                className="hero-img-inner w-full h-full object-cover border border-border/20 will-change-transform"
+                className="hero-img-inner w-full h-full object-cover border border-border/20"
                 src="/ashutosh.webp"
                 alt="Ashutosh Moharana"
                 fetchPriority="high"

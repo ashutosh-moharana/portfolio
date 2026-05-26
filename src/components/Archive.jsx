@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FiArrowUpRight, FiX, FiSearch, FiInfo, FiFolder, FiFilter, FiChevronDown } from "react-icons/fi";
 import { LuNotebook, LuFileText, LuBook, LuDownload, LuPenTool } from "react-icons/lu";
 import gsap from "gsap";
@@ -105,11 +106,15 @@ const ResourceModal = ({ resource, onClose }) => {
         const handleEsc = (e) => {
             if (e.key === "Escape") onClose();
         };
+        document.body.style.overflow = "hidden";
         window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
+        return () => {
+            document.body.style.overflow = "";
+            window.removeEventListener("keydown", handleEsc);
+        };
     }, [onClose]);
 
-    return (
+    return createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
             <div
                 className="absolute inset-0 bg-background/95"
@@ -181,7 +186,8 @@ const ResourceModal = ({ resource, onClose }) => {
                 </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

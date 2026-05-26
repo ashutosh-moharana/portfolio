@@ -268,11 +268,11 @@ const About = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center will-change-[clip-path]">
+                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center">
                                                 <img
                                                     src="/ashu.webp"
                                                     alt="Ashutosh"
-                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700 will-change-transform"
+                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700"
                                                     loading="lazy"
                                                 />
                                             </div>
@@ -360,8 +360,8 @@ const About = () => {
                             </div>
 
                             {/* Background accent blocks — extended to tie both sides together */}
-                            <div className="about-bg-block-1 absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none will-change-transform"></div>
-                            <div className="about-bg-block-2 absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none will-change-transform"></div>
+                            <div className="about-bg-block-1 absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
+                            <div className="about-bg-block-2 absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
@@ -445,7 +445,7 @@ const About = () => {
                                 const tapeColor = tapeColors[idx % tapeColors.length];
 
                                 return (
-                                    <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6 will-change-transform will-change-opacity">
+                                    <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6">
                                         <div className={`relative bg-card-bg p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-[transform,shadow] duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
 
                                             {/* Tape */}

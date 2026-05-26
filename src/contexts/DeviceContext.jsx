@@ -6,10 +6,18 @@ export function DeviceProvider({ children }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkIfMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkIfMobile();
+    let timeoutId;
+    const checkIfMobile = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => setIsMobile(window.innerWidth <= 768), 150);
+    };
+    // Initial check (immediate, no debounce)
+    setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, []);
 
   return (

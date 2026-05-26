@@ -12,31 +12,21 @@ const CustomCursor = () => {
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
     if (isTouchDevice) return;
 
+    // Pre-create reusable tweens (one-time cost)
+    const dotX = gsap.quickTo(dotRef.current, "x", { duration: 0.15, ease: "power2.out" });
+    const dotY = gsap.quickTo(dotRef.current, "y", { duration: 0.15, ease: "power2.out" });
+    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.4, ease: "power2.out" });
+    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.4, ease: "power2.out" });
+    const ring2X = gsap.quickTo(ring2Ref.current, "x", { duration: 0.6, ease: "power3.out" });
+    const ring2Y = gsap.quickTo(ring2Ref.current, "y", { duration: 0.6, ease: "power3.out" });
+
     const onMouseMove = (e) => {
-      // Smoother tracking with auto-overwrite
-      gsap.to(dotRef.current, {
-        x: e.clientX - 4,
-        y: e.clientY - 4,
-        duration: 0.15,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-
-      gsap.to(ringRef.current, {
-        x: e.clientX - 16,
-        y: e.clientY - 16,
-        duration: 0.4,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-
-      gsap.to(ring2Ref.current, {
-        x: e.clientX - 22,
-        y: e.clientY - 22,
-        duration: 0.6,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
+      dotX(e.clientX - 4);
+      dotY(e.clientY - 4);
+      ringX(e.clientX - 16);
+      ringY(e.clientY - 16);
+      ring2X(e.clientX - 22);
+      ring2Y(e.clientY - 22);
     };
 
     const onMouseEnter = (e) => {

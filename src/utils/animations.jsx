@@ -84,7 +84,7 @@ export const TextReveal = ({ children, className = "", delay = 0, triggerRef = n
 
   return (
     <div ref={containerRef} className={`overflow-hidden ${className}`}>
-      <div ref={textRef} className="origin-top-left will-change-transform">
+      <div ref={textRef} className="origin-top-left">
         {children}
       </div>
     </div>

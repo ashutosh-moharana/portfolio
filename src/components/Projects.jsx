@@ -113,7 +113,7 @@ const Projects = () => {
     <div ref={containerRef} id="projects" className="relative bg-background pt-16 pb-20 md:py-32 px-0 md:px-12 lg:px-24 overflow-hidden min-h-screen">
 
       {/* Background layered box */}
-      <div className="project-bg-accent absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px] will-change-transform" />
+      <div className="project-bg-accent absolute top-0 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px]" />
       <SwirlDoodle className="absolute top-[20%] left-[10%] text-primary opacity-30 z-0" size={35} />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-0">
@@ -142,7 +142,7 @@ const Projects = () => {
               const rotation = rotations[index % rotations.length];
 
               return (
-                <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative will-change-transform">
+                <div key={project.id} className="project-card-container shrink-0 w-[75vw] md:shrink md:w-[45%] lg:w-[30%] max-w-md relative">
                 <div className={`project-card relative h-full flex flex-col bg-card-bg p-6 md:p-8 pb-10 md:pb-12 shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-white/20 transition-transform duration-300 ${rotation} hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:scale-[1.02]`}>
 
                   {/* Tape effect on top */}

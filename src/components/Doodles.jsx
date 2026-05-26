@@ -7,7 +7,7 @@ export const Sparkle = ({ className = "", color = "currentColor", size = 24 }) =
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={`will-change-transform ${className}`}
+    className={`${className}`}
     style={{ animation: 'spin-pulse 4s linear infinite' }}
   >
     <style>
