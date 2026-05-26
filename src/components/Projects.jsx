@@ -79,7 +79,7 @@ const Projects = () => {
           duration: isMobile ? 0.4 : 0.6,
           ease: "power3.out",
           force3D: true,
-          delay: isMobile ? 0 : (i % 3) * 0.08,
+          delay: isMobile ? 0.15 : (i % 3) * 0.08,
           scrollTrigger: {
             trigger: card,
             start: "top 93%",
@@ -102,7 +102,7 @@ const Projects = () => {
               start: "top 93%",
               toggleActions: "play none none none"
             },
-            delay: isMobile ? 0.15 : 0.25 + (i % 3) * 0.08,
+            delay: isMobile ? 0.35 : 0.25 + (i % 3) * 0.08,
           }
         );
       }

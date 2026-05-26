@@ -60,7 +60,7 @@ const About = () => {
         // Animate heading and text
         tl.fromTo(".about-text",
             { y: 20, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" },
+            { y: 0, opacity: 1, duration: 1.2, delay: 0.2, ease: "power3.out" },
             "-=0.4"
         );
 
@@ -268,11 +268,11 @@ const About = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center">
+                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center will-change-[clip-path]">
                                                 <img
                                                     src="/ashu.webp"
                                                     alt="Ashutosh"
-                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700"
+                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700 will-change-transform"
                                                     loading="lazy"
                                                 />
                                             </div>

@@ -25,7 +25,7 @@ const LandingPage = () => {
 
     tl.fromTo(".cta-btn",
       { y: 15, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+      { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", delay: isMobile ? 0.4 : 0 },
       "-=0.2"
     );
 

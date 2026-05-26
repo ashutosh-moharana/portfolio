@@ -168,13 +168,7 @@
   will-change: transform;
 }
 
-/* ── Performance: Defer rendering of off-screen sections ──── */
-#about,
-#projects,
-#contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 100vh;
-}
+
 
 /* ── Custom Cursor Styles ────────────────────────────────── */
 .cursor-dot {
