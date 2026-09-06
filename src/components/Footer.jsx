@@ -84,7 +84,7 @@ const Footer = () => {
 
            <MagneticElement strength={15}>
               <a
-                href="https://wa.me/919937727738?text=Hi%20Ashutosh%2C%20I%20checked%20out%20your%20portfolio%20and%20wanted%20to%20connect!"
+                href="https://wa.me/919937727738?text=https%3A%2F%2Fashmo.vercel.app%20Hi%20Ashutosh%2C%20Your%20portfolio%20is%20Supercalifragilisticexpialidocious..."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="brutal-btn ml-2 px-6 py-2 text-sm md:text-base bg-foreground text-background border-foreground hover:bg-primary hover:text-foreground flex items-center gap-2"
