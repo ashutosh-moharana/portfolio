@@ -175,11 +175,11 @@ const Navbar = () => {
     ];
 
   const handleThemeToggle = () => {
+    // When switching theme, use target theme's background so the curtain matches the destination theme
     const isDark = document.documentElement.classList.contains("dark");
-    // If currently dark, target is light. Target light background = #F8F3E8
-    // If currently light, target is dark. Target dark background = #171713
-    const color = isDark ? "#F8F3E8" : "#171713";
-    window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color, skipScroll: true } }));
+    // If currently dark, target is light (Papaya Whip: #FDF0D5). If currently light, target is dark (Pure Black: #000000)
+    const targetBg = isDark ? "#FDF0D5" : "#000000";
+    window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color: targetBg, skipScroll: true } }));
     setTimeout(() => {
         toggleTheme();
     }, 450); // Toggle theme exactly when wipe covers screen
@@ -190,9 +190,7 @@ const Navbar = () => {
     closeMenu();
     
     if (type === 'route') {
-      const isDark = document.documentElement.classList.contains("dark");
-      const color = isDark ? "#171713" : "#F8F3E8";
-      window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color } }));
+      window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color: "var(--background)" } }));
       setTimeout(() => {
         navigate(targetIdOrHref);
       }, 450);

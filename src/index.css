@@ -10,80 +10,66 @@
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 :root {
-  /* ───────────── LIGHT / WARM MODERN ───────────── */
-
-  --background:            #F8F3E8;  
-  --foreground:            #24221F;   
-
-  --primary:               #D85C3A;   
-  --primary-foreground:    #FFFFFF;
-
-  --accent:                #C9932E;  
-  --accent-foreground:     #24221F;
-
-  --secondary:             #6E8560;   
-  --secondary-foreground:  #FFFFFF;
-
-  --heading-color:         #24221F;
-  --subtle-text:           #706B63;
-
-  --border:                #24221F;
-  --border-light:          #D8D0C1;
-
-  --muted:                 #EEE7D8;
-  --muted-foreground:      #706B63;
-
-  --card-bg:               #FFFDF7;
-
-  --danger:                #C84A35;
-  --danger-foreground:     #FFFFFF;
-
-  --shadow-brutal:         4px 4px 0px #24221F;
-  --shadow-brutal-lg:      6px 6px 0px #24221F;
-  --shadow-brutal-sm:      2px 2px 0px #24221F;
-
-  --shadow-brutal-primary: 4px 4px 0px #D85C3A;
-
-  --primary-rgb:           216, 92, 58;
+  /* ───────────── LIGHT ───────────── */
+  --background:            #FDF0D5;   
+  --foreground:             #003049;  
+  --primary:                #C1121F;  
+  --primary-foreground:     #FFFFFF;
+  --accent:                 #669BBC;  
+  --accent-foreground:      #003049;
+  --secondary:              #003049;  
+  --secondary-foreground:   #FFFFFF;
+  --heading-color:          #003049;
+  --subtle-text:            #5C6E78;
+  --border:                 #003049;
+  --border-light:           #E8D9BE;
+  --muted:                  #F2E2C4;
+  --muted-foreground:       #5C6E78;
+  --card-bg:                #FFFBF2;
+  --danger:                 #780000;  
+  --danger-foreground:      #FFFFFF;
+  --shadow-brutal:          4px 4px 0px #003049;
+  --shadow-brutal-lg:       6px 6px 0px #003049;
+  --shadow-brutal-sm:       2px 2px 0px #003049;
+  --shadow-brutal-primary:  4px 4px 0px #C1121F;
+  --primary-rgb:            193, 18, 31;
 }
 
-
-/* ───────────── DARK / WARM CHARCOAL ───────────── */
+/* ───────────── DARK  ───────────── */
 
 .dark {
-  --background:            #171713;
-  --foreground:            #F5EFE2;
+  --background:            #000000;   
+  --foreground:             #E6E6E6; 
 
-  --primary:               #E26A47;   
-  --primary-foreground:    #FFFFFF;
+  --primary:                #E5484D;  
+  --primary-foreground:     #000000;
 
-  --accent:                #E0B25C;   
-  --accent-foreground:     #201E18;
+  --accent:                 #6FA8D0;  
+  --accent-foreground:      #000000;
 
-  --secondary:             #94A886;   
-  --secondary-foreground:  #171713;
+  --secondary:              #141414;  
+  --secondary-foreground:   #E6E6E6;
 
-  --heading-color:         #FFF8EA;
-  --subtle-text:           #AAA398;
+  --heading-color:          #FFFFFF;  
+  --subtle-text:            #8C8C8C;
 
-  --border:                #F0E8D8;
-  --border-light:          #3B3932;
+  --border:                 #E6E6E6;
+  --border-light:           #262626;
 
-  --muted:                 #26251F;
-  --muted-foreground:      #AAA398;
+  --muted:                  #0D0D0D;
+  --muted-foreground:       #8C8C8C;
 
-  --card-bg:               #20201B;
+  --card-bg:                #111111;
 
-  --danger:                #E66B4A;
-  --danger-foreground:     #FFFFFF;
+  --danger:                 #FF5C4D;
+  --danger-foreground:      #000000;
 
-  --shadow-brutal:         4px 4px 0px #F0E8D8;
-  --shadow-brutal-lg:      6px 6px 0px #F0E8D8;
-  --shadow-brutal-sm:      2px 2px 0px #F0E8D8;
+  --shadow-brutal:          4px 4px 0px #E6E6E6;
+  --shadow-brutal-lg:       6px 6px 0px #E6E6E6;
+  --shadow-brutal-sm:       2px 2px 0px #E6E6E6;
+  --shadow-brutal-primary:  4px 4px 0px #E5484D;
 
-  --shadow-brutal-primary: 4px 4px 0px #E26A47;
-
-  --primary-rgb:           226, 106, 71;
+  --primary-rgb:            229, 72, 77;
 }
 
 /* ── Tailwind Theme Tokens ───────────────────────────────── */
@@ -286,19 +272,6 @@
   z-index: 9998;
   pointer-events: none;
   opacity: 0.2;
-}
-
-/* ── Page Transition Wipe ────────────────────────────────── */
-.page-wipe {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--primary);
-  z-index: 9990;
-  pointer-events: none;
-  will-change: transform;
 }
 
 /* ── Form Inputs ─────────────────────────────────────────── */

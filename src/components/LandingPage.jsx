@@ -18,9 +18,7 @@ const LandingPage = () => {
 
   const handleNavWithWipe = (e, href) => {
     e.preventDefault();
-    const isDark = document.documentElement.classList.contains("dark");
-    const color = isDark ? "#171713" : "#F8F3E8";
-    window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color } }));
+    window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color: "var(--background)" } }));
     setTimeout(() => navigate(href), 450);
   };
 

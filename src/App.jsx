@@ -62,8 +62,6 @@ function PageEntrance({ children }) {
 /* ── Page Transition Wipe Overlay ──────────────────────── */
 function PageTransition() {
     const containerRef = useRef(null);
-    const location = useLocation();
-    const isFirstRender = useRef(true);
 
     useEffect(() => {
         const slices = gsap.utils.toArray(".wipe-slice", containerRef.current);
@@ -72,13 +70,10 @@ function PageTransition() {
         const playWipe = (color) => {
             const tl = gsap.timeline();
             
-            // Set all slices to be anchored at the top, scale 0, and apply requested color
+            // Set all slices to be anchored at the top, scale 0, and apply requested color or fallback to background
             tl.set(containerRef.current, { display: "flex" });
-            if (color) {
-                tl.set(slices, { transformOrigin: "top", scaleY: 0, backgroundColor: color });
-            } else {
-                tl.set(slices, { transformOrigin: "top", scaleY: 0 });
-            }
+            const wipeColor = color || "var(--background)";
+            tl.set(slices, { transformOrigin: "top", scaleY: 0, backgroundColor: wipeColor });
             
             // Stagger scaleY to 1
             tl.to(slices, {
@@ -131,7 +126,7 @@ function PageTransition() {
             style={{ display: "none" }}
         >
             {[...Array(5)].map((_, i) => (
-                <div key={i} className="wipe-slice flex-1 h-full bg-foreground will-change-transform" />
+                <div key={i} className="wipe-slice flex-1 h-full bg-background will-change-transform" />
             ))}
         </div>
     );

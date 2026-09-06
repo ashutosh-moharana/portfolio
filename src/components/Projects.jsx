@@ -49,7 +49,7 @@ const Projects = () => {
     <div ref={containerRef} id="projects" className="relative bg-background pt-16 pb-20 md:py-32 px-0 overflow-hidden min-h-screen">
 
       {/* Background layered box */}
-      <div className="project-bg-accent absolute top-10 right-0 w-[40%] h-full bg-secondary z-0 opacity-40 pointer-events-none rounded-l-[100px]" />
+      <div className="project-bg-accent absolute top-10 right-0 w-[40%] h-full bg-secondary z-0 opacity-20 pointer-events-none rounded-l-[100px]" />
       <SwirlDoodle className="absolute top-[20%] left-[10%] text-primary z-0" size={35} />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-12 lg:px-20">
