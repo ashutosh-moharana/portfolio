@@ -106,12 +106,12 @@ export const UnderlineDoodle = ({ className = "", color = "currentColor", color2
         .draw-underline {
           stroke-dasharray: 200;
           stroke-dashoffset: 200;
-          animation: draw-underline-anim 1s ease-out forwards;
+          animation: draw-underline-anim 2s ease-in forwards;
         }
         .draw-underline-2 {
           stroke-dasharray: 200;
           stroke-dashoffset: 200;
-          animation: draw-underline-anim 1s ease-out forwards;
+          animation: draw-underline-anim 1s ease-in forwards;
           animation-delay: 0.2s;
         }
         @keyframes draw-underline-anim {
@@ -154,7 +154,7 @@ export const CircleDoodle = ({ className = "", color = "currentColor", size = 60
           stroke-dasharray: 200;
           stroke-dashoffset: 200;
           animation: draw-circle-anim 1.2s ease-out forwards;
-          animation-delay: 0.3s;
+          animation-delay: 0.2s;
         }
         @keyframes draw-circle-anim {
           to { stroke-dashoffset: 0; }

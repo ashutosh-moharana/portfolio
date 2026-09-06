@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { ColorContext } from '../contexts/ColorContext';
+import { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { useDevice } from "../contexts/DeviceContext";
-import { Link, useLocation } from "react-router-dom";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { ColorContext } from "../contexts/ColorContext";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 import gsap from "gsap";
 
 const Navbar = () => {
@@ -12,10 +12,10 @@ const Navbar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuOpenRef = useRef(false);
+  const [iconRotation, setIconRotation] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
   const lastScrollY = useRef(0);
-  const themeIconRef = useRef(null);
-  const isAnimating = useRef(false);
 
   // Hamburger line refs
   const lineTopRef = useRef(null);
@@ -27,33 +27,6 @@ const Navbar = () => {
   const linkItemsRef = useRef([]);
   const dividerRefs = useRef([]);
   const menuTimeline = useRef(null);
-
-  // Theme toggle animation
-  const handleThemeToggle = useCallback(() => {
-    if (isAnimating.current) return;
-    isAnimating.current = true;
-
-    const tl = gsap.timeline({
-      onComplete: () => { isAnimating.current = false; }
-    });
-
-    tl.to(themeIconRef.current, {
-      scale: 0,
-      rotation: 180,
-      duration: 0.3,
-      ease: "power2.in",
-      onComplete: toggleTheme,
-    });
-
-    tl.to(themeIconRef.current, {
-      scale: 1,
-      rotation: 360,
-      duration: 0.5,
-      ease: "back.out(3)",
-    });
-
-    tl.set(themeIconRef.current, { rotation: 0 });
-  }, [toggleTheme]);
 
   const isSubRoute = location.pathname !== '/';
 
@@ -201,10 +174,32 @@ const Navbar = () => {
       { name: 'Contact', id: 'contact', type: 'scroll' },
     ];
 
-  const handleLinkClick = (e, targetId) => {
+  const handleThemeToggle = () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    // If currently dark, target is light. Target light background = #F8F3E8
+    // If currently light, target is dark. Target dark background = #171713
+    const color = isDark ? "#F8F3E8" : "#171713";
+    window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color, skipScroll: true } }));
+    setTimeout(() => {
+        toggleTheme();
+    }, 450); // Toggle theme exactly when wipe covers screen
+  };
+
+  const handleLinkClick = (e, targetIdOrHref, type = 'scroll') => {
     e.preventDefault();
     closeMenu();
-    const target = document.getElementById(targetId);
+    
+    if (type === 'route') {
+      const isDark = document.documentElement.classList.contains("dark");
+      const color = isDark ? "#171713" : "#F8F3E8";
+      window.dispatchEvent(new CustomEvent('triggerWipe', { detail: { color } }));
+      setTimeout(() => {
+        navigate(targetIdOrHref);
+      }, 450);
+      return;
+    }
+
+    const target = document.getElementById(targetIdOrHref);
     if (!target) return;
     target.scrollIntoView({ behavior: 'smooth' });
   };
@@ -212,56 +207,49 @@ const Navbar = () => {
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl">
       <div className="relative">
-        {/* Tape corners */}
-        <div className="absolute -top-3 -left-2 w-12 h-6 bg-secondary/90 -rotate-12 z-20 pointer-events-none border border-black/5" />
-        <div className="absolute -bottom-3 -right-2 w-12 h-6 bg-secondary/90 rotate-12 z-20 pointer-events-none border border-black/5" />
-
-        <div className="bg-card-bg border border-border/40 rounded-2xl px-6 md:px-10 py-4 flex flex-col">
+        <div className="bg-card-bg brutal-border brutal-shadow rounded-sm px-6 md:px-10 py-4 flex flex-col transition-all duration-300">
 
           {/* ── Top Bar (Logo + Controls) ──────────────────────── */}
           <div className="flex items-center justify-between gap-6 md:gap-10">
 
             {/* Logo */}
-            <Link
-              to={isSubRoute ? "/" : "#"}
-              onClick={isSubRoute ? undefined : (e) => handleLinkClick(e, 'landing')}
+            <a
+              href={isSubRoute ? "/" : "#"}
+              onClick={(e) => handleLinkClick(e, isSubRoute ? "/" : "landing", isSubRoute ? 'route' : 'scroll')}
               className="relative flex items-center group/logo"
             >
               <div className="font-display text-2xl md:text-3xl tracking-tighter text-foreground group-hover/logo:text-primary transition-colors">
                 ASH<span className="text-primary group-hover/logo:text-foreground">MO</span>
               </div>
               <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover/logo:w-full transition-all duration-300" />
-            </Link>
+            </a>
 
             {/* Desktop Links */}
             {!isMobile && (
               <div className="flex items-center gap-10">
                 <div className="flex items-center gap-8">
                   {navLinks.map((link) => {
-                    const LinkElement = link.type === 'route' ? Link : 'a';
-                    const props = link.type === 'route'
-                      ? { to: link.href }
-                      : { href: `#${link.id}`, onClick: (e) => handleLinkClick(e, link.id) };
                     return (
-                      <LinkElement
+                      <a
                         key={link.name}
-                        {...props}
-                        className="font-chunky text-base md:text-lg text-foreground/70 hover:text-primary transition-all duration-300 relative group/link"
+                        href={link.type === 'route' ? link.href : `#${link.id}`}
+                        onClick={(e) => handleLinkClick(e, link.type === 'route' ? link.href : link.id, link.type)}
+                        className="font-chunky text-base md:text-lg text-foreground hover:text-primary transition-all duration-300 relative group/link"
                       >
                         {link.name}
-                        <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary/40 group-hover/link:w-full transition-all duration-300" />
-                      </LinkElement>
+                        <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover/link:w-full transition-all duration-300" />
+                      </a>
                     );
                   })}
                 </div>
-                <div className="h-6 w-[1px] bg-border/60" />
+                
                 <button
-                  onClick={handleThemeToggle}
-                  className="p-2 text-primary hover:text-primary/70 transition-colors duration-300 flex items-center justify-center w-10 h-10"
-                  aria-label="Toggle Theme"
+                  className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary md:hover:scale-110 active:scale-75 transition-all duration-300"
+                  aria-label="Toggle Dark Mode"
+                  onClick={() => { setIconRotation(r => r + 360); handleThemeToggle(); }}
                 >
-                  <div ref={isMobile ? undefined : themeIconRef} className="flex items-center justify-center">
-                    {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
+                  <div className="transition-transform duration-500" style={{ transform: `rotate(${iconRotation}deg)` }}>
+                    {theme === 'dark' ? <MdLightMode size={24} className="text-primary" /> : <MdDarkMode size={24} className="text-foreground" />}
                   </div>
                 </button>
               </div>
@@ -271,24 +259,23 @@ const Navbar = () => {
             {isMobile && (
               <div className="flex items-center gap-3">
                 <button
-                  onClick={handleThemeToggle}
-                  className="p-2.5 text-primary transition-colors flex items-center justify-center w-10 h-10"
-                  aria-label="Toggle Theme"
+                  className="relative w-10 h-10 flex items-center justify-center text-foreground hover:text-primary hover:scale-110 active:scale-90 transition-all duration-300"
+                  aria-label="Toggle Dark Mode"
+                  onClick={() => { setIconRotation(r => r + 360); handleThemeToggle(); }}
                 >
-                  <div ref={isMobile ? themeIconRef : undefined} className="flex items-center justify-center">
-                    {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
+                  <div className="transition-transform duration-500" style={{ transform: `rotate(${iconRotation}deg)` }}>
+                    {theme === 'dark' ? <MdLightMode size={24} className="text-primary" /> : <MdDarkMode size={24} className="text-foreground" />}
                   </div>
                 </button>
-
                 <button
                   onClick={toggleMenu}
-                  className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-foreground text-background"
+                  className="relative w-10 h-10 flex items-center justify-center rounded-sm brutal-border brutal-shadow-sm bg-primary text-foreground hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                   aria-label="Toggle Menu"
                 >
                   <div className="flex flex-col gap-[5px] items-center justify-center w-5">
-                    <div ref={lineTopRef} className="h-[2px] bg-background rounded-full w-5" style={{ transformOrigin: 'center center' }} />
-                    <div ref={lineMidRef} className="h-[2px] bg-background rounded-full w-3" style={{ transformOrigin: 'center center' }} />
-                    <div ref={lineBotRef} className="h-[2px] bg-background rounded-full w-4" style={{ transformOrigin: 'center center' }} />
+                    <div ref={lineTopRef} className="h-[2px] bg-foreground rounded-none w-5" style={{ transformOrigin: 'center center' }} />
+                    <div ref={lineMidRef} className="h-[2px] bg-foreground rounded-none w-3" style={{ transformOrigin: 'center center' }} />
+                    <div ref={lineBotRef} className="h-[2px] bg-foreground rounded-none w-4" style={{ transformOrigin: 'center center' }} />
                   </div>
                 </button>
               </div>
@@ -321,25 +308,14 @@ const Navbar = () => {
                           style={{ transformOrigin: "left center" }}
                         />
                       )}
-                      {isRoute ? (
-                        <Link
-                          ref={el => linkItemsRef.current[i] = el}
-                          to={link.href}
-                          onClick={closeMenu}
-                          className="group flex items-center justify-between px-2 py-4 rounded-lg hover:bg-secondary/30 transition-colors"
-                        >
-                          {content}
-                        </Link>
-                      ) : (
-                        <a
-                          ref={el => linkItemsRef.current[i] = el}
-                          href={`#${link.id}`}
-                          onClick={(e) => handleLinkClick(e, link.id)}
-                          className="group flex items-center justify-between px-2 py-4 rounded-lg hover:bg-secondary/30 transition-colors"
-                        >
-                          {content}
-                        </a>
-                      )}
+                      <a
+                        ref={el => linkItemsRef.current[i] = el}
+                        href={isRoute ? link.href : `#${link.id}`}
+                        onClick={(e) => handleLinkClick(e, isRoute ? link.href : link.id, link.type)}
+                        className="group flex items-center justify-between px-2 py-4 rounded-lg hover:bg-secondary/30 transition-colors"
+                      >
+                        {content}
+                      </a>
                     </div>
                   );
                 })}

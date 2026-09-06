@@ -1,7 +1,5 @@
 import { useRef, useState, useCallback } from "react";
 import emailjs from '@emailjs/browser';
-import Footer from "./Footer";
-import { SiGithub, SiLinkedin, SiLeetcode, SiHackerrank } from "react-icons/si";
 import { FiMail, FiPhone } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -122,20 +120,20 @@ const Contact = () => {
   };
 
   const inputClasses = (errorName) =>
-    `w-full bg-background/80 dark:bg-background/60 border-2 ${errorName ? 'border-primary' : 'border-border'} text-foreground text-lg py-4 md:py-3.5 px-6 md:px-5 focus:outline-none focus:border-foreground focus:ring-1 focus:ring-foreground/20 transition-all duration-200 placeholder:text-subtle/50 dark:placeholder:text-subtle/60 font-sans shadow-[3px_3px_0px_var(--color-border)] hover:border-subtle/30 hover:shadow-[4px_4px_0px_var(--color-border)] rounded-md`;
+    `w-full bg-card-bg border-4 ${errorName ? 'border-primary' : 'border-foreground'} text-foreground font-chunky text-lg py-4 md:py-3.5 px-6 md:px-5 focus:outline-none focus:bg-primary/5 transition-all duration-200 placeholder:text-subtle/50 font-sans brutal-shadow-sm hover:brutal-shadow`;
 
   return (
-    <div ref={containerRef} id="contact" className="relative flex flex-col justify-between overflow-hidden pt-28 md:pt-40 bg-background">
+    <div ref={containerRef} id="contact" className="relative flex flex-col justify-between overflow-hidden pt-28 md:pt-40 bg-background bg-dot-grid">
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 w-full flex flex-col flex-1 relative z-10">
 
 
 
         <div className="text-center mb-16 md:mb-24 flex flex-col items-center relative">
-          <SwirlDoodle className="absolute -top-10 left-4 md:left-[20%] text-primary opacity-60 pointer-events-none" size={40} />
+          <SwirlDoodle className="absolute -top-10 left-4 md:left-[20%] text-primary pointer-events-none" size={40} />
           <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-4 tracking-wide drop-shadow-sm text-center uppercase flex flex-wrap justify-center overflow-visible relative">
             {"LET'S TALK".split("").map((char, index) => {
-              const isPrimary = index === 7; // The letter 'A'
+              const isPrimary = index === 1 || index === 7; // The letter 'A'
               return (
                 <span
                   key={index}
@@ -147,30 +145,27 @@ const Contact = () => {
               );
             })}
           </h2>
-          <p className="contact-info font-display text-xl text-subtle mt-1 -rotate-2 opacity-80 relative">
+          <p className="contact-info font-display text-xl text-subtle mt-1  opacity-80 relative">
             <span className="relative z-10">Open to work, collaborations & good conversations.</span>
-            <UnderlineDoodle className="absolute -bottom-2 left-0 w-[110%] -translate-x-[5%] h-3 text-secondary opacity-60 pointer-events-none -z-10" />
+            <UnderlineDoodle className="absolute -bottom-5 left-0 w-[110%] -translate-y-[20%] h-3 text-secondary pointer-events-none -z-10" />
           </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-24">
 
           {/* Contact Form Container */}
-          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-7 sm:p-10 md:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.15),0_10px_30px_rgba(0,0,0,0.08)] border border-border/40 dark:border-white/10 relative rounded-2xl rotate-1">
-            {/* Decorative Tape — pinned to the card */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-primary/30 rotate-2 shadow-sm z-20" />
-            <div className="absolute -top-3 right-10 w-16 h-6 bg-secondary/60 -rotate-3 shadow-sm z-20" />
+          <div className="contact-form w-full lg:w-1/2 bg-card-bg p-7 sm:p-10 md:p-14 brutal-border brutal-shadow relative rounded-none rotate-1">
             {isSubmitted ? (
               <div className="flex flex-col h-full justify-center items-center py-20 text-center">
                 <div className="text-primary font-display text-5xl mb-6 relative">
                   Yay!
-                  <CircleDoodle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-secondary opacity-80 pointer-events-none" size={100} />
+                  <CircleDoodle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-secondary pointer-events-none" size={100} />
                 </div>
                 <h3 className="text-3xl font-chunky text-foreground mb-4">Message Sent</h3>
                 <p className="text-subtle font-sans text-lg mb-8">Thanks for reaching out. I'll get back to you soon.</p>
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className="px-8 py-3 bg-foreground text-background font-chunky text-lg rounded-xl shadow-[4px_4px_0px_var(--color-primary)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-primary)] transition-all"
+                  className="px-8 py-3 bg-foreground text-background font-chunky text-lg brutal-border brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                 >
                   Send Another
                 </button>
@@ -215,11 +210,11 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={!isFormValid() || isSending}
-                  className={`contact-submit mt-4 w-full md:w-auto self-start px-10 py-3 font-chunky text-xl rounded-xl transition-all flex items-center justify-center gap-2 ${isSending
-                    ? 'bg-muted text-subtle cursor-wait'
+                  className={`contact-submit mt-4 w-full md:w-auto self-start px-10 py-3 font-chunky text-xl transition-all flex items-center justify-center gap-2 ${isSending
+                    ? 'bg-muted text-subtle cursor-wait brutal-border'
                     : isFormValid()
-                      ? 'bg-primary text-white shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)]'
-                      : 'bg-muted text-subtle cursor-not-allowed shadow-none border border-border'
+                      ? 'bg-primary text-foreground brutal-border brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none'
+                      : 'bg-muted text-subtle cursor-not-allowed brutal-border'
                     }`}
                 >
                   {isSending ? "Sending..." : "Send Message"}
@@ -231,24 +226,24 @@ const Contact = () => {
 
           {/* Socials & Info */}
           <div className="w-full lg:w-1/2 flex flex-col pt-12 md:pt-16 gap-3 relative">
-            <ArrowDoodle className="absolute top-0 right-10 text-primary opacity-60 hidden md:block rotate-[120deg]" size={60} />
+            <ArrowDoodle className="absolute top-0 right-10 text-primary hidden md:block rotate-[120deg]" size={60} />
             <h3 className="contact-info font-chunky text-3xl text-foreground mb-2">Reach Out</h3>
             <p className="contact-info font-sans text-base text-subtle/80 mb-10 leading-relaxed max-w-md">
               Whether you have a question, want to collaborate, or just want to say <b className="text-foreground">hii</b> - my inbox is always open.
             </p>
 
-            <div className="flex flex-col gap-6 font-sans text-lg items-start">
+            <div className="flex flex-col gap-4 font-sans items-start">
               <MagneticElement strength={20}>
-                <a href="mailto:ashutoshmoharana00@gmail.com" className="contact-info group flex items-center gap-5 text-foreground hover:text-primary transition-colors">
-                  <FiMail className="text-3xl text-primary group-hover:-rotate-12 transition-transform" />
-                  <span className="font-medium underline decoration-border group-hover:decoration-primary underline-offset-4">ashutoshmoharana00@gmail.com</span>
+                <a href="mailto:ashutoshmoharana00@gmail.com" className="contact-info group flex items-center gap-3 md:gap-5 text-foreground bg-card-bg px-3 py-2 md:px-4 md:py-2.5 brutal-border brutal-shadow-sm hover:-translate-y-1 hover:brutal-shadow transition-all text-sm md:text-lg">
+                  <FiMail className="text-xl md:text-3xl text-foreground/70 group-hover:-rotate-12 transition-transform shrink-0" />
+                  <span className="font-medium text-xs md:text-base">ashutoshmoharana00@gmail.com</span>
                 </a>
               </MagneticElement>
 
               <MagneticElement strength={20}>
-                <a href="tel:+919937727738" className="contact-info group flex items-center gap-5 text-foreground hover:text-primary transition-colors">
-                  <FiPhone className="text-3xl text-primary group-hover:rotate-12 transition-transform" />
-                  <span className="font-medium underline decoration-border group-hover:decoration-primary underline-offset-4">(+91) 9937727738</span>
+                <a href="tel:+919937727738" className="contact-info group flex items-center gap-3 md:gap-5 text-foreground bg-card-bg px-3 py-2 md:px-4 md:py-2.5 brutal-border brutal-shadow-sm hover:-translate-y-1 hover:brutal-shadow transition-all text-sm md:text-lg">
+                  <FiPhone className="text-xl md:text-3xl text-foreground/70 group-hover:rotate-12 transition-transform shrink-0" />
+                  <span className="font-medium text-xs md:text-base">(+91) 9937727738</span>
                 </a>
               </MagneticElement>
             </div>
@@ -258,7 +253,6 @@ const Contact = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

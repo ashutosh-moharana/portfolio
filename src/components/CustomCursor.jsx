@@ -2,104 +2,165 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const CustomCursor = () => {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
-  const ring2Ref = useRef(null);
-  const isHovering = useRef(false);
+    const dotRef = useRef(null);
+    const ringRef = useRef(null);
+    const outerRingRef = useRef(null);
 
-  useEffect(() => {
-    // Check if device has a touch screen or no fine pointer
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouchDevice) return;
+    const hoveredElement = useRef(null);
+    const mousePos = useRef({ x: 0, y: 0 });
 
-    // Pre-create reusable tweens (one-time cost)
-    const dotX = gsap.quickTo(dotRef.current, "x", { duration: 0.15, ease: "power2.out" });
-    const dotY = gsap.quickTo(dotRef.current, "y", { duration: 0.15, ease: "power2.out" });
-    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.4, ease: "power2.out" });
-    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.4, ease: "power2.out" });
-    const ring2X = gsap.quickTo(ring2Ref.current, "x", { duration: 0.6, ease: "power3.out" });
-    const ring2Y = gsap.quickTo(ring2Ref.current, "y", { duration: 0.6, ease: "power3.out" });
+    useEffect(() => {
+        // Check if device has a touch screen or no fine pointer
+        const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+        if (isTouchDevice) return;
 
-    const onMouseMove = (e) => {
-      dotX(e.clientX - 4);
-      dotY(e.clientY - 4);
-      ringX(e.clientX - 16);
-      ringY(e.clientY - 16);
-      ring2X(e.clientX - 22);
-      ring2Y(e.clientY - 22);
-    };
+        const dot = dotRef.current;
+        const ring = ringRef.current;
+        const outerRing = outerRingRef.current;
+        if (!dot || !ring || !outerRing) return;
 
-    const onMouseEnter = (e) => {
-      const target = e.target;
-      const interactive = target.closest("a, button, .cursor-pointer, .magnetic");
+        // Pre-create reusable tweens (one-time cost)
+        const dotX = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power3.out" });
+        const dotY = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power3.out" });
+        const ringX = gsap.quickTo(ring, "x", { duration: 0.25, ease: "power3.out" });
+        const ringY = gsap.quickTo(ring, "y", { duration: 0.25, ease: "power3.out" });
+        const outerRingX = gsap.quickTo(outerRing, "x", { duration: 0.4, ease: "power3.out" });
+        const outerRingY = gsap.quickTo(outerRing, "y", { duration: 0.4, ease: "power3.out" });
 
-      if (interactive && !isHovering.current) {
-        isHovering.current = true;
-        gsap.to([ringRef.current, ring2Ref.current], {
-          scale: 1.5,
-          borderColor: "var(--primary)",
-          borderWidth: "2.5px",
-          stagger: 0.05,
-          duration: 0.4,
-          ease: "power2.out",
-          overwrite: "auto",
-        });
-        gsap.to(dotRef.current, {
-          scale: 0.6,
-          opacity: 0.9,
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto",
-        });
-      }
-    };
+        const updateCursorPosition = (clientX, clientY) => {
+            if (hoveredElement.current) {
+                const rect = hoveredElement.current.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
 
-    const onMouseLeave = (e) => {
-      const target = e.target;
-      const interactive = target.closest("a, button, .cursor-pointer, .magnetic");
+                // Subtle magnetic pull based on distance from center
+                const pullX = (centerX - clientX) * 0.2;
+                const pullY = (centerY - clientY) * 0.2;
 
-      // Only reset if we are actually leaving an interactive element
-      if (interactive && isHovering.current) {
-        // Check if the relatedTarget is still inside the interactive element
-        if (!interactive.contains(e.relatedTarget)) {
-          isHovering.current = false;
-          gsap.to([ringRef.current, ring2Ref.current], {
-            scale: 1,
-            backgroundColor: "transparent",
-            stagger: 0.04,
-            duration: 0.5,
-            ease: "power2.inOut",
-            overwrite: "auto",
-          });
-          gsap.to(dotRef.current, {
-            scale: 1,
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.inOut",
-            overwrite: "auto",
-          });
-        }
-      }
-    };
+                dotX(clientX + pullX - 4);
+                dotY(clientY + pullY - 4);
+                ringX(clientX + pullX * 1.2 - 20);
+                ringY(clientY + pullY * 1.2 - 20);
+                outerRingX(clientX + pullX * 1.5 - 30);
+                outerRingY(clientY + pullY * 1.5 - 30);
+            } else {
+                dotX(clientX - 4);
+                dotY(clientY - 4);
+                ringX(clientX - 20);
+                ringY(clientY - 20);
+                outerRingX(clientX - 30);
+                outerRingY(clientY - 30);
+            }
+        };
 
-    window.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseover", onMouseEnter);
-    document.addEventListener("mouseout", onMouseLeave);
+        const onMouseMove = (e) => {
+            mousePos.current = { x: e.clientX, y: e.clientY };
+            updateCursorPosition(e.clientX, e.clientY);
+        };
 
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseover", onMouseEnter);
-      document.removeEventListener("mouseout", onMouseLeave);
-    };
-  }, []);
+        const onMouseEnter = (e) => {
+            const target = e.target;
+            const interactive = target.closest("a, button, .cursor-pointer, .magnetic, [role='button']");
 
-  return (
-    <>
-      <div ref={dotRef} className="cursor-dot hidden md:block" />
-      <div ref={ringRef} className="cursor-ring hidden md:block" />
-      <div ref={ring2Ref} className="cursor-ring-2 hidden md:block" />
-    </>
-  );
+            if (interactive && hoveredElement.current !== interactive) {
+                hoveredElement.current = interactive;
+
+                // Animate elements to active state
+                gsap.to(dot, {
+                    scale: 0.5,
+                    backgroundColor: "var(--primary)",
+                    duration: 0.3,
+                    ease: "power3.out",
+                    overwrite: "auto",
+                });
+
+                gsap.to(ring, {
+                    scale: 1.5,
+                    borderColor: "var(--primary)",
+                    borderWidth: "2px",
+                    opacity: 0.8,
+                    duration: 0.3,
+                    ease: "power3.out",
+                    overwrite: "auto",
+                });
+
+                gsap.to(outerRing, {
+                    scale: 1.8,
+                    borderColor: "var(--accent)",
+                    opacity: 0.5,
+                    borderStyle: "dashed",
+                    rotation: 90,
+                    duration: 0.4,
+                    ease: "power3.out",
+                    overwrite: "auto",
+                });
+            }
+        };
+
+        const onMouseLeave = (e) => {
+            const target = e.target;
+            const interactive = target.closest("a, button, .cursor-pointer, .magnetic, [role='button']");
+
+            if (interactive && hoveredElement.current) {
+                if (!interactive.contains(e.relatedTarget)) {
+                    hoveredElement.current = null;
+
+                    // Reset dot
+                    gsap.to(dot, {
+                        scale: 1,
+                        backgroundColor: "var(--foreground)",
+                        duration: 0.4,
+                        ease: "power3.inOut",
+                        overwrite: "auto",
+                    });
+
+                    // Reset ring
+                    gsap.to(ring, {
+                        scale: 1,
+                        borderColor: "var(--foreground)",
+                        borderWidth: "1.5px",
+                        opacity: 0.5,
+                        duration: 0.4,
+                        ease: "power3.inOut",
+                        overwrite: "auto",
+                    });
+
+                    // Reset outer ring
+                    gsap.to(outerRing, {
+                        scale: 1,
+                        borderColor: "var(--foreground)",
+                        opacity: 0.2,
+                        borderStyle: "solid",
+                        rotation: 0,
+                        duration: 0.5,
+                        ease: "power3.inOut",
+                        overwrite: "auto",
+                    });
+
+                    // Trigger a position update immediately so it doesn't wait for next mousemove to un-snap
+                    updateCursorPosition(mousePos.current.x, mousePos.current.y);
+                }
+            }
+        };
+
+        window.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseover", onMouseEnter);
+        document.addEventListener("mouseout", onMouseLeave);
+
+        return () => {
+            window.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseover", onMouseEnter);
+            document.removeEventListener("mouseout", onMouseLeave);
+        };
+    }, []);
+
+    return (
+        <>
+            <div ref={dotRef} className="cursor-dot hidden md:block" />
+            <div ref={ringRef} className="cursor-ring hidden md:block" />
+            <div ref={outerRingRef} className="cursor-outer-ring hidden md:block" />
+        </>
+    );
 };
 
 export default CustomCursor;

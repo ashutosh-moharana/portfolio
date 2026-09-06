@@ -3,7 +3,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useDevice } from "../contexts/DeviceContext";
-import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub } from "react-icons/si";
+import { SiLeetcode, SiHackerrank, SiLinkedin, SiGithub, SiHibernate, SiPostgresql, SiTailwindcss } from "react-icons/si";
+import { FaJava,FaReact,FaJs, } from "react-icons/fa";
+import { SiSpringboot } from "react-icons/si";
+import { CgWebsite } from "react-icons/cg";
 import { FiArrowUpRight } from "react-icons/fi";
 import { MagneticElement, TextReveal, TiltCard } from "../utils/animations";
 import { ArrowDoodle, CircleDoodle, UnderlineDoodle } from "./Doodles";
@@ -11,10 +14,10 @@ import { ArrowDoodle, CircleDoodle, UnderlineDoodle } from "./Doodles";
 gsap.registerPlugin(ScrollTrigger);
 
 const educationData = [
-    { year: "2025 - 2027", degree: "M.C.A", institution: "Indira Gandhi Institute of Technology", detail: "" },
+    { year: "2025 - 2027", degree: "M.C.A", institution: "Indira Gandhi Institute of Technology", detail: "Cur. CGPA: 9.12" },
     { year: "2022 - 2025", degree: "B.SC. CSC", institution: "Udayanath Autonomous College", detail: "8.6 CGPA" },
     { year: "2020 - 2022", degree: "HIGHER SECONDARY", institution: "Prananath Autonomous College", detail: "86%" },
-    { year: "2016 - 2020", degree: "SECONDARY EDUCATION", institution: "Young Phoenix Public School", detail: "84%" }
+    { year: "2016 - 2020", degree: "SECONDARY EDUCATION", institution: "Young Phoenix Public School", detail: "83.8%" }
 ];
 
 const About = () => {
@@ -71,41 +74,23 @@ const About = () => {
             "-=0.2"
         );
 
-        // Heading letter-by-letter animation
-        if (isMobile) {
-            gsap.fromTo(".about-title-char",
-                { y: 30, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.04,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".about-title-char",
-                        start: "top 90%",
-                        toggleActions: "play none none none"
-                    }
+        // Heading simple 3D flip animation
+        gsap.fromTo(".about-title-char",
+            { opacity: 0, rotationX: -90, y: 20 },
+            {
+                opacity: 1,
+                rotationX: 0,
+                y: 0,
+                duration: 1,
+                stagger: 0.05,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".about-title-char",
+                    start: "top 90%",
+                    toggleActions: "play none none none"
                 }
-            );
-        } else {
-            gsap.fromTo(".about-title-char",
-                { y: 60, opacity: 0, rotationX: -90 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotationX: 0,
-                    duration: 0.8,
-                    stagger: 0.05,
-                    ease: "back.out(1.5)",
-                    scrollTrigger: {
-                        trigger: ".about-title-char",
-                        start: "top 90%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        }
+            }
+        );
 
         // Education scattered cards entry — Optimized for performance
         gsap.fromTo(".edu-card-wrapper",
@@ -140,41 +125,23 @@ const About = () => {
             });
         }
 
-        // Education heading letter-by-letter
-        if (isMobile) {
-            gsap.fromTo(".edu-title-char",
-                { y: 30, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.04,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".edu-title-char",
-                        start: "top 90%",
-                        toggleActions: "play none none none"
-                    }
+        // Education heading letter-by-letter 3D flip animation
+        gsap.fromTo(".edu-title-char",
+            { opacity: 0, rotationX: -90, y: 30 },
+            {
+                opacity: 1,
+                rotationX: 0,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".edu-title-char",
+                    start: "top 95%",
+                    toggleActions: "play none none none"
                 }
-            );
-        } else {
-            gsap.fromTo(".edu-title-char",
-                { y: 60, opacity: 0, rotationX: -90 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotationX: 0,
-                    duration: 0.8,
-                    stagger: 0.05,
-                    ease: "back.out(1.5)",
-                    scrollTrigger: {
-                        trigger: ".edu-title-char",
-                        start: "top 90%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        }
+            }
+        );
 
         // Background accent blocks parallax — layered paper depth
         if (!isMobile) {
@@ -219,25 +186,24 @@ const About = () => {
     }, { scope: containerRef });
 
     return (
-        <div ref={containerRef} id="about" className="relative min-h-screen bg-background pt-28 pb-12 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-20 overflow-hidden">
+        <div ref={containerRef} id="about" className="relative min-h-screen bg-background bg-dot-grid pt-28 pb-12 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-20 overflow-hidden">
             <div className="w-full flex flex-col items-center">
                 <div className="max-w-7xl mx-auto w-full relative z-10">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
 
                         {/* Left side: Polaroid */}
                         <div className="w-full lg:w-[45%] flex justify-center lg:justify-start relative pl-0 lg:pl-10">
-                            {/* Inner wrapper: row on mobile (links beside), col on desktop (links below) */}
-                            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-4 sm:gap-6 lg:gap-5">
+                            {/* Inner wrapper: row on mobile (Polaroid + Links), col on desktop */}
+                            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-6 sm:gap-12 lg:gap-5 w-full justify-center lg:justify-start">
 
                                 {/* Flippable Polaroid */}
                                 <div
                                     ref={polaroidRef}
-                                    className="relative w-36 sm:w-56 lg:w-[320px] shrink-0 z-30 cursor-pointer"
+                                    className="relative w-40 lg:w-[320px] shrink-0 z-30 cursor-pointer"
                                     style={{ perspective: "1000px" }}
                                     onMouseEnter={() => setPolaroidFlipped(true)}
                                     onMouseLeave={() => setPolaroidFlipped(false)}
-                                    onClick={() => setPolaroidFlipped(!polaroidFlipped)} // Fallback for mobile
-                                    title="Hover to flip"
+                                    onClick={() => setPolaroidFlipped(!polaroidFlipped)} 
                                 >
                                     <div
                                         className="relative w-full transition-transform duration-700"
@@ -248,7 +214,7 @@ const About = () => {
                                     >
                                         {/* FRONT — Photo */}
                                         <div
-                                            className="relative p-2 md:p-3 bg-[#f4f4f5] shadow-[0_20px_50px_rgba(0,0,0,0.2)] rotate-[-2deg] border-2 border-white/10"
+                                            className="relative p-2 md:p-3 bg-card-bg brutal-border brutal-shadow rotate-[-2deg]"
                                             style={{ backfaceVisibility: "hidden" }}
                                         >
                                             {/* EST 2005 vertical text */}
@@ -262,76 +228,68 @@ const About = () => {
                                             </div>
 
                                             {/* TAP text - Bottom Right inside white area (Mobile only) */}
-                                            <div className="absolute right-1 bottom-1 sm:hidden">
-                                                <span className="font-display text-[7px] tracking-widest text-neutral-400 uppercase select-none">
+                                            <div className="absolute right-2 bottom-1 md:hidden">
+                                                <span className="font-display text-[4px] tracking-widest text-neutral-400 uppercase select-none">
                                                     TAP
                                                 </span>
                                             </div>
 
-                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative shadow-inner flex items-center justify-center will-change-[clip-path]">
+                                            <div className="polaroid-img-container w-full h-36 sm:h-52 lg:h-72 bg-muted overflow-hidden relative brutal-border flex items-center justify-center will-change-[clip-path]">
                                                 <img
                                                     src="/ashu.webp"
                                                     alt="Ashutosh"
-                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] transition-all duration-700 will-change-transform"
+                                                    className="polaroid-img-inner w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700 will-change-transform"
                                                     loading="lazy"
                                                 />
                                             </div>
-                                            <div className="py-1.5 md:py-3 w-full text-center flex justify-center relative">
-                                                <span className="font-display italic text-xs md:text-lg text-neutral-600/80 tracking-wide rotate-[-1.5deg] select-none relative z-10">
+                                            <div className="py-2 md:py-3 w-full text-center flex justify-center relative mt-2">
+                                                <span className="font-display italic text-xs md:text-lg text-foreground-600 tracking-wide rotate-[-1.5deg] select-none relative z-10">
                                                     @ashutosh
-                                                    <UnderlineDoodle className="absolute -bottom-2 left-0 w-[110%] -translate-x-[5%] h-3 text-primary opacity-80 pointer-events-none -z-10" />
+                                                    <UnderlineDoodle className="absolute -bottom-2 left-0 w-[110%] -translate-x-[5%] h-3 text-primary pointer-events-none -z-10" />
                                                 </span>
                                             </div>
                                         </div>
 
                                         {/* BACK — Funny Aadhar message */}
                                         <div
-                                            className="absolute inset-0 p-3 md:p-5 bg-[#f4f4f5] dark:bg-[#3D2F2F] shadow-[0_20px_50px_rgba(0,0,0,0.2)] border-2 border-white/20 dark:border-white/5 flex flex-col items-center justify-center gap-2 md:gap-4 text-center"
+                                            className="absolute inset-0 p-3 md:p-5 bg-card-bg brutal-border brutal-shadow flex flex-col items-center justify-center gap-2 md:gap-4 text-center"
                                             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg) rotate(-2deg)" }}
                                         >
-                                            <p className="font-display italic text-[10px] sm:text-sm md:text-base text-neutral-600 dark:text-neutral-300 leading-snug">
-                                               “this child thought adulthood looked fun.”
+                                            <p className="font-chunky text-[10px] sm:text-sm md:text-base text-foreground leading-snug">
+                                               Please stop staring. I'm getting nervous...
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Profile links — right of polaroid on mobile, below on desktop */}
-                                <div className="flex flex-col gap-3 pt-0 lg:pl-1 mt-0 lg:mt-3">
+                                {/* Profile links */}
+                                <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 pt-0 lg:pl-12 mt-0 lg:mt-12">
                                     <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://linkedin.com/in/ashutosh-moharana" target="_blank" rel="noreferrer"
-                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                            <SiLinkedin size={18} className="shrink-0" />
-                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">linkedin.com/in/ashutosh-moharana</span>
-                                            <span className="group-hover:underline underline-offset-4 sm:hidden">LinkedIn</span>
-                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                            className="group flex items-center justify-start lg:justify-center gap-3 text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
+                                            <SiLinkedin size={24} className="shrink-0" />
+                                            <span className="lg:hidden font-chunky tracking-widest text-sm">LinkedIn</span>
                                         </a>
                                     </MagneticElement>
                                     <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://leetcode.com/u/ash_mo/" target="_blank" rel="noreferrer"
-                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                            <SiLeetcode size={18} className="shrink-0" />
-                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">leetcode.com/ash_mo</span>
-                                            <span className="group-hover:underline underline-offset-4 sm:hidden">LeetCode</span>
-                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                            className="group flex items-center justify-start lg:justify-center gap-3 text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
+                                            <SiLeetcode size={24} className="shrink-0" />
+                                            <span className="lg:hidden font-chunky tracking-widest text-sm">LeetCode</span>
                                         </a>
                                     </MagneticElement>
                                     <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://github.com/ashutosh-moharana" target="_blank" rel="noreferrer"
-                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                            <SiGithub size={18} className="shrink-0" />
-                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">github.com/ashutosh-moharana</span>
-                                            <span className="group-hover:underline underline-offset-4 sm:hidden">GitHub</span>
-                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                            className="group flex items-center justify-start lg:justify-center gap-3 text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
+                                            <SiGithub size={24} className="shrink-0" />
+                                            <span className="lg:hidden font-chunky tracking-widest text-sm">GitHub</span>
                                         </a>
                                     </MagneticElement>
                                     <MagneticElement strength={20} className="social-link-item">
                                         <a href="https://www.hackerrank.com/profile/ash_mo" target="_blank" rel="noreferrer"
-                                            className="group flex items-center gap-2 text-subtle hover:text-primary transition-colors duration-200 font-sans text-xs sm:text-sm">
-                                            <SiHackerrank size={18} className="shrink-0" />
-                                            <span className="group-hover:underline underline-offset-4 hidden sm:inline">hackerrank.com/ash_mo</span>
-                                            <span className="group-hover:underline underline-offset-4 sm:hidden">HackerRank</span>
-                                            <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-0.5 hidden sm:inline" />
+                                            className="group flex items-center justify-start lg:justify-center gap-3 text-foreground/80 hover:text-primary hover:scale-110 transition-all duration-300">
+                                            <SiHackerrank size={24} className="shrink-0" />
+                                            <span className="lg:hidden font-chunky tracking-widest text-sm">HackerRank</span>
                                         </a>
                                     </MagneticElement>
                                 </div>
@@ -342,31 +300,14 @@ const About = () => {
                         {/* Right side: Text block */}
                         <div className="w-full lg:w-[55%] relative flex flex-col justify-center pt-8 lg:pt-0">
 
-
-                            {/* SVG Arrow pointing to the heading */}
-                            <div className="absolute -top-16 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 md:-top-20 md:-left-12 z-20 w-32 h-32 md:w-44 md:h-44 arrow-svg">
-                                <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
-                                    <path
-                                        d="M40,20 C100,-10 160,40 100,100 C40,160 120,200 170,150"
-                                        stroke="var(--color-primary)"
-                                        strokeWidth="4"
-                                        strokeDasharray="10 10"
-                                        strokeLinecap="round"
-                                        fill="none"
-                                        className="arrow-path"
-                                    />
-                                    <path d="M155,145 L180,155 L165,125 Z" fill="var(--color-primary)" />
-                                </svg>
-                            </div>
-
                             {/* Background accent blocks — extended to tie both sides together */}
-                            <div className="about-bg-block-1 absolute -top-12 bottom-32 -left-[60%] -right-10 bg-secondary/20 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
-                            <div className="about-bg-block-2 absolute top-40 -bottom-10 -left-20 -right-[40%] bg-secondary/35 z-0 hidden lg:block rounded-sm pointer-events-none"></div>
+                            <div className="about-bg-block-1 absolute -top-12 bottom-32 -left-[60%] -right-10 bg-primary/20  z-0 hidden lg:block rounded-none pointer-events-none"></div>
+                            <div className="about-bg-block-2 absolute top-60 -bottom-10 -left-10 -right-[40%] bg-secondary/10 brutal-border z-0 hidden lg:block rounded-none pointer-events-none"></div>
 
                             <div ref={textRef} className="relative z-10 lg:pl-10 flex flex-col items-center lg:items-start text-center lg:text-left">
                                 <TextReveal delay={0.1}>
                                     <h2 className="font-chunky text-5xl sm:text-6xl lg:text-7xl mb-8 tracking-wide drop-shadow-sm flex flex-wrap justify-center lg:justify-start overflow-hidden relative" aria-label="About Me">
-                                        <ArrowDoodle className="absolute -top-4 -right-12 text-secondary opacity-60 hidden lg:block -rotate-12" />
+                                        <ArrowDoodle className="absolute -top-4 -right-12 text-secondary hidden lg:block -rotate-12" />
                                         {"ABOUT ME".split("").map((char, index) => {
                                             const isPrimary = index === 2 || index === 7;
                                             return (
@@ -384,7 +325,7 @@ const About = () => {
                                 </TextReveal>
 
                                 <div className="about-text font-sans text-base sm:text-lg text-foreground/75 leading-[1.8] mb-10 max-w-xl font-normal relative">
-                                    <UnderlineDoodle className="absolute top-7 left-0 md:left-2 w-36 h-4 text-secondary opacity-80 pointer-events-none rotate-2" />
+                                    <UnderlineDoodle className="absolute top-5 left-0 md:left-2 w-36 h-4 text-secondary pointer-events-none rotate-2" />
                                     <p>
                                         <span className="font-bold text-foreground">Backend developer</span> focused on building <span className="font-bold text-foreground">scalable APIs</span>, database-driven applications, and <span className="font-bold text-foreground">clean backend architecture</span> using <span className="font-bold text-primary">Java</span> and <span className="font-bold text-primary">Spring Boot</span>. Passionate about creating reliable systems while exploring modern backend technologies.
                                     </p>
@@ -392,11 +333,21 @@ const About = () => {
 
                                 {/* Toolkit */}
                                 <div className="mt-10 about-text w-full">
-                                    <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-subtle font-bold mb-3 text-center lg:text-left">Toolkit</p>
+                                    <p className="font-sans text-2xl uppercase tracking-[0.25em] text-subtle font-bold mb-3 text-center lg:text-left">Toolkit</p>
                                     <div className="flex flex-wrap gap-2 md:gap-2.5 max-w-xl justify-center lg:justify-start mx-auto lg:mx-0">
-                                        {['Java', 'Spring Boot', 'REST API', 'PostgreSQL', 'React', 'JavaScript', 'TailwindCSS', 'Node.js'].map((skill, i) => (
-                                            <div key={i} className="skill-card px-3 md:px-4 py-1.5 bg-card-bg border border-primary/20 text-foreground font-chunky text-xs md:text-sm shadow-[2px_2px_0px_var(--color-primary)] hover:shadow-[4px_4px_0px_var(--color-primary)] hover:-translate-y-1 hover:border-primary/60 transition-all duration-200 cursor-default">
-                                                {skill}
+                                        {[
+                                            { name: 'Java', icon: FaJava },
+                                            { name: 'Spring Boot', icon: SiSpringboot },
+                                            { name: 'REST API', icon: CgWebsite},
+                                            { name: 'PostgreSQL', icon: SiPostgresql },
+                                            { name: 'Hibernate', icon:SiHibernate},
+                                            { name: 'React', icon: FaReact },
+                                            { name: 'JavaScript', icon: FaJs },
+                                            { name: 'TailwindCSS', icon: SiTailwindcss },
+                                        ].map((skill, i) => (
+                                            <div key={i} className="skill-card flex items-center gap-2 px-3 md:px-4 py-1.5 bg-card-bg brutal-border text-foreground font-chunky text-xs md:text-sm brutal-shadow-sm hover:brutal-shadow hover:-translate-y-1 hover:bg-primary transition-all duration-100 cursor-default">
+                                                <skill.icon size={16} className="text-foreground shrink-0 " />
+                                                <span className="font-bold">{skill.name}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -413,7 +364,7 @@ const About = () => {
 
                     <TextReveal delay={0.1}>
                         <h3 className="font-chunky text-4xl md:text-5xl mb-12 tracking-wide drop-shadow-sm text-center lg:text-left max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex flex-wrap justify-center lg:justify-start overflow-visible relative" aria-label="Education">
-                            <UnderlineDoodle className="absolute -bottom-3 left-1/2 lg:left-20 -translate-x-1/2 lg:translate-x-0 w-[200px] h-5 text-secondary opacity-80 pointer-events-none rotate-1 -z-10" />
+                            <UnderlineDoodle className="absolute -bottom-5 left-1/2 lg:left-20 -translate-x-1/2 lg:translate-x-0 w-[200px] h-5 text-secondary pointer-events-none rotate-1 -z-10" />
                             {"EDUCATION".split("").map((char, index) => {
                                 const isPrimary = index === 4 || index === 7; // 'A' and 'O'
                                 return (
@@ -446,22 +397,19 @@ const About = () => {
 
                                 return (
                                     <div key={idx} className="edu-card-wrapper shrink-0 md:shrink md:flex-1 md:min-w-[200px] relative pt-6">
-                                        <div className={`relative bg-card-bg p-5 md:p-7 shadow-[4px_4px_0px_var(--color-border)] border border-border/40 dark:border-white/10 transition-[transform,shadow] duration-300 hover:shadow-[6px_6px_0px_var(--color-primary)] hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
+                                        <div className={`relative bg-card-bg p-5 md:p-7 brutal-border brutal-shadow transition-transform duration-300 hover:brutal-shadow-lg hover:scale-[1.02] ${rotation} w-[220px] md:w-auto`}>
 
-                                            {/* Tape */}
-                                            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-6 ${tapeColor} shadow-sm ${rotation} z-20`} />
-
-                                            <span className="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-primary mb-3">
+                                            <span className="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-foreground mb-3 bg-primary inline-block px-2 py-1 brutal-border shadow-sm">
                                                 {edu.year}
                                             </span>
-                                            <h4 className="font-chunky text-lg md:text-2xl text-foreground mb-1 leading-tight">
+                                            <h4 className="font-chunky text-lg md:text-2xl text-foreground mb-1 leading-tight mt-2">
                                                 {edu.degree}
                                             </h4>
                                             <p className="font-sans text-xs md:text-sm text-subtle font-medium leading-relaxed">
                                                 {edu.institution}
                                             </p>
                                             {edu.detail && (
-                                                <div className="mt-4 inline-block px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-bold shadow-[2px_2px_0px_var(--color-primary)]">
+                                                <div className="mt-4 inline-block px-2.5 py-1 bg-card-bg text-foreground text-xs font-bold brutal-border brutal-shadow-sm">
                                                     {edu.detail}
                                                 </div>
                                             )}

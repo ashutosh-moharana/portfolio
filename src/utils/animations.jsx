@@ -93,60 +93,11 @@ export const TextReveal = ({ children, className = "", delay = 0, triggerRef = n
 
 /**
  * TiltCard
- * Adds a 3D tilt effect that tracks mouse movement over the element.
+ * Disabled for the Neo-Brutalist redesign (converted to a flat container).
  */
 export const TiltCard = ({ children, className = "", maxTilt = 15, scale = 1.02 }) => {
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    // We don't want tilt effects on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    const handleMouseMove = (e) => {
-      const { left, top, width, height } = card.getBoundingClientRect();
-
-      const x = (e.clientX - left) / width; // 0 to 1
-      const y = (e.clientY - top) / height; // 0 to 1
-
-      // -1 to 1
-      const tiltX = (y - 0.5) * 2 * -maxTilt;
-      const tiltY = (x - 0.5) * 2 * maxTilt;
-
-      gsap.to(card, {
-        rotationX: tiltX,
-        rotationY: tiltY,
-        scale: scale,
-        duration: 0.5,
-        ease: "power2.out",
-        transformPerspective: 1000,
-        transformOrigin: "center center"
-      });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(card, {
-        rotationX: 0,
-        rotationY: 0,
-        scale: 1,
-        duration: 0.7,
-        ease: "elastic.out(1, 0.3)"
-      });
-    };
-
-    card.addEventListener("mousemove", handleMouseMove);
-    card.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      card.removeEventListener("mousemove", handleMouseMove);
-      card.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [maxTilt, scale]);
-
   return (
-    <div ref={cardRef} className={`relative ${className}`} style={{ willChange: "transform", transformStyle: "preserve-3d" }}>
+    <div className={`relative ${className}`}>
       {children}
     </div>
   );

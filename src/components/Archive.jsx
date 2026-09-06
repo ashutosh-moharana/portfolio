@@ -44,25 +44,20 @@ const NoteCard = ({ resource, onOpenModal }) => {
     const linkUrl = resource.fileUrl || resource.folderUrl || "#";
     
     // Randomize tape properties based on ID for an organic feel
-    const tapeRotations = ["-rotate-3", "rotate-2", "-rotate-2", "rotate-4", "-rotate-1"];
-    const tapeRotation = tapeRotations[resource.id % tapeRotations.length];
-    const tapeOffsetX = resource.id % 2 === 0 ? "-translate-x-3" : "translate-x-2";
-
     return (
         <TiltCard maxTilt={15} scale={1.04} className="archive-card w-[72vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
-            {/* Masking Tape (placed outside clip-path so it doesn't get cut off) */}
-            <div className={`absolute -top-2.5 md:-top-3 left-1/2 -translate-x-1/2 ${tapeOffsetX} w-12 md:w-16 h-5 md:h-7 bg-secondary/60 z-30 ${tapeRotation}`}></div>
 
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg border border-border/50 cursor-pointer h-full min-h-[170px] md:min-h-[220px] transition-shadow duration-500"
-                style={{ clipPath: "polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 0 100%)" }}
+                onKeyDown={(e) => e.key === 'Enter' && onOpenModal(resource)}
+                tabIndex={0}
+                role="button"
+                aria-label={`View details for ${resource.title}`}
+                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg brutal-border brutal-shadow hover:-translate-y-1 hover:brutal-shadow-lg cursor-pointer h-full min-h-[170px] md:min-h-[220px] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary"
             >
-                {/* Folded Corner */}
-                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-primary/20 to-card-bg shadow-[-4px_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 group-hover:scale-110 origin-top-right"></div>
 
                 <div className="relative z-10 flex items-start justify-between w-full mt-1 md:mt-2">
-                    <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full bg-secondary flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-500 group-hover:scale-110 border border-border/40`}>
+                    <div className={`w-10 h-10 md:w-14 md:h-14  flex items-center justify-center ${style.colorClass} shrink-0 transition-transform duration-300 group-hover:scale-110 brutal-border shadow-[2px_2px_0px_var(--color-primary)]`}>
                         {style.icon}
                     </div>
                     <div className="flex flex-col items-end gap-3">
@@ -72,13 +67,13 @@ const NoteCard = ({ resource, onOpenModal }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-foreground brutal-border hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all shadow-[2px_2px_0px_var(--color-foreground)]"
                                 title={resource.folderUrl ? "Open Folder" : "Open File"}
                             >
                                 {resource.folderUrl ? <FiFolder className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" /> : <FiArrowUpRight className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />}
                             </a>
                         </MagneticElement>
-                        <span className="text-[8px] md:text-[10px] font-sans font-bold uppercase tracking-widest text-primary bg-primary/10 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md border border-primary/20 whitespace-nowrap opacity-80">
+                        <span className="text-[8px] md:text-[10px] font-chunky uppercase tracking-widest text-foreground bg-card-bg px-1.5 md:px-2 py-0.5 md:py-1 brutal-border shadow-sm whitespace-nowrap">
                             {resource.format} {resource.size ? `• ${resource.size}` : ""}
                         </span>
                     </div>
@@ -101,6 +96,7 @@ const ResourceModal = ({ resource, onClose }) => {
     const style = typeStyles[resource.type] || typeStyles.note;
     const linkUrl = resource.fileUrl || resource.folderUrl || "#";
     const isFolder = !!resource.folderUrl;
+    const modalRef = useRef(null);
 
     useEffect(() => {
         const handleEsc = (e) => {
@@ -114,59 +110,72 @@ const ResourceModal = ({ resource, onClose }) => {
         };
     }, [onClose]);
 
+    useGSAP(() => {
+        const tl = gsap.timeline();
+        tl.fromTo(".modal-overlay", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
+        tl.fromTo(".modal-content", 
+            { y: 40, opacity: 0, rotationX: -10 }, 
+            { y: 0, opacity: 1, rotationX: 0, duration: 0.5, ease: "back.out(1.2)" }, 
+            "-=0.1"
+        );
+        tl.fromTo(".modal-stagger", 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "power2.out" }, 
+            "-=0.2"
+        );
+    }, { scope: modalRef });
+
     return createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div ref={modalRef} className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div
-                className="absolute inset-0 bg-background/95"
+                className="modal-overlay absolute inset-0 bg-background/95"
                 onClick={onClose}
             />
 
             <div
-                className="relative w-full max-w-lg bg-card-bg border-2 border-border/50 shadow-[12px_12px_0px_rgba(0,0,0,0.08)] rounded-md overflow-hidden p-6 md:p-8"
+                className="modal-content relative w-full max-w-lg bg-card-bg brutal-border shadow-[8px_8px_0px_var(--color-foreground)] p-6 md:p-8"
             >
-                {/* Tape */}
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-6 bg-secondary/90 rotate-2 shadow-sm z-20 border border-black/5" />
 
-                <div className="flex items-start justify-between mb-6">
-                    <div className={`w-12 h-12 rounded-full bg-secondary/50 flex items-center justify-center ${style.colorClass}`}>
+                <div className="modal-stagger flex items-start justify-between mb-6">
+                    <div className={`w-12 h-12  flex items-center justify-center ${style.colorClass} brutal-border shadow-[2px_2px_0px_var(--color-foreground)]`}>
                         {style.icon}
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-subtle hover:text-foreground transition-colors p-1"
+                        className="text-foreground hover:bg-primary transition-colors p-2 bg-card-bg brutal-border brutal-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
                     >
                         <FiX size={24} />
                     </button>
                 </div>
 
-                <div>
+                <div className="modal-stagger">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-primary px-2 py-1 bg-primary/10 rounded-sm">
+                        <span className="text-[10px] font-chunky uppercase tracking-widest text-foreground px-2 py-1 bg-primary brutal-border">
                             {style.label}
                         </span>
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-subtle px-2 py-1 bg-secondary rounded-sm">
+                        <span className="text-[10px] font-chunky uppercase tracking-widest text-foreground px-2 py-1 bg-card-bg brutal-border shadow-[2px_2px_0px_var(--color-secondary)]">
                             {resource.subject}
                         </span>
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-subtle px-2 py-1 bg-secondary rounded-sm">
+                        <span className="text-[10px] font-chunky uppercase tracking-widest text-foreground px-2 py-1 bg-card-bg brutal-border shadow-[2px_2px_0px_var(--color-secondary)]">
                             {resource.format} {resource.size ? `• ${resource.size}` : ""}
                         </span>
                     </div>
-                    <h2 className="text-3xl font-display text-foreground leading-tight mb-4">
+                    <h2 id="modal-title" className="text-3xl font-chunky text-foreground leading-tight mb-4">
                         {resource.title}
                     </h2>
-                    <p className="text-base font-sans text-subtle leading-relaxed mb-8">
+                    <p className="text-base font-sans text-foreground/80 leading-relaxed mb-8">
                         {resource.description}
                     </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="modal-stagger flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-wrap gap-4 pt-2">
                     <MagneticElement strength={15}>
                         <a
                             href={linkUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-chunky text-lg rounded-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-foreground font-chunky text-lg brutal-border shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
                         >
                             {isFolder ? <FiFolder size={18} /> : <FiArrowUpRight size={18} />}
                             {isFolder ? "Open Folder" : "Open File"}
@@ -176,7 +185,7 @@ const ResourceModal = ({ resource, onClose }) => {
                         <MagneticElement strength={15}>
                             <a
                                 href={getDownloadUrl(linkUrl)}
-                                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-secondary text-foreground font-chunky text-lg rounded-xl hover:bg-[#D8C3B5] transition-colors"
+                                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-card-bg text-foreground font-chunky text-lg brutal-border shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
                             >
                                 <LuDownload size={18} />
                                 Download
@@ -207,40 +216,23 @@ const Archive = () => {
             { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.1 }
         );
 
-        if (isMobile) {
-            gsap.fromTo(".archive-char",
-                { y: 30, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.04,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".archive-char",
-                        start: "top 90%",
-                        once: true
-                    }
+        // Heading 3D flip animation
+        gsap.fromTo(".archive-char",
+            { y: 60, opacity: 0, rotationX: -90 },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".archive-char",
+                    start: "top 95%",
+                    once: true
                 }
-            );
-        } else {
-            tl.fromTo(".archive-char",
-                { y: 60, opacity: 0, rotationX: -90 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotationX: 0,
-                    duration: 0.8,
-                    stagger: 0.05,
-                    ease: "back.out(1.5)",
-                    scrollTrigger: {
-                        trigger: ".archive-char",
-                        start: "top 90%",
-                        once: true
-                    }
-                }
-            );
-        }
+            }
+        );
 
         // Search bar reveal
         tl.fromTo(".archive-search-bar",
@@ -322,7 +314,7 @@ const Archive = () => {
     }, {});
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 overflow-x-hidden relative">
+        <div ref={containerRef} className="min-h-screen bg-background bg-dot-grid text-foreground pb-20 overflow-x-hidden relative">
             {/* Background elements */}
             <div className="archive-bg-blob absolute top-0 right-0 w-[35%] h-[50%] bg-secondary opacity-30 pointer-events-none rounded-full blur-3xl z-0 will-change-transform" />
 
@@ -353,9 +345,9 @@ const Archive = () => {
                         </p>
 
                         {/* Notice & Direct Access */}
-                        <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4 items-start sm:items-center bg-card-bg p-3 md:p-4 rounded-md shadow-sm border border-border/40">
-                            <div className="flex-1 text-xs md:text-sm font-sans text-subtle leading-relaxed">
-                                <span className="text-primary font-bold mr-2 inline-flex items-center gap-1.5">
+                        <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4 items-start sm:items-center bg-card-bg p-3 md:p-4 brutal-border brutal-shadow-sm">
+                            <div className="flex-1 text-xs md:text-sm font-sans text-foreground/80 leading-relaxed">
+                                <span className="text-primary font-bold mr-2 inline-flex items-center gap-1.5 bg-transparent px-1 brutal-border shadow-[2px_2px_0px_var(--color-foreground)]">
                                     <FiInfo size={16} />
                                     Tip:
                                 </span>
@@ -366,7 +358,7 @@ const Archive = () => {
                                     href="https://drive.google.com/drive/folders/18ZpcXJCSQGKq663thA-D8toZXgBX7J0F?usp=drive_link"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="shrink-0 flex items-center justify-center gap-2 px-5 py-2.5 bg-background text-foreground font-chunky rounded-md hover:bg-primary hover:text-white transition-colors border border-border/50"
+                                    className="shrink-0 flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-foreground font-chunky brutal-border brutal-shadow-sm hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all"
                                 >
                                     <FiFolder size={16} />
                                     Root Folder
@@ -378,14 +370,15 @@ const Archive = () => {
                     {/* Search Bar */}
                     <div className="archive-search-bar relative w-full lg:w-80 shrink-0 group fade-up">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
+                            <FiSearch className="text-foreground transition-colors" />
                         </div>
                         <input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search the archive..."
-                            className="w-full bg-card-bg border-2 border-border/40 rounded-md focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors"
+                            aria-label="Search the archive"
+                            className="w-full bg-card-bg border-2 border-foreground focus:bg-primary/5 text-foreground font-chunky placeholder:text-foreground/50 pl-12 pr-4 py-3 text-base outline-none transition-colors shadow-[4px_4px_0px_var(--color-foreground)] hover:shadow-[6px_6px_0px_var(--color-foreground)] focus:shadow-[2px_2px_0px_var(--color-foreground)]"
                         />
                     </div>
                 </div>
@@ -403,10 +396,13 @@ const Archive = () => {
                         <div className="relative group self-start md:self-auto">
                             <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className={`flex items-center gap-3 px-4 md:px-6 py-2.5 font-chunky text-sm md:text-base rounded-xl transition-all duration-300 border shadow-[3px_3px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
+                                aria-expanded={isFilterOpen}
+                                aria-haspopup="listbox"
+                                aria-label="Filter archive by type"
+                                className={`flex items-center gap-3 px-4 md:px-6 py-2.5 font-chunky text-sm md:text-base transition-all duration-300 border-2 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-primary ${
                                     isFilterOpen 
-                                    ? "bg-primary text-primary-foreground border-primary" 
-                                    : "bg-card-bg text-foreground border-border hover:border-primary"
+                                    ? "bg-muted text-foreground border-foreground shadow-[2px_2px_0px_var(--color-foreground)]" 
+                                    : "bg-card-bg text-foreground border-foreground shadow-[4px_4px_0px_var(--color-foreground)] hover:bg-muted/40"
                                 }`}
                             >
                                 <FiFilter className={isFilterOpen ? "animate-pulse" : ""} />
@@ -416,7 +412,7 @@ const Archive = () => {
 
                             {/* Dropdown Menu */}
                             {isFilterOpen && (
-                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-56 md:w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="absolute top-full left-0 md:left-auto md:right-0 mt-3 w-56 md:w-64 bg-card-bg border-2 border-foreground shadow-[6px_6px_0px_var(--color-foreground)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
                                     {FILE_FILTERS.map((f) => {
                                         const count = f.value === "all" ? notes.length : notes.filter(r => r.type === f.value).length;
                                         const isActive = activeFilter === f.value;
@@ -429,13 +425,13 @@ const Archive = () => {
                                                 }}
                                                 className={`w-full flex items-center justify-between px-6 py-3 text-left transition-colors ${
                                                     isActive 
-                                                    ? "bg-primary/10 text-primary font-bold" 
-                                                    : "text-subtle hover:bg-secondary/30 hover:text-foreground"
+                                                    ? "bg-muted text-foreground font-bold" 
+                                                    : "text-foreground hover:bg-muted/60 hover:font-bold"
                                                 }`}
                                             >
-                                                <span className="font-sans text-sm tracking-wide">{f.label}</span>
-                                                <span className={`text-[10px] px-2 py-0.5 rounded-md font-sans font-bold ${
-                                                    isActive ? "bg-primary text-primary-foreground" : "bg-secondary text-subtle"
+                                                <span className="font-chunky text-sm tracking-wide">{f.label}</span>
+                                                <span className={`text-[10px] px-2 py-0.5 font-chunky font-bold brutal-border ${
+                                                    isActive ? "bg-foreground text-background" : "bg-card-bg text-foreground shadow-[2px_2px_0px_var(--color-foreground)]"
                                                 }`}>
                                                     {count}
                                                 </span>
@@ -468,8 +464,8 @@ const Archive = () => {
                                 const style = typeStyles[type] || typeStyles.note;
                                 return (
                                     <div key={type} className="category-section space-y-6">
-                                        <div className="section-label flex items-center gap-4 mb-4">
-                                            <h3 className="text-xl md:text-3xl font-display text-primary">
+                                        <div className="section-label flex items-center gap-4 mb-4 mt-6">
+                                            <h3 className="text-xl md:text-3xl font-chunky uppercase text-background bg-foreground inline-block px-4 py-1 brutal-border shadow-sm">
                                                 {style.label}
                                             </h3>
                                         </div>

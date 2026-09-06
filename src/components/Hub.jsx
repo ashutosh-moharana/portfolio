@@ -53,14 +53,15 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
         <TiltCard maxTilt={10} scale={1.03} className="website-card w-[72vw] sm:w-full h-full snap-start shrink-0 will-change-transform">
             <div
                 onClick={() => onOpenModal(resource)}
-                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg border border-white/10 hover:border-white/20 rounded-[1.5rem] md:rounded-[2rem] cursor-pointer h-full min-h-[180px] md:min-h-[240px] overflow-hidden transition-all duration-500"
+                onKeyDown={(e) => e.key === 'Enter' && onOpenModal(resource)}
+                tabIndex={0}
+                role="button"
+                aria-label={`View details for ${resource.title}`}
+                className="group relative flex flex-col justify-between p-4 md:p-8 bg-card-bg brutal-border brutal-shadow hover:-translate-y-1 hover:brutal-shadow-lg cursor-pointer h-full min-h-[180px] md:min-h-[240px] overflow-hidden transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary"
             >
-                {/* Dynamic Radial Glow Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
-                <div className="absolute -inset-4 bg-gradient-to-tr from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700 z-0 pointer-events-none"></div>
 
                 <div className="relative z-10 flex items-start justify-between w-full">
-                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-secondary/90 to-secondary flex items-center justify-center text-primary shrink-0 transition-all duration-500 group-hover:scale-110 border border-white/5">
+                    <div className="w-10 h-10 md:w-14 md:h-14  flex items-center justify-center text-foreground shrink-0 transition-all duration-300 group-hover:scale-110 brutal-border shadow-[2px_2px_0px_var(--color-primary)]">
                         {Icon}
                     </div>
 
@@ -71,7 +72,7 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+                                className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-primary text-foreground brutal-border hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all shadow-[2px_2px_0px_var(--color-foreground)]"
                                 title="Visit Website"
                             >
                                 <FiArrowUpRight className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -81,7 +82,7 @@ const WebsiteCard = ({ resource, onOpenModal }) => {
                 </div>
 
                 <div className="relative z-10 mt-auto pt-4 md:pt-8 flex flex-col w-full">
-                    <span className="text-[9px] md:text-xs text-primary font-sans font-bold uppercase tracking-widest mb-1 md:mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[9px] md:text-xs text-subtle font-sans font-bold uppercase tracking-widest mb-1 md:mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
                         {resource.subject}
                     </span>
                     <h3 className="font-chunky text-lg md:text-3xl text-foreground leading-tight line-clamp-2">
@@ -109,22 +110,22 @@ const HubModal = ({ resource, onClose }) => {
     }, [onClose]);
 
     return createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div
                 className="absolute inset-0 bg-background/95"
                 onClick={onClose}
             />
 
             <div
-                className="relative w-full max-w-lg bg-card-bg border border-border/40 shadow-xl rounded-2xl overflow-hidden p-6 md:p-8"
+                className="relative w-full max-w-lg bg-card-bg brutal-border shadow-[8px_8px_0px_var(--color-foreground)] p-6 md:p-8"
             >
                 <div className="flex items-start justify-between mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-inner">
+                    <div className="w-16 h-16 flex items-center justify-center text-foreground brutal-border shadow-[4px_4px_0px_var(--color-primary)]">
                         {Icon}
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-subtle hover:text-foreground transition-colors p-2 bg-background rounded-full hover:bg-secondary"
+                        className="text-foreground hover:bg-primary transition-colors p-2 bg-card-bg brutal-border brutal-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
                     >
                         <FiX size={24} />
                     </button>
@@ -132,17 +133,17 @@ const HubModal = ({ resource, onClose }) => {
 
                 <div>
                     <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-primary px-3 py-1 bg-primary/10 rounded-full">
+                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-foreground px-3 py-1 bg-primary brutal-border">
                             {resource.category}
                         </span>
-                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-subtle px-3 py-1 bg-secondary rounded-full">
+                        <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-foreground px-3 py-1 bg-card-bg brutal-border shadow-[2px_2px_0px_var(--color-secondary)]">
                             {resource.subject}
                         </span>
                     </div>
-                    <h2 className="text-3xl font-chunky text-foreground mb-4">
+                    <h2 id="modal-title" className="text-3xl font-chunky text-foreground mb-4">
                         {resource.title}
                     </h2>
-                    <p className="text-base font-sans text-subtle leading-relaxed mb-8">
+                    <p className="text-base font-sans text-foreground/80 leading-relaxed mb-8">
                         {resource.description}
                     </p>
                 </div>
@@ -153,7 +154,7 @@ const HubModal = ({ resource, onClose }) => {
                             href={resource.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-primary text-white font-chunky text-xl rounded-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
+                            className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-primary text-foreground font-chunky text-xl brutal-border shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
                         >
                             Visit Website
                             <FiArrowUpRight size={20} />
@@ -177,41 +178,23 @@ const Hub = () => {
     const categories = ["All", ...new Set(websites.map(r => r.category))];
 
     useGSAP(() => {
-        // Heading letter-by-letter animation
-        if (isMobile) {
-            gsap.fromTo(".hub-char",
-                { y: 30, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.04,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".hub-char",
-                        start: "top 90%",
-                        once: true
-                    }
+        // Heading letter-by-letter 3D flip animation
+        gsap.fromTo(".hub-char",
+            { y: 60, opacity: 0, rotationX: -90 },
+            {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "back.out(1.5)",
+                scrollTrigger: {
+                    trigger: ".hub-char",
+                    start: "top 95%",
+                    once: true
                 }
-            );
-        } else {
-            gsap.fromTo(".hub-char",
-                { y: 60, opacity: 0, rotationX: -90 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotationX: 0,
-                    duration: 0.8,
-                    stagger: 0.05,
-                    ease: "back.out(1.5)",
-                    scrollTrigger: {
-                        trigger: ".hub-char",
-                        start: "top 90%",
-                        once: true
-                    }
-                }
-            );
-        }
+            }
+        );
 
         // Search bar reveal
         gsap.fromTo(".hub-search-bar",
@@ -301,7 +284,7 @@ const Hub = () => {
     }, {});
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-background text-foreground pb-20 relative overflow-hidden">
+        <div ref={containerRef} className="min-h-screen bg-background bg-dot-grid text-foreground pb-20 relative overflow-hidden">
 
             {/* Background elements */}
             <div className="hub-bg-blob absolute top-[20%] left-0 w-[30%] h-[40%] bg-primary opacity-10 pointer-events-none rounded-full blur-[100px] z-0 will-change-transform" />
@@ -338,10 +321,13 @@ const Hub = () => {
                         <div className="relative w-full sm:w-48 z-[50]">
                             <button
                                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className={`w-full flex items-center justify-between px-5 py-3 font-chunky text-sm rounded-xl transition-all duration-300 border shadow-[4px_4px_0px_rgba(0,0,0,0.1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] ${
+                                aria-expanded={isFilterOpen}
+                                aria-haspopup="listbox"
+                                aria-label="Filter resources by category"
+                                className={`w-full flex items-center justify-between px-5 py-3 font-chunky text-sm transition-all duration-300 border-2 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-primary ${
                                     isFilterOpen
-                                        ? "bg-primary text-white border-primary"
-                                        : "bg-card-bg text-foreground border-border hover:border-primary"
+                                        ? "bg-primary text-foreground border-foreground shadow-[2px_2px_0px_var(--color-foreground)]"
+                                        : "bg-card-bg text-foreground border-foreground shadow-[4px_4px_0px_var(--color-foreground)] hover:bg-primary/20"
                                 }`}
                             >
                                 <div className="flex items-center gap-2">
@@ -353,7 +339,7 @@ const Hub = () => {
 
                             {/* Dropdown Menu */}
                             {isFilterOpen && (
-                                <div className="absolute top-full right-0 mt-3 w-64 bg-card-bg border border-border/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="absolute top-full right-0 mt-3 w-64 bg-card-bg border-2 border-foreground shadow-[6px_6px_0px_var(--color-foreground)] z-[60] py-3 overflow-hidden animate-in fade-in zoom-in duration-200">
                                     {categories.map((cat) => {
                                         const isActive = activeFilter === cat;
                                         const count = cat === "All" ? websites.length : websites.filter(r => r.category === cat).length;
@@ -366,13 +352,13 @@ const Hub = () => {
                                                 }}
                                                 className={`w-full flex items-center justify-between px-6 py-3 text-left transition-colors ${
                                                     isActive
-                                                        ? "bg-primary/10 text-primary font-bold"
-                                                        : "text-subtle hover:bg-secondary/30 hover:text-foreground"
+                                                        ? "bg-muted text-foreground font-bold"
+                                                        : "text-foreground hover:bg-muted/60 hover:font-bold"
                                                 }`}
                                             >
-                                                <span className="font-sans text-xs tracking-wide">{cat}</span>
-                                                <span className={`text-[10px] px-2 py-0.5 rounded-md font-sans font-bold ${
-                                                    isActive ? "bg-primary text-white" : "bg-secondary text-subtle"
+                                                <span className="font-chunky text-xs tracking-wide">{cat}</span>
+                                                <span className={`text-[10px] px-2 py-0.5 font-chunky font-bold brutal-border ${
+                                                    isActive ? "bg-foreground text-background" : "bg-card-bg text-foreground shadow-[2px_2px_0px_var(--color-foreground)]"
                                                 }`}>
                                                     {count}
                                                 </span>
@@ -386,7 +372,7 @@ const Hub = () => {
                         {/* Search Bar */}
                         <div className="relative w-full lg:w-80 shrink-0 group">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <FiSearch className="text-subtle group-focus-within:text-primary transition-colors" />
+                                <FiSearch className="text-foreground transition-colors" />
                             </div>
                             <MagneticElement strength={10}>
                                 <input
@@ -394,7 +380,8 @@ const Hub = () => {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Find a resource..."
-                                    className="w-full bg-card-bg border border-border/50 rounded-xl focus:border-primary text-foreground placeholder:text-subtle/60 pl-12 pr-4 py-3 font-sans text-base outline-none transition-colors shadow-sm"
+                                    aria-label="Search resources"
+                                    className="w-full bg-card-bg border-2 border-foreground focus:bg-primary/5 text-foreground font-chunky placeholder:text-foreground/50 pl-12 pr-4 py-3 text-base outline-none transition-colors shadow-[4px_4px_0px_var(--color-foreground)] hover:shadow-[6px_6px_0px_var(--color-foreground)] focus:shadow-[2px_2px_0px_var(--color-foreground)]"
                                 />
                             </MagneticElement>
                         </div>
@@ -418,8 +405,8 @@ const Hub = () => {
                     ) : (
                         Object.entries(groupedWebsites).map(([category, items]) => (
                             <div key={category} className="category-section space-y-6">
-                                <div className="section-label flex items-center gap-4 mb-4">
-                                    <h3 className="text-xl md:text-3xl font-display text-primary">
+                                <div className="section-label flex items-center gap-4 mb-4 mt-6">
+                                    <h3 className="text-xl md:text-3xl font-chunky uppercase text-background bg-foreground inline-block px-4 py-1 brutal-border shadow-sm">
                                         {category}
                                     </h3>
                                 </div>

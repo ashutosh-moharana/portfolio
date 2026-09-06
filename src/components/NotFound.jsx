@@ -50,17 +50,16 @@ const NotFound = () => {
     }, { scope: containerRef });
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+        <div ref={containerRef} className="min-h-screen bg-background bg-dot-grid text-foreground flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
             
             {/* Scrapbook background decoration */}
             <div className="notfound-bg-blob absolute top-[-10%] right-[-5%] w-[40%] h-[50%] bg-primary opacity-10 pointer-events-none rounded-full blur-[100px] z-0 will-change-transform" />
             
-            {/* Layered Cards / Polaroid effect */}
             <div
-                className="notfound-card relative z-10 bg-card-bg p-8 md:p-16 border border-border/40 shadow-xl rounded-xl max-w-lg w-full flex flex-col items-center rotate-2"
+                className="notfound-card relative z-10 bg-card-bg p-8 md:p-16 brutal-border brutal-shadow max-w-lg w-full flex flex-col items-center rotate-2"
             >
                 {/* Tape */}
-                <div className="notfound-tape absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-secondary/90 -rotate-3 shadow-sm z-20 border border-black/5" style={{ transformOrigin: 'center center' }} />
+                <div className="notfound-tape absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-primary/80 -rotate-3 brutal-border shadow-[2px_2px_0px_var(--color-foreground)] z-20" style={{ transformOrigin: 'center center' }} />
                 
                 <h1
                     className="text-8xl md:text-[120px] font-display text-primary leading-none select-none mb-4 flex"
@@ -81,7 +80,7 @@ const NotFound = () => {
                 <div className="notfound-content">
                     <Link
                         to="/"
-                        className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-primary text-white font-chunky text-xl rounded-xl shadow-[4px_4px_0px_var(--color-foreground)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_var(--color-foreground)] transition-all"
+                        className="group relative flex items-center justify-center gap-3 px-8 py-4 bg-primary text-foreground font-chunky text-xl brutal-border brutal-shadow hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all"
                     >
                         <FiArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform duration-300" />
                         Back to Home
